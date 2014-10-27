@@ -1,0 +1,29 @@
+		<div class="row slide" ng-repeat='project in obj.projects' ng-show="project.visible" >
+			<div class="col-sm-12 title text-center">
+				<h1>{{project.title}}</h1>
+				<h4>{{project.subtitle}}</h4>
+				<a href="{{project.content.link.url}}">{{project.content.link.title}}</a>
+			</div>
+			<div class="col-md-5 col-md-offset-1 col-sm-10 col-sm-offset-1">
+				<ul>
+					<li><strong>Why it's cool:</strong></li>
+					<li ng-repeat='thing in project.content.features'>{{thing}}</li>
+				</ul>
+			</div>
+			<div class="col-md-4 col-sm-10 col-sm-offset-1">
+				<ul>
+					<li><strong>Technologies used:</strong></li>
+					<li ng-repeat="tech in project.content.technologies">{{tech}}<li>
+				</ul>
+			</div>
+			<div class='col-sm-12 text-center'>
+				<div class="col-md-2"></div>
+					<div ng-repeat='url in project.content.pictures' 
+							 class='col-md-4 project_img'>
+						<a href="{{url}}" rel='lrg'>
+							<img ng-src="{{url}}"></a>
+					</div>
+			</div>
+		</div>
+
+
