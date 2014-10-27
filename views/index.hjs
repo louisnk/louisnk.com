@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+   
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+
+    <script id="mobile-sidebar-template-1" type="text/template">
+      <div class="nav vertical">
+        <a href="#About" alt="About This">
+          <div class="nav-button">
+            <div class= "icon icon-home"></div>
+            <div class="text">About This</div>
+          </div>
+        </a>
+       
+      </div>      
+    </script>
+
+  </head>
+
+  <body>
+    <div id="nav-container"></div>
+
+    <div id="main-content" class="shown full-view">
+      <div id="mobile-under" class="shown full-view">
+      </div>
+    
+      <div id="mobile-over" class="shown">
+        <div id="mobile-header" class="shown">
+          <div class="nav-toggle">
+            <div class="icon icon-menu"></div>
+          </div>
+          <h1>{{ title }}</h1>
+        </div>
+        <div id="mobile-footer" class="">
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

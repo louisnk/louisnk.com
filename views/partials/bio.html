@@ -1,0 +1,22 @@
+
+<div class='bio'>
+	<div ng-controller='mainController'>
+		{{search.searchText}}
+	</div>
+  <div ng-repeat='section in content'>
+		<h1>{{section.heading}}</h1>
+		<ul>
+			<li ng-repeat='line in section.content'>
+				<!-- <span ng-if="line.imgUrl">
+				</span> -->
+				<div class="img">
+					<img ng-src='{{line.imgUrl}}'>					
+				</div>
+				<div class="text">
+					{{line.value | filter: search.searchText}}					
+				</div>
+			</li>
+		</ul>		
+  </div>
+	
+</div>
