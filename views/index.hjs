@@ -4,7 +4,6 @@
     <title>{{ title }}</title>
    
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 
     <script id="mobile-sidebar-template-1" type="text/template">
       <div class="nav vertical">
@@ -40,7 +39,16 @@
 
     </div>
 
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
     <script src="javascripts/libs/angular-animate.min.js"></script>
     <script src="javascripts/libs/angular-route.js"></script>
+    <script src="javascripts/app/angular_app.js"></script>
+    <script src="javascripts/app/controllers/bio_controller.js"></script>
+    <script src="javascripts/app/controllers/carousel_controller.js"></script>
+    <script src="javascripts/app/controllers/main_controller.js"></script>
+    <script src="javascripts/app/controllers/resume_controller.js"></script>
+    <script src="javascripts/app/controllers/project_controller.js"></script>
+    <script src="javascripts/app/factories/project_factory.js"></script>
+    <script src="javascripts/app/factories/carousel_factory.js"></script>
   </body>
 </html>
