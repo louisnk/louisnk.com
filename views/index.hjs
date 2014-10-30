@@ -39,5 +39,8 @@
       </div>
 
     </div>
+
+    <script src="javascripts/libs/angular-animate.min.js"></script>
+    <script src="javascripts/libs/angular-route.js"></script>
   </body>
 </html>
