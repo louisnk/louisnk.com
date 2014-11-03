@@ -4,5 +4,5 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Ewing.io' });
+  res.render('index', { title: 'lnk'});
 };
