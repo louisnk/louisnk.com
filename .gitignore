@@ -3,3 +3,5 @@
 /node_modules/*
 */icons/*
 */images/*
+/bower_components/*
+/dev/*

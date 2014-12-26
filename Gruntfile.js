@@ -1,50 +1,172 @@
 module.exports = function(grunt) {
+  
+  require("load-grunt-tasks")(grunt);
+
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: grunt.file.readJSON("package.json"),
+    config: {
+      app: "public",
+      dev: "dev"
+    },
     concat: {
       options: {
-        seperator: ';'
+        separator: ";"
       },
-      dist: {
-        src: ['public/javascripts/app/*.js'],
-        dest: 'public/javascripts/louisnk.js'
+      js_frontend: {
+        src: [
+          "<%= config.app %>/javascripts/*.js", 
+          "<%= config.app %>/javascripts/**/*.js"
+        ],
+        dest: "<%= config.dev %>/js/LNK.js"
+      }
+    },
+    less: {
+      development: {
+        options: {
+          compress: true
+        },
+        files: {
+          "./<%= config.dev %>/public/stylesheets/LNK.css": "./<%= config.app %>/stylesheets/**/*.less"
+        }
       }
     },
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        mangle: false
       },
-      dist: {
+      frontend: {
         files: {
-          'public/javascripts/louisnk.min.js': [' <%= concat.dist.dest %>']
+          "<%= config.dev %>/public/js/LNK.js": "<%= config.dev %>/js/LNK.js"
         }
       }
     },
     jshint: {
-      files: ['gruntfile.js', 'public/javascripts/app/*.js'],
+      files: [
+        'public/javascripts/*.js',
+        'public/javascripts/**/*.js'
+      ],
       options: {
+        curly: true,
+        undef: false,
+        trailing: true,
+        camelcase: true,
         globals: {
           jQuery: true,
           console: true,
           moduel: true,
           document: true
         }
-      }
+      },
+
+    },
+    connect: {
+        options: {
+            port: 9000,
+            livereload: 35729,
+            // change this to '0.0.0.0' to access the server from outside
+            hostname: 'localhost'
+        },
+        livereload: {
+            options: {
+                open: true,
+                base: [
+                    '<%= config.dev %>/public/'
+                ]
+            }
+        }
     },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
+      js_frontend: {
+        files: [
+          "./bower_components/*.js", 
+          "<%= config.app %>/javascript/*.js"
+        ],
+        tasks: [ "concat:js_frontend", "uglify:frontend" ],
+        options: {
+          livereload: true
+        }
+      },
+      less: {
+        files: [
+          "<%= config.app %>/stylesheet/*.less"
+        ],
+        tasks: [ "less" ],
+        options: {
+          livereload: true
+        }
+      }
+    },
+    copy: {
+      main: {
+        files: [
+          { 
+            expand: true, 
+            src: [
+              "<%= config.app %>/index.html", 
+              "<%= config.app %>/**/*.html",
+              "<%= config.app %>/assets/"
+            ],
+            dest: "./dev/"
+          }
+        ]
+      }
+    },
+    wiredep: {
+      target: {
+        src: ["<%= config.dev %>/**/index.html"],
+        fileTypes: {
+          html: {
+            block: /(([\s\t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
+            detect: {
+              js: /<script.*src=['"](.+)['"]>/gi,
+              css: /<link.*href=['"](.+)['"]/gi
+            },
+            replace: {
+              js: '<script src="/{{filePath}}"></script>',
+              css: '<link rel="stylesheet" href="/{{filePath}}" />'
+            }
+          }
+        },
+        ignorePath: '../<%= config.app %>/',
+        overrides: {
+          'components-bootstrap': {
+              main: [
+                '/javascripts/bootstrap.js', 
+                '/css/bootstrap.css', 
+                '/css/bootstrap-theme.css']
+          }
+        }
+      }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks("grunt-contrib-concat");
+  grunt.loadNpmTasks("grunt-contrib-jshint");
+  grunt.loadNpmTasks("grunt-contrib-less");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-contrib-copy");
+  grunt.loadNpmTasks("grunt-wiredep");
 
-  grunt.registerTask('dev', ['jshint']);
+  grunt.registerTask("build", [
+    "jshint",
+    "concat:js_frontend",
+    "uglify",
+    "less",
+    "copy",
+    "wiredep"
+  ]);
+  grunt.registerTask("b", [ "build" ]);
 
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+
+  grunt.registerTask("serve", [ 
+    "build", 
+    "connect:livereload",
+    "watch" 
+  ]);
+  grunt.registerTask("s", [ "serve" ]);
+
+  grunt.registerTask("default", ["build"]);
 
 };
+
