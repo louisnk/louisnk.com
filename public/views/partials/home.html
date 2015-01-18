@@ -1,0 +1,20 @@
+<div class="container" ng-controller="HomeController">
+  <div class="hero-image">
+    <img src="images/hero/seattle_bw.jpg" alt="Seattle skyline in black and white at night">
+    <span class="triangle-down" ng-click="broadcast($event, TO_CONTENT)"></span>
+  </div>
+
+  <div class="content home-content">
+    <div class="row title">
+      <h1>{{homeTitle}}</h1>  
+    </div>
+    <div class="row frames">
+      <div class="col-md-4 frame" ng-repeat="link in links">
+        <a href="javascript:void(0)" class="framed {{link.className}}" alt="{{link.alt}}"
+           ng-click="broadcast($event, link.FRAME_CLICK, link.FRAME_NAME)">
+            {{link.title}}
+         </a>
+      </div>
+    </div>
+  </div>  
+</div>

@@ -6,7 +6,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON("package.json"),
     config: {
       app: "public",
-      dev: "dev"
+      dev: "dev",
+      views: "views"
     },
     concat: {
       options: {
@@ -14,10 +15,10 @@ module.exports = function(grunt) {
       },
       js_frontend: {
         src: [
-          "<%= config.app %>/javascripts/*.js", 
-          "<%= config.app %>/javascripts/**/*.js"
+          "<%= config.app %>/javascripts/app/main.js", 
+          "<%= config.app %>/javascripts/app/**/*.js"
         ],
-        dest: "<%= config.dev %>/js/LNK.js"
+        dest: "<%= config.app %>/javascripts/app/lnk.js"
       }
     },
     less: {
@@ -36,14 +37,13 @@ module.exports = function(grunt) {
       },
       frontend: {
         files: {
-          "<%= config.dev %>/public/js/LNK.js": "<%= config.dev %>/js/LNK.js"
+          "<%= config.dev %>/public/js/LNK.js": "<%= config.dev %>/public/js/LNK.js"
         }
       }
     },
     jshint: {
       files: [
-        'public/javascripts/*.js',
-        'public/javascripts/**/*.js'
+        'public/javascripts/app/**/*.js'
       ],
       options: {
         curly: true,
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
     },
     connect: {
         options: {
-            port: 9000,
+            port: 9500,
             livereload: 35729,
             // change this to '0.0.0.0' to access the server from outside
             hostname: 'localhost'
@@ -79,7 +79,8 @@ module.exports = function(grunt) {
       js_frontend: {
         files: [
           "./bower_components/*.js", 
-          "<%= config.app %>/javascript/*.js"
+          "<%= config.app %>/javascript/*.js",
+          "app.js"
         ],
         tasks: [ "concat:js_frontend", "uglify:frontend" ],
         options: {
@@ -88,7 +89,7 @@ module.exports = function(grunt) {
       },
       less: {
         files: [
-          "<%= config.app %>/stylesheet/*.less"
+          "<%= config.app %>/stylesheets/*.less"
         ],
         tasks: [ "less" ],
         options: {
@@ -106,36 +107,33 @@ module.exports = function(grunt) {
               "<%= config.app %>/**/*.html",
               "<%= config.app %>/assets/"
             ],
-            dest: "./dev/"
+            dest: "<%= config.dev %>"
           }
         ]
       }
     },
     wiredep: {
-      target: {
-        src: ["<%= config.dev %>/**/index.html"],
-        fileTypes: {
-          html: {
-            block: /(([\s\t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
-            detect: {
-              js: /<script.*src=['"](.+)['"]>/gi,
-              css: /<link.*href=['"](.+)['"]/gi
-            },
-            replace: {
-              js: '<script src="/{{filePath}}"></script>',
-              css: '<link rel="stylesheet" href="/{{filePath}}" />'
+      task: {
+        src: ["<%= config.views %>/index.hjs"],
+        options: {
+          fileTypes: {
+            html: {
+              block: /(([\s\t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
+              detect: {
+                js: /<script.*src=['"](.+)['"]>/gi,
+                css: /<link.*href=['"](.+)['"]/gi
+              },
+              replace: {
+                js: '<script src="{{filePath}}"></script>',
+                css: '<link rel="stylesheet" href="{{filePath}}" />'
+              }
             }
           }
         },
-        ignorePath: '../<%= config.app %>/',
-        overrides: {
-          'components-bootstrap': {
-              main: [
-                '/javascripts/bootstrap.js', 
-                '/css/bootstrap.css', 
-                '/css/bootstrap-theme.css']
-          }
-        }
+        ignorePath: [ '_old' ]
+      },
+      options: {
+        directory: "<% config.app %>/javascripts/app"
       }
     }
   });
@@ -156,14 +154,19 @@ module.exports = function(grunt) {
     "copy",
     "wiredep"
   ]);
+
   grunt.registerTask("b", [ "build" ]);
 
+  grunt.registerTask("w", [ "wiredep" ]);
 
   grunt.registerTask("serve", [ 
     "build", 
     "connect:livereload",
     "watch" 
   ]);
+
+  grunt.registerTask("js", [ "jshint", "concat" ]);
+
   grunt.registerTask("s", [ "serve" ]);
 
   grunt.registerTask("default", ["build"]);

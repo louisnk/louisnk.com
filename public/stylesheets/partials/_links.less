@@ -1,0 +1,61 @@
+a {
+  &.framed {
+    display: block;
+    margin: 0 auto;
+    padding: 0.95em 0;
+    width: 3.125em;
+    border: 0.125em solid @colorBlack;
+    text-align: center;
+    text-transform: uppercase;
+    background-repeat: no-repeat;
+    .fontSerif8-0;
+
+    &:hover {
+      color: @colorBlack;
+    }
+  }
+
+  &.code {
+    &:hover {
+      color: @colorWhite;
+      background-image: url("../images/code/frame-bg.gif");
+      background-size: 100%;
+    }
+  }
+
+  &.art {
+    &:hover {
+      color: @colorWhite;
+      background-image: url("../images/art/frame-bg.png");
+      background-size: 100%;
+    }
+  }
+
+  &.life {
+    &:hover {
+      background-image: url("../images/life/frame-bg.png");
+      background-size: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 1025px) {
+  a {
+    &.framed {
+      padding: 1em 0;
+      width: 4em;
+      border-width: 0.2em;
+      .fontSerif4-0;
+    }
+  }
+}
+
+@media only screen and (min-width: 1599px) {
+  a {
+    &.framed {
+      padding: 1.5em 0;
+      width: 5em;
+      border-width: 0.25em;
+    }
+  }
+}

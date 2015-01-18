@@ -1,0 +1,38 @@
+.hero-image {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  img {   
+    width: 100%;
+    min-height: 500px;
+    box-shadow: 0px 5px 35px 5px @colorBlack;
+  }
+
+  .triangle-down {
+    position: absolute;
+    bottom: -25px;
+    left: 49%;
+    border-style: solid;
+    border-width: 20px 15px 0px 15px;
+    border-color: @colorBlack transparent;
+    cursor: pointer;
+  }
+}
+
+@media only screen and (max-width: 1025px) {
+  .hero-image {
+    img {
+      min-height: 400px;
+    }
+  }
+}
+
+@media only screen and (min-width: 1599px) {
+  .hero-image {
+    img {
+      min-height: 700px;
+    }
+  }
+}
