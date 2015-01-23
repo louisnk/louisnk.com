@@ -10,9 +10,6 @@ module.exports = function(grunt) {
       views: "views"
     },
     concat: {
-      options: {
-        separator: ";"
-      },
       js_frontend: {
         src: [
           "<%= config.app %>/javascripts/app/main.js", 

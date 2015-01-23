@@ -36,7 +36,8 @@ APP.config(["$stateProvider", "$urlRouterProvider", "Constants",
       templateUrl: "views/partials/resume.html"
     });
 }]);
-;APP.constant("Constants", {
+
+APP.constant("Constants", {
   CLASS: {
     CODE:                     "code",
     ART:                      "art",
@@ -65,7 +66,9 @@ APP.config(["$stateProvider", "$urlRouterProvider", "Constants",
   }
 });
 
-;APP.controller("HomeController", ["$rootScope", "$scope", "$stateParams", "Constants", "NavigationService", "AnimationService",
+
+
+APP.controller("HomeController", ["$rootScope", "$scope", "$stateParams", "Constants", "NavigationService", "AnimationService",
   function($rootScope, $scope, $stateParams, Constants, NavigationService, AnimationService) {
 
     var NAV_EVENTS = $scope.navEvents = Constants.EVENT.NAVIGATION;
@@ -75,7 +78,9 @@ APP.config(["$stateProvider", "$urlRouterProvider", "Constants",
       nav: true
     };
 
-    $scope.homeTitle = "LOUIS KINLEY";
+    $scope.pageTitle = "LOUIS KINLEY";
+    $scope.heroImageUrl = "/images/hero/seattle_bw.jpg";
+    $scope.heroImageAlt = "Seattle skyline in black and white at night";
     $scope.TO_CONTENT = Constants.EVENT.ANIMATION.SCROLL_TO_CONTENT;
 
     $scope.links = [
@@ -109,7 +114,21 @@ APP.config(["$stateProvider", "$urlRouterProvider", "Constants",
 
 }]);
 
-;APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "UtilitiesService",
+
+APP.directive("heroImage", function factory($state) {
+	var heroImageObject = {
+		priority: 0,
+		template: "/views/partials/heroes.html",
+		restrict: "A",
+		scope: false,
+		compile: function compile(tElement, tAttrs) {
+			tElement.addClass($state.current.name);
+		}
+	};
+
+	return heroImageObject;
+});
+APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "UtilitiesService",
   function($rootScope, $state, Constants, UtilitiesService) {
 
   var ANIM_EVENTS = Constants.EVENT.ANIMATION;
@@ -176,7 +195,9 @@ APP.config(["$stateProvider", "$urlRouterProvider", "Constants",
   return {
     init: init
   };
-}]);;APP.factory("NavigationService", 
+}]);
+
+APP.factory("NavigationService", 
   ["$rootScope", "$state", "$stateParams", "Constants", "UtilitiesService",
   function($rootScope, $state, $stateParams, Constants, UtilitiesService) {
 
@@ -253,7 +274,8 @@ APP.config(["$stateProvider", "$urlRouterProvider", "Constants",
       init: init
     };
 }]);
-;APP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
+
+APP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
 
   var setListeners = function(event, callback) {
     $rootScope.$on(event, function(event, eventData) {
