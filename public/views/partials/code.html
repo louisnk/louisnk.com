@@ -1,1 +1,17 @@
-<h2>code!</h2>
+<div class="container" ng-controller="CodeController">
+  <div data-hero-image></div>
+
+  <div class="content home-content">
+    <div class="row title">
+      <h1>{{pageTitle}}</h1>  
+    </div>
+    <div class="row frames">
+      <div class="col-md-4 frame" ng-repeat="link in links">
+        <a href="javascript:void(0)" class="framed {{link.className}}" alt="{{link.alt}}"
+           ng-click="broadcast($event, link.FRAME_CLICK, link.FRAME_NAME)">
+            {{link.title}}
+         </a>
+      </div>
+    </div>
+  </div>  
+</div>

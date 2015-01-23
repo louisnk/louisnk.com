@@ -8,7 +8,9 @@ APP.controller("HomeController", ["$rootScope", "$scope", "$stateParams", "Const
       nav: true
     };
 
-    $scope.homeTitle = "LOUIS KINLEY";
+    $scope.pageTitle = "LOUIS KINLEY";
+    $scope.heroImageUrl = "/images/hero/seattle_bw.jpg";
+    $scope.heroImageAlt = "Seattle skyline in black and white at night";
     $scope.TO_CONTENT = Constants.EVENT.ANIMATION.SCROLL_TO_CONTENT;
 
     $scope.links = [
