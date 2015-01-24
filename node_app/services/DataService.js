@@ -2,11 +2,22 @@ var rr = require("recursive-readdir");
 // var utilities = require("UtilitiesService");
 
 var findFiles = function(which, callback) {
-	var dirs = [];
+	
+	var baseDir = path.join("..", "..", "public");
 
 	switch (which) {
+		case "code":
+			dirs.push(path.join(baseDir, "images", "code"), 
+					  		path.join(baseDir, "json", "code"));
+			break;
+
+		case "home":
+			dirs.push(path.join(baseDir, "json", "home"),
+								path.join(baseDir, "images", "home"));
+			break;
+
 		default:
-			dirs.push(path.join("..", "..", "public", "images"));
+			dirs.push(path.join(baseDir, "images"));
 			break;
 	}
 
@@ -14,7 +25,7 @@ var findFiles = function(which, callback) {
 		for (var i = dirs.length; i > 0; i--) {
 			var dir = dirs[i];
 
-			rr(dir, ["*.lesS"], function(err, files) {
+			rr(dir, ["frame-bg.*"], function(err, files) {
 				if (!err) {
 					return callback(files);
 				} else {
@@ -37,7 +48,8 @@ var sendJSON = function(res, data) {
 var handleRequest = function(req, res) {
 	
 	console.log(req.params);
-	console.log(req.query, req.query);
+	console.log(req.query);
+
 
 	sendJSON(res, JSON.stringify(data));
 };

@@ -17,6 +17,7 @@ LnkAPP.constant("Constants", {
   },
 
   REQUESTS: {
+    ART:                      "ART",
     CODE:                     "CODE",
     HOME:                     "HOME",
     PROJECT:                  "PROJECT"

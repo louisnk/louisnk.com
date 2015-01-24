@@ -35,4 +35,10 @@ LnkAPP.config(["$stateProvider", "$urlRouterProvider", "Constants",
       url: "/life/resume",
       templateUrl: "views/partials/resume.html"
     });
+}]).run(["NavigationService", "AnimationService", "DataService", 
+  function(NavigationService, AnimationService, DataService) {
+
+    NavigationService.init();
+    AnimationService.init();
+    
 }]);

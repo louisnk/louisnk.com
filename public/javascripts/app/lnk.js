@@ -35,6 +35,12 @@ LnkAPP.config(["$stateProvider", "$urlRouterProvider", "Constants",
       url: "/life/resume",
       templateUrl: "views/partials/resume.html"
     });
+}]).run(["NavigationService", "AnimationService", "DataService", 
+  function(NavigationService, AnimationService, DataService) {
+
+    NavigationService.init();
+    AnimationService.init();
+    
 }]);
 
 LnkAPP.constant("Constants", {
@@ -56,6 +62,7 @@ LnkAPP.constant("Constants", {
   },
 
   REQUESTS: {
+    ART:                      "ART",
     CODE:                     "CODE",
     HOME:                     "HOME",
     PROJECT:                  "PROJECT"
@@ -97,7 +104,7 @@ LnkAPP.controller("CodeController", ["$scope", "$stateParams", "DataService", "C
 
 	getData();
 }]);
-LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "UtilitiesService", "NavigationService", "AnimationService", "Constants",
+LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "UtilitiesService", "NavigationService", "AnimationService", "Constants", 
 	function ($rootScope, $scope, $state, DataService, UtilitiesService, NavigationService, AnimationService, Constants) {
 	
 	$scope.page = {};
@@ -113,10 +120,7 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataServi
 	  $rootScope.$broadcast(eventName, eventData);
 	};
 
-	NavigationService.init();
-	AnimationService.init();
-
-	LnkAPP.constant("ConstantsTest", DataService.getConstants());
+	
 }]);
 
 LnkAPP.controller("HomeController", ["$scope", "$stateParams", "Constants",
@@ -278,6 +282,7 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 
 	var makeRequestString = function(req, params) {
 		var url = "./DataService";
+
 		switch (req) {
 			case REQUESTS.PROJECT:
 				url += "/projects?id=" + 
@@ -289,6 +294,13 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 				url += "/code";
 				break;
 
+			case REQUESTS.ART:
+				url += "/art";
+				break;
+
+			default:
+				url += "/home";
+				break;
 		}
 
 		return url;
@@ -329,7 +341,6 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 	var post = function(what, data) {
 		console.log(what, data);
 	};
-
 
 	return {
 		get: get,

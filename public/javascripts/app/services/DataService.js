@@ -6,6 +6,7 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 
 	var makeRequestString = function(req, params) {
 		var url = "./DataService";
+
 		switch (req) {
 			case REQUESTS.PROJECT:
 				url += "/projects?id=" + 
@@ -17,6 +18,13 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 				url += "/code";
 				break;
 
+			case REQUESTS.ART:
+				url += "/art";
+				break;
+
+			default:
+				url += "/home";
+				break;
 		}
 
 		return url;
@@ -57,7 +65,6 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 	var post = function(what, data) {
 		console.log(what, data);
 	};
-
 
 	return {
 		get: get,
