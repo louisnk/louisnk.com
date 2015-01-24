@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="APP">
   <head>
     <title>{{title}}</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/lnk.css"></link>
@@ -11,7 +11,7 @@
     
   </head>
 
-  <body ng-app="APP">
+  <body ng-controller="GodController">
     <div ui-view></div>
     <div class="footer" ng-include="views/partials/footer.html"></div>
   </body>

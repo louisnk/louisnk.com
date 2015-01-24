@@ -10,10 +10,14 @@ module.exports = function(grunt) {
       views: "views"
     },
     concat: {
+      options: {
+        separator: "\n"
+      },
       js_frontend: {
         src: [
           "<%= config.app %>/javascripts/app/main.js", 
-          "<%= config.app %>/javascripts/app/**/*.js"
+          "<%= config.app %>/javascripts/app/**/*.js",
+          "!<%= config.app %>/javascripts/app/lnk.js"
         ],
         dest: "<%= config.app %>/javascripts/app/lnk.js"
       }
@@ -40,7 +44,8 @@ module.exports = function(grunt) {
     },
     jshint: {
       files: [
-        'public/javascripts/app/**/*.js'
+        "<%= config.app %>/javascripts/app/**/*.js",
+        "!<%= config.app %>/javascripts/app/lnk.js"
       ],
       options: {
         curly: true,
@@ -67,17 +72,22 @@ module.exports = function(grunt) {
             options: {
                 open: true,
                 base: [
-                    '<%= config.dev %>/public/'
+                    '<%= config.app %>/public/'
                 ]
             }
         }
     },
     watch: {
+      js_dev :{
+        files: [
+          "<%= config.app %>/javascripts/**/*.js",
+          "!<%= config.app %>/javascripts/app/lnk.js"
+        ],
+        tasks: [ "jshint", "concat:js_frontend" ]
+      },
       js_frontend: {
         files: [
-          "./bower_components/*.js", 
-          "<%= config.app %>/javascript/*.js",
-          "app.js"
+          "<%= config.app %>/javascript/**/*.js"
         ],
         tasks: [ "concat:js_frontend", "uglify:frontend" ],
         options: {
@@ -162,7 +172,7 @@ module.exports = function(grunt) {
     "watch" 
   ]);
 
-  grunt.registerTask("js", [ "jshint", "concat" ]);
+  grunt.registerTask("js", [ "watch:js_dev" ]);
 
   grunt.registerTask("s", [ "serve" ]);
 

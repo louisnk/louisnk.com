@@ -1,17 +1,14 @@
-APP.controller("HomeController", ["$rootScope", "$scope", "$stateParams", "Constants", "NavigationService", "AnimationService",
-  function($rootScope, $scope, $stateParams, Constants, NavigationService, AnimationService) {
+APP.controller("HomeController", ["$scope", "$stateParams", "Constants",
+  function($scope, $stateParams, Constants) {
 
     var NAV_EVENTS = $scope.navEvents = Constants.EVENT.NAVIGATION;
     var ANIM_EVENTS = Constants.EVENT.ANIMATION;
 
-    $scope.states = {
-      nav: true
-    };
 
-    $scope.pageTitle = "LOUIS KINLEY";
-    $scope.heroImageUrl = "/images/hero/seattle_bw.jpg";
-    $scope.heroImageAlt = "Seattle skyline in black and white at night";
-    $scope.TO_CONTENT = Constants.EVENT.ANIMATION.SCROLL_TO_CONTENT;
+    $scope.page.title = "LOUIS KINLEY";
+    $scope.page.heroImageUrl = "/images/hero/home.jpg";
+    $scope.page.heroImageAlt = "Seattle skyline in black and white at night";
+    
 
     $scope.links = [
       { 
@@ -33,14 +30,6 @@ APP.controller("HomeController", ["$rootScope", "$scope", "$stateParams", "Const
         FRAME_CLICK: NAV_EVENTS.CLICK_LIFE
       }
     ];
-
-    $scope.broadcast = function(e, eventName, eventData) {
-      if (e && e.preventDefault) { e.preventDefault(); }
-      $rootScope.$broadcast(eventName, eventData);
-    };
-
-    NavigationService.init();
-    AnimationService.init();
 
 }]);
 

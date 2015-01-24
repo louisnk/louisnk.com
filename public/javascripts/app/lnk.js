@@ -55,6 +55,12 @@ APP.constant("Constants", {
     }
   },
 
+  REQUESTS: {
+    CODE:                     "CODE",
+    HOME:                     "HOME",
+    PROJECT:                  "PROJECT"
+  },
+
   STATE: {
     HOME:                     "HOME",
     CODE:                     "CODE",
@@ -67,21 +73,56 @@ APP.constant("Constants", {
 });
 
 
+APP.controller("CodeController", ["$scope", "$stateParams", "DataService", "Constants",
+	function($scope, $stateParams, DataService, Constants) {
+	$scope.page.title = "CODE";
+	$scope.page.heroImageUrl = "/images/hero/code.jpg";
+	$scope.page.heroImageAlt = "Bridger mountains as seen from Belgrade, MT";
 
-APP.controller("HomeController", ["$rootScope", "$scope", "$stateParams", "Constants", "NavigationService", "AnimationService",
-  function($rootScope, $scope, $stateParams, Constants, NavigationService, AnimationService) {
+	$scope.projects = {};
+
+	var dataHandler = function(data, other) {
+		console.log(data);
+	};
+
+	var getData = function() {
+		// Do other stuff, if needed?
+		DataService.get(Constants.REQUESTS.CODE, dataHandler);
+	};
+
+	getData();
+}]);
+APP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesService", "NavigationService", "AnimationService", "Constants",
+	function ($rootScope, $scope, $state, UtilitiesService, NavigationService, AnimationService, Constants) {
+	
+	$scope.page = {};
+	
+	$scope.states = {
+	  nav: true
+	};
+
+	$scope.TO_CONTENT = Constants.EVENT.ANIMATION.SCROLL_TO_CONTENT;
+
+	$scope.broadcast = function(e, eventName, eventData) {
+	  if (e && e.preventDefault) { e.preventDefault(); }
+	  $rootScope.$broadcast(eventName, eventData);
+	};
+
+	NavigationService.init();
+	AnimationService.init();
+}]);
+
+APP.controller("HomeController", ["$scope", "$stateParams", "Constants",
+  function($scope, $stateParams, Constants) {
 
     var NAV_EVENTS = $scope.navEvents = Constants.EVENT.NAVIGATION;
     var ANIM_EVENTS = Constants.EVENT.ANIMATION;
 
-    $scope.states = {
-      nav: true
-    };
 
-    $scope.pageTitle = "LOUIS KINLEY";
-    $scope.heroImageUrl = "/images/hero/seattle_bw.jpg";
-    $scope.heroImageAlt = "Seattle skyline in black and white at night";
-    $scope.TO_CONTENT = Constants.EVENT.ANIMATION.SCROLL_TO_CONTENT;
+    $scope.page.title = "LOUIS KINLEY";
+    $scope.page.heroImageUrl = "/images/hero/home.jpg";
+    $scope.page.heroImageAlt = "Seattle skyline in black and white at night";
+    
 
     $scope.links = [
       { 
@@ -104,21 +145,13 @@ APP.controller("HomeController", ["$rootScope", "$scope", "$stateParams", "Const
       }
     ];
 
-    $scope.broadcast = function(e, eventName, eventData) {
-      if (e && e.preventDefault) { e.preventDefault(); }
-      $rootScope.$broadcast(eventName, eventData);
-    };
-
-    NavigationService.init();
-    AnimationService.init();
-
 }]);
 
 
 APP.directive("heroImage", function factory($state) {
 	var heroImageObject = {
 		priority: 0,
-		template: "/views/partials/heroes.html",
+		templateUrl: "/views/partials/heroes.html",
 		restrict: "A",
 		scope: false,
 		compile: function compile(tElement, tAttrs) {
@@ -141,6 +174,11 @@ APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilities
     var content = getContent();
     
     window.scrollTo(0, content.offsetTop);
+  };
+
+  var scrollToTop = function() {
+  	console.log("to the moon!");
+  	window.scrollTo(0, 0);
   };
 
   // deals with animation request events
@@ -184,8 +222,16 @@ APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilities
     });
   };
 
+  var watchState = function() {
+  	$rootScope.$on("$stateChangeStart", function(a, b, c) {
+
+  		scrollToTop();
+  	});
+  };
+
   var init = function() {
     watchWindow();
+    watchState();
 
     for (var EVENT in Constants.EVENT.ANIMATION) {
       UtilitiesService.setListeners(EVENT, handleAnimations);
@@ -196,7 +242,92 @@ APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilities
     init: init
   };
 }]);
+APP.factory("CacheingService", [function() {
 
+	var register = function(request, data) {
+		// TODO: create cache-registry, fill this in
+		console.log(request, data);
+	};
+
+	var remove = function(request) {
+		// TODO: create cache-removal
+	};
+
+	var getFromRegistry = function(request, data) {
+		// TODO: return data, or false
+		return false;
+	};
+
+	return {
+		getFromRegistry: getFromRegistry,
+		register: 	register,
+		remove: 	remove
+	};
+}]);
+APP.factory("DataService", ["$http", "CacheingService", "Constants", 
+	function($http, CacheingService, Constants) {
+
+	var REQUESTS = Constants.REQUESTS;
+	var STATES = Constants.STATE;
+
+	var makeRequestString = function(req, params) {
+		var url = "./DataService";
+		switch (req) {
+			case REQUESTS.PROJECT:
+				url += "/projects?id=" + params.ids.join(",");
+				break; 
+
+			case REQUESTS.CODE:
+				url += "/code";
+				break;
+		}
+
+		return url;
+	};
+
+	// TODO: Make back-end for this to actually GET the data.
+
+	var get = function(what, params, callback) {
+		params = params || false;
+		callback = typeof params === "function" ? params : callback;
+		
+		var req = "";
+
+		switch (what) {
+			case STATES.CODE:
+				req = makeRequestString(REQUESTS.CODE);
+				break;
+			default:
+				req = makeRequestString(REQUESTS.HOME);
+				break;
+		}
+
+		var existingData = CacheingService.getFromRegistry(req);
+
+		if (!existingData) {
+			$http.get(makeRequestString(what, params))
+				 .success(function(data, status, headers, config) {
+				 	callback(data);
+				 })
+				 .error(function(data, status, headers, config) {
+				 	console.log(data, status);
+				 });
+		} else {
+			return callback(existingData);
+		}
+	};
+
+	var post = function(what, data) {
+		console.log(what, data);
+	};
+
+
+	return {
+		get: get,
+		post: post
+	};
+
+}]);
 APP.factory("NavigationService", 
   ["$rootScope", "$state", "$stateParams", "Constants", "UtilitiesService",
   function($rootScope, $state, $stateParams, Constants, UtilitiesService) {

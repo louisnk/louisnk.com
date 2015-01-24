@@ -16,6 +16,12 @@ APP.constant("Constants", {
     }
   },
 
+  REQUESTS: {
+    CODE:                     "CODE",
+    HOME:                     "HOME",
+    PROJECT:                  "PROJECT"
+  },
+
   STATE: {
     HOME:                     "HOME",
     CODE:                     "CODE",

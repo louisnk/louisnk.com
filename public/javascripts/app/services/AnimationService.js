@@ -13,6 +13,11 @@ APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilities
     window.scrollTo(0, content.offsetTop);
   };
 
+  var scrollToTop = function() {
+  	console.log("to the moon!");
+  	window.scrollTo(0, 0);
+  };
+
   // deals with animation request events
   var handleAnimations = function(event, eventData) {
 
@@ -54,8 +59,16 @@ APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilities
     });
   };
 
+  var watchState = function() {
+  	$rootScope.$on("$stateChangeStart", function(a, b, c) {
+
+  		scrollToTop();
+  	});
+  };
+
   var init = function() {
     watchWindow();
+    watchState();
 
     for (var EVENT in Constants.EVENT.ANIMATION) {
       UtilitiesService.setListeners(EVENT, handleAnimations);
