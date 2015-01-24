@@ -1,8 +1,8 @@
-APP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesService", "NavigationService", "AnimationService", "Constants",
-	function ($rootScope, $scope, $state, UtilitiesService, NavigationService, AnimationService, Constants) {
+LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "UtilitiesService", "NavigationService", "AnimationService", "Constants",
+	function ($rootScope, $scope, $state, DataService, UtilitiesService, NavigationService, AnimationService, Constants) {
 	
 	$scope.page = {};
-	
+
 	$scope.states = {
 	  nav: true
 	};
@@ -16,4 +16,6 @@ APP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesSer
 
 	NavigationService.init();
 	AnimationService.init();
+
+	LnkAPP.constant("ConstantsTest", DataService.getConstants());
 }]);

@@ -1,6 +1,6 @@
-var APP = angular.module("APP", [ "ui.router" ]);
+var LnkAPP = angular.module("LnkAPP", [ "ui.router" ]);
 
-APP.config(["$stateProvider", "$urlRouterProvider", "Constants",
+LnkAPP.config(["$stateProvider", "$urlRouterProvider", "Constants",
   function($stateProvider, $urlRouterProvider, Constants) {
   $urlRouterProvider.otherwise("/");
   

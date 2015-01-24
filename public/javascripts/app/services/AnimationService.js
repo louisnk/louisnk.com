@@ -1,4 +1,4 @@
-APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "UtilitiesService",
+LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "UtilitiesService",
   function($rootScope, $state, Constants, UtilitiesService) {
 
   var ANIM_EVENTS = Constants.EVENT.ANIMATION;
@@ -14,7 +14,6 @@ APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilities
   };
 
   var scrollToTop = function() {
-  	console.log("to the moon!");
   	window.scrollTo(0, 0);
   };
 

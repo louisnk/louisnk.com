@@ -1,6 +1,6 @@
-var APP = angular.module("APP", [ "ui.router" ]);
+var LnkAPP = angular.module("LnkAPP", [ "ui.router" ]);
 
-APP.config(["$stateProvider", "$urlRouterProvider", "Constants",
+LnkAPP.config(["$stateProvider", "$urlRouterProvider", "Constants",
   function($stateProvider, $urlRouterProvider, Constants) {
   $urlRouterProvider.otherwise("/");
   
@@ -37,7 +37,7 @@ APP.config(["$stateProvider", "$urlRouterProvider", "Constants",
     });
 }]);
 
-APP.constant("Constants", {
+LnkAPP.constant("Constants", {
   CLASS: {
     CODE:                     "code",
     ART:                      "art",
@@ -73,16 +73,21 @@ APP.constant("Constants", {
 });
 
 
-APP.controller("CodeController", ["$scope", "$stateParams", "DataService", "Constants",
+LnkAPP.controller("CodeController", ["$scope", "$stateParams", "DataService", "Constants",
 	function($scope, $stateParams, DataService, Constants) {
 	$scope.page.title = "CODE";
 	$scope.page.heroImageUrl = "/images/hero/code.jpg";
 	$scope.page.heroImageAlt = "Bridger mountains as seen from Belgrade, MT";
 
-	$scope.projects = {};
+	$scope.projects = [];
 
 	var dataHandler = function(data, other) {
-		console.log(data);
+		if (data && data.length && data.length > 0) {
+			$scope.projects = data;
+			console.log($scope.projects);
+		} else {
+			// get some generic json to show an error?
+		}
 	};
 
 	var getData = function() {
@@ -92,11 +97,11 @@ APP.controller("CodeController", ["$scope", "$stateParams", "DataService", "Cons
 
 	getData();
 }]);
-APP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesService", "NavigationService", "AnimationService", "Constants",
-	function ($rootScope, $scope, $state, UtilitiesService, NavigationService, AnimationService, Constants) {
+LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "UtilitiesService", "NavigationService", "AnimationService", "Constants",
+	function ($rootScope, $scope, $state, DataService, UtilitiesService, NavigationService, AnimationService, Constants) {
 	
 	$scope.page = {};
-	
+
 	$scope.states = {
 	  nav: true
 	};
@@ -110,9 +115,11 @@ APP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesSer
 
 	NavigationService.init();
 	AnimationService.init();
+
+	LnkAPP.constant("ConstantsTest", DataService.getConstants());
 }]);
 
-APP.controller("HomeController", ["$scope", "$stateParams", "Constants",
+LnkAPP.controller("HomeController", ["$scope", "$stateParams", "Constants",
   function($scope, $stateParams, Constants) {
 
     var NAV_EVENTS = $scope.navEvents = Constants.EVENT.NAVIGATION;
@@ -148,7 +155,7 @@ APP.controller("HomeController", ["$scope", "$stateParams", "Constants",
 }]);
 
 
-APP.directive("heroImage", function factory($state) {
+LnkAPP.directive("heroImage", function factory($state) {
 	var heroImageObject = {
 		priority: 0,
 		templateUrl: "/views/partials/heroes.html",
@@ -161,7 +168,7 @@ APP.directive("heroImage", function factory($state) {
 
 	return heroImageObject;
 });
-APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "UtilitiesService",
+LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "UtilitiesService",
   function($rootScope, $state, Constants, UtilitiesService) {
 
   var ANIM_EVENTS = Constants.EVENT.ANIMATION;
@@ -177,7 +184,6 @@ APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilities
   };
 
   var scrollToTop = function() {
-  	console.log("to the moon!");
   	window.scrollTo(0, 0);
   };
 
@@ -242,7 +248,7 @@ APP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilities
     init: init
   };
 }]);
-APP.factory("CacheingService", [function() {
+LnkAPP.factory("CacheingService", [function() {
 
 	var register = function(request, data) {
 		// TODO: create cache-registry, fill this in
@@ -264,7 +270,7 @@ APP.factory("CacheingService", [function() {
 		remove: 	remove
 	};
 }]);
-APP.factory("DataService", ["$http", "CacheingService", "Constants", 
+LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants", 
 	function($http, CacheingService, Constants) {
 
 	var REQUESTS = Constants.REQUESTS;
@@ -274,12 +280,15 @@ APP.factory("DataService", ["$http", "CacheingService", "Constants",
 		var url = "./DataService";
 		switch (req) {
 			case REQUESTS.PROJECT:
-				url += "/projects?id=" + params.ids.join(",");
+				url += "/projects?id=" + 
+						params.ids && params.ids.length > 0 ? 
+						params.ids.join(",") : "all";
 				break; 
 
 			case REQUESTS.CODE:
 				url += "/code";
 				break;
+
 		}
 
 		return url;
@@ -290,7 +299,7 @@ APP.factory("DataService", ["$http", "CacheingService", "Constants",
 	var get = function(what, params, callback) {
 		params = params || false;
 		callback = typeof params === "function" ? params : callback;
-		
+
 		var req = "";
 
 		switch (what) {
@@ -328,7 +337,7 @@ APP.factory("DataService", ["$http", "CacheingService", "Constants",
 	};
 
 }]);
-APP.factory("NavigationService", 
+LnkAPP.factory("NavigationService", 
   ["$rootScope", "$state", "$stateParams", "Constants", "UtilitiesService",
   function($rootScope, $state, $stateParams, Constants, UtilitiesService) {
 
@@ -406,7 +415,7 @@ APP.factory("NavigationService",
     };
 }]);
 
-APP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
+LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
 
   var setListeners = function(event, callback) {
     $rootScope.$on(event, function(event, eventData) {

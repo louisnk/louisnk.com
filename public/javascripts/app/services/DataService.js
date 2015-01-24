@@ -1,4 +1,4 @@
-APP.factory("DataService", ["$http", "CacheingService", "Constants", 
+LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants", 
 	function($http, CacheingService, Constants) {
 
 	var REQUESTS = Constants.REQUESTS;
@@ -8,12 +8,15 @@ APP.factory("DataService", ["$http", "CacheingService", "Constants",
 		var url = "./DataService";
 		switch (req) {
 			case REQUESTS.PROJECT:
-				url += "/projects?id=" + params.ids.join(",");
+				url += "/projects?id=" + 
+						params.ids && params.ids.length > 0 ? 
+						params.ids.join(",") : "all";
 				break; 
 
 			case REQUESTS.CODE:
 				url += "/code";
 				break;
+
 		}
 
 		return url;
@@ -24,7 +27,7 @@ APP.factory("DataService", ["$http", "CacheingService", "Constants",
 	var get = function(what, params, callback) {
 		params = params || false;
 		callback = typeof params === "function" ? params : callback;
-		
+
 		var req = "";
 
 		switch (what) {

@@ -1,4 +1,4 @@
-APP.directive("heroImage", function factory($state) {
+LnkAPP.directive("heroImage", function factory($state) {
 	var heroImageObject = {
 		priority: 0,
 		templateUrl: "/views/partials/heroes.html",

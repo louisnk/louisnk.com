@@ -6,7 +6,9 @@
 var express = require('express');
 var routes = require('./routes');
 var http = require('http');
-var path = require('path');
+
+global.path = require('path');
+
 var dataService = require('./node_app/services/DataService');
 
 var app = express();

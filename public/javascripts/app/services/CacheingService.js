@@ -1,4 +1,4 @@
-APP.factory("CacheingService", [function() {
+LnkAPP.factory("CacheingService", [function() {
 
 	var register = function(request, data) {
 		// TODO: create cache-registry, fill this in

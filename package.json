@@ -39,6 +39,7 @@
     "express": "3.5.0",
     "hjs": "*",
     "less-middleware": "*",
+    "lodash": "^2.4.1",
     "recursive-readdir": "^1.2.1"
   }
 }

@@ -1,4 +1,4 @@
-APP.factory("NavigationService", 
+LnkAPP.factory("NavigationService", 
   ["$rootScope", "$state", "$stateParams", "Constants", "UtilitiesService",
   function($rootScope, $state, $stateParams, Constants, UtilitiesService) {
 

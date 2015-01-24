@@ -1,4 +1,4 @@
-APP.controller("HomeController", ["$scope", "$stateParams", "Constants",
+LnkAPP.controller("HomeController", ["$scope", "$stateParams", "Constants",
   function($scope, $stateParams, Constants) {
 
     var NAV_EVENTS = $scope.navEvents = Constants.EVENT.NAVIGATION;

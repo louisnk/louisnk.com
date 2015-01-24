@@ -1,4 +1,4 @@
-APP.constant("Constants", {
+LnkAPP.constant("Constants", {
   CLASS: {
     CODE:                     "code",
     ART:                      "art",
