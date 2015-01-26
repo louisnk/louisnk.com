@@ -1,17 +1,30 @@
 LnkAPP.factory("CacheingService", [function() {
 
+	var registry = [];
+
 	var register = function(request, data) {
-		// TODO: create cache-registry, fill this in
-		console.log(request, data);
+		registry.push({
+			name: request,
+			data: data
+		});
 	};
 
 	var remove = function(request) {
-		// TODO: create cache-removal
+		var index = UtilitiesService.findWhere(registry, { name: request });
 	};
 
-	var getFromRegistry = function(request, data) {
-		// TODO: return data, or false
-		return false;
+	var getFromRegistry = function(request) {
+		if (registry.length > 0) {
+			var cachedData = registry.filter(function(chunk) {
+				return chunk.name === request;
+			})[0].data;
+
+			if (!cachedData) {
+				return false;
+			} else { return cachedData; }
+		} else {
+			return false;
+		}
 	};
 
 	return {

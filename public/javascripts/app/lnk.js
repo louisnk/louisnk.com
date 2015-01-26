@@ -229,18 +229,31 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
 }]);
 LnkAPP.factory("CacheingService", [function() {
 
+	var registry = [];
+
 	var register = function(request, data) {
-		// TODO: create cache-registry, fill this in
-		console.log(request, data);
+		registry.push({
+			name: request,
+			data: data
+		});
 	};
 
 	var remove = function(request) {
-		// TODO: create cache-removal
+		var index = UtilitiesService.findWhere(registry, { name: request });
 	};
 
-	var getFromRegistry = function(request, data) {
-		// TODO: return data, or false
-		return false;
+	var getFromRegistry = function(request) {
+		if (registry.length > 0) {
+			var cachedData = registry.filter(function(chunk) {
+				return chunk.name === request;
+			})[0].data;
+
+			if (!cachedData) {
+				return false;
+			} else { return cachedData; }
+		} else {
+			return false;
+		}
 	};
 
 	return {
@@ -280,8 +293,6 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 		return url;
 	};
 
-	// TODO: Make back-end for this to actually GET the data.
-
 	var get = function(what, params, callback) {
 		params = params || false;
 		callback = typeof params === "function" ? params : callback;
@@ -297,11 +308,12 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 				break;
 		}
 
-		var existingData = CacheingService.getFromRegistry(req);
+		var existingData = CacheingService.getFromRegistry(what);
 
 		if (!existingData) {
 			$http.get(makeRequestString(what, params))
 				 .success(function(data, status, headers, config) {
+				 	CacheingService.register(what, data);
 				 	callback(data);
 				 })
 				 .error(function(data, status, headers, config) {
@@ -313,6 +325,7 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 	};
 
 	var post = function(what, data) {
+		// TODO: Do I need to post anything?
 		console.log(what, data);
 	};
 
@@ -402,6 +415,28 @@ LnkAPP.factory("NavigationService",
 
 LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
 
+  var findWhere = function(array, search) {
+    if (typeof seacrh === "object") {
+      var index = false;
+      var data = {};
+
+      for (var i = 0; i < array.length; i++) {
+        for (var j = 0; j < Object.keys(search).length; j++) {
+          var key = Object.keys(search)[j];
+          if (array[i][key] === search[key]) {
+            data = array[i];
+            index = i;
+          }          
+        }
+      }
+
+      return { index: index, data: data };
+    } else if (typeof search === "string") {
+      // TODO: handle silly string searches
+    }
+
+  };
+
   var setListeners = function(event, callback) {
     $rootScope.$on(event, function(event, eventData) {
       callback(event, eventData);
@@ -433,6 +468,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   };
 
   return {
+    findWhere:          findWhere,
   	parseConstants: 		parseConstants,
     setListeners: 			setListeners
   };

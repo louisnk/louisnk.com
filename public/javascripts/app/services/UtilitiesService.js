@@ -1,5 +1,27 @@
 LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
 
+  var findWhere = function(array, search) {
+    if (typeof seacrh === "object") {
+      var index = false;
+      var data = {};
+
+      for (var i = 0; i < array.length; i++) {
+        for (var j = 0; j < Object.keys(search).length; j++) {
+          var key = Object.keys(search)[j];
+          if (array[i][key] === search[key]) {
+            data = array[i];
+            index = i;
+          }          
+        }
+      }
+
+      return { index: index, data: data };
+    } else if (typeof search === "string") {
+      // TODO: handle silly string searches
+    }
+
+  };
+
   var setListeners = function(event, callback) {
     $rootScope.$on(event, function(event, eventData) {
       callback(event, eventData);
@@ -31,6 +53,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   };
 
   return {
+    findWhere:          findWhere,
   	parseConstants: 		parseConstants,
     setListeners: 			setListeners
   };

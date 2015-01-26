@@ -29,8 +29,6 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 		return url;
 	};
 
-	// TODO: Make back-end for this to actually GET the data.
-
 	var get = function(what, params, callback) {
 		params = params || false;
 		callback = typeof params === "function" ? params : callback;
@@ -46,11 +44,12 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 				break;
 		}
 
-		var existingData = CacheingService.getFromRegistry(req);
+		var existingData = CacheingService.getFromRegistry(what);
 
 		if (!existingData) {
 			$http.get(makeRequestString(what, params))
 				 .success(function(data, status, headers, config) {
+				 	CacheingService.register(what, data);
 				 	callback(data);
 				 })
 				 .error(function(data, status, headers, config) {
@@ -62,6 +61,7 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 	};
 
 	var post = function(what, data) {
+		// TODO: Do I need to post anything?
 		console.log(what, data);
 	};
 
