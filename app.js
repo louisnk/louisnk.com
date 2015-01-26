@@ -3,11 +3,14 @@
  * Module dependencies.
  */
 
+global.path = require('path');
+global.log = console.log;
+global.fs = require('fs');
+
 var express = require('express');
 var routes = require('./routes');
 var http = require('http');
 
-global.path = require('path');
 
 var dataService = require('./node_app/services/DataService');
 

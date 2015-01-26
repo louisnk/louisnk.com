@@ -1,0 +1,23 @@
+{
+	"title": "CODE",
+	"subtitle": "",
+	"sections": [
+		{
+			"title": "Louisnk.com",
+			"subtitle": "You're looking at it!",
+			"tech": [
+				"Angular.js 1.3",
+				"LESS",
+				"Node.js"
+			],
+			"description": "I made it.",
+			"images": [""],
+			"imgTag": "lnk"
+		},{
+			"title": "The GazReport",
+			"subtitle": "Responsive, and clean",
+			"images": [""],
+			"imgtag": "gazreport"
+		}
+	]
+}

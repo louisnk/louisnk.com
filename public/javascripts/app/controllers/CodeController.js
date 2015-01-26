@@ -7,9 +7,10 @@ LnkAPP.controller("CodeController", ["$scope", "$stateParams", "DataService", "C
 	$scope.projects = [];
 
 	var dataHandler = function(data, other) {
-		if (data && data.length && data.length > 0) {
-			$scope.projects = data;
-			console.log($scope.projects);
+		if (data && data.title) {
+
+			$scope.code = data;
+			$scope.page.title = data.title;
 		} else {
 			// get some generic json to show an error?
 		}

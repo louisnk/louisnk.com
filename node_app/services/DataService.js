@@ -1,43 +1,49 @@
 var rr = require("recursive-readdir");
-// var utilities = require("UtilitiesService");
+var Utils = require("./UtilitiesService");
 
-var findFiles = function(which, callback) {
-	
-	var baseDir = path.join("..", "..", "public");
+var findModelFor = function(which, ids, callback) {
+
+	var baseDir = path.join(__dirname, "..", "..", "public");
+	var dir;
+
+	var getJson = function(page, cb) {
+		fs.readFile(path.join(baseDir, "json", page + ".json"), {encoding: "utf8"}, 
+			function(err, contents) {
+				if (!err) { 
+					return cb(contents);
+				} else {
+					console.error(err);
+				}
+			});
+	};
 
 	switch (which) {
+		case "art":
 		case "code":
-			dirs.push(path.join(baseDir, "images", "code"), 
-					  		path.join(baseDir, "json", "code"));
-			break;
-
 		case "home":
-			dirs.push(path.join(baseDir, "json", "home"),
-								path.join(baseDir, "images", "home"));
+		case "life":
+		case "projects":
+			dir = path.join(baseDir, "images", which);
 			break;
 
 		default:
-			dirs.push(path.join(baseDir, "images"));
+			dir = path.join(baseDir, "images");
 			break;
 	}
 
-	if (dirs.length > 0) {
-		for (var i = dirs.length; i > 0; i--) {
-			var dir = dirs[i];
-
-			rr(dir, ["frame-bg.*"], function(err, files) {
-				if (!err) {
-					return callback(files);
-				} else {
-					return callback(err);
-				}		
-			});		
-		}
+	if (dir) {
+		fs.readdir(dir, function(err, imgs) {
+			if (!err) { 
+				getJson(which, function(json) {
+					return callback(Utils.combineJson(imgs, json));
+				});
+			}
+		});
 	} else {
 		return callback("No files found");
 	}
 
-}
+};
 
 var sendJSON = function(res, data) {
   res.statusCode = 200;
@@ -46,12 +52,14 @@ var sendJSON = function(res, data) {
 };
 
 var handleRequest = function(req, res) {
-	
-	console.log(req.params);
-	console.log(req.query);
+	var which = req.params[0];
+	var ids = req.query.ids || false;
 
-
-	sendJSON(res, JSON.stringify(data));
+	findModelFor(which, ids, function(model) {
+		if (model && typeof model !== "string")	 {
+			sendJSON(res, JSON.stringify(model));
+		}
+	});
 };
 
 module.exports = {
