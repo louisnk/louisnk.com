@@ -15,21 +15,11 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataServi
 	  $rootScope.$broadcast(eventName, eventData);
 	};
 
-	var dataHandler = function(data, other) {
-		if (data && data.title) {
 
-			$scope.page = data;
-			$scope.page.title = data.title;
-		} else {
-			// get some generic json to show an error?
-		}
-	};
 
-	$scope.getData = function(fromWhere) {
-		console.log(fromWhere, typeof fromWhere);
-		DataService.get(fromWhere, dataHandler);
+	$scope.getData = function(fromWhere, callback) {
+		DataService.get(fromWhere, callback);
 		// Do other stuff, if needed?
-		
 	};
 
 

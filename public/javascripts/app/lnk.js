@@ -60,14 +60,7 @@ LnkAPP.constant("Constants", {
       SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT" 
     }
   },
-
-  REQUESTS: {
-    ART:                      "ART",
-    CODE:                     "CODE",
-    HOME:                     "HOME",
-    PROJECT:                  "PROJECT"
-  },
-
+  
   STATE: {
     HOME:                     "HOME",
     CODE:                     "CODE",
@@ -83,9 +76,15 @@ LnkAPP.constant("Constants", {
 LnkAPP.controller("CodeController", ["$scope", "$stateParams", "DataService", "Constants",
 	function($scope, $stateParams, DataService, Constants) {
 
+	var dataHandler = function(data, other) {
+		if (data && data.title) {
+			$scope.page = data;
+		} else {
+			// get some generic json to show an error?
+		}
+	};
 
-
-	$scope.getData(Constants.REQUESTS.CODE);
+	$scope.getData(Constants.STATE.CODE, dataHandler);
 }]);
 LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "UtilitiesService", "NavigationService", "AnimationService", "Constants", 
 	function ($rootScope, $scope, $state, DataService, UtilitiesService, NavigationService, AnimationService, Constants) {
@@ -104,30 +103,35 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataServi
 	  $rootScope.$broadcast(eventName, eventData);
 	};
 
-	var dataHandler = function(data, other) {
-		if (data && data.title) {
 
-			$scope.page = data;
-			$scope.page.title = data.title;
-		} else {
-			// get some generic json to show an error?
-		}
-	};
 
-	$scope.getData = function(fromWhere) {
-		console.log(fromWhere, typeof fromWhere);
-		DataService.get(fromWhere, dataHandler);
+	$scope.getData = function(fromWhere, callback) {
+		DataService.get(fromWhere, callback);
 		// Do other stuff, if needed?
-		
 	};
 
 
 }]);
 
-LnkAPP.controller("HomeController", ["$scope", "$stateParams", "Constants",
-  function($scope, $stateParams, Constants) {
+LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService", "Constants",
+  function($scope, $stateParams, UtilitiesService, Constants) {
 
-  $scope.getData(Constants.STATE.HOME);
+  var dataHandler = function(data, other) {
+    if (data && data.title) {
+      if (data.sections.length > 0) {
+        for (var i = 0; i < data.sections.length; i++) {
+          data.sections[i] = UtilitiesService.parseConstants(data.sections[i]);
+        }
+
+        console.log(data);
+        $scope.page = data;
+      }
+    } else {
+      // get some generic json to show an error?
+    }
+  };
+
+  $scope.getData(Constants.STATE.HOME, dataHandler);
 
 }]);
 
@@ -250,24 +254,23 @@ LnkAPP.factory("CacheingService", [function() {
 LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants", 
 	function($http, CacheingService, Constants) {
 
-	var REQUESTS = Constants.REQUESTS;
-	var STATES = Constants.STATE;
+	var STATE = Constants.STATE;
 
 	var makeRequestString = function(req, params) {
 		var url = "./DataService";
 
 		switch (req) {
-			case REQUESTS.PROJECT:
+			case STATE.PROJECT:
 				url += "/projects?id=" + 
 						params.ids && params.ids.length > 0 ? 
 						params.ids.join(",") : "all";
 				break; 
 
-			case REQUESTS.CODE:
+			case STATE.CODE:
 				url += "/code";
 				break;
 
-			case REQUESTS.ART:
+			case STATE.ART:
 				url += "/art";
 				break;
 
@@ -288,11 +291,11 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 		var req = "";
 
 		switch (what) {
-			case STATES.CODE:
-				req = makeRequestString(REQUESTS.CODE);
+			case STATE.CODE:
+				req = makeRequestString(STATE.CODE);
 				break;
 			default:
-				req = makeRequestString(REQUESTS.HOME);
+				req = makeRequestString(STATE.HOME);
 				break;
 		}
 
@@ -407,7 +410,32 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     });
   };
 
+  var parseConstants = function(section) {
+  	var keys = Object.keys(section);
+
+  	for (var i  = 0; i < keys.length; i++) {
+  		var key = keys[i];
+
+  		if (typeof section[key] === "string" && 
+  				section[key].indexOf("Constants.") !== -1) {
+  			
+				var parts = section[key].split(".");
+				var CONSTANT = Constants;
+
+				for (var j = 1; j < parts.length; j++) {
+					var part = parts[j];
+					CONSTANT = CONSTANT[part];
+				}
+
+				section[key] = CONSTANT;
+  		}
+  	}
+
+  	return section;
+  };
+
   return {
-    setListeners: setListeners
+  	parseConstants: 		parseConstants,
+    setListeners: 			setListeners
   };
 }]);

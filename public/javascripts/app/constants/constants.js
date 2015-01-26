@@ -15,14 +15,7 @@ LnkAPP.constant("Constants", {
       SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT" 
     }
   },
-
-  REQUESTS: {
-    ART:                      "ART",
-    CODE:                     "CODE",
-    HOME:                     "HOME",
-    PROJECT:                  "PROJECT"
-  },
-
+  
   STATE: {
     HOME:                     "HOME",
     CODE:                     "CODE",

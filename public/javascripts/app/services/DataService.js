@@ -1,24 +1,23 @@
 LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants", 
 	function($http, CacheingService, Constants) {
 
-	var REQUESTS = Constants.REQUESTS;
-	var STATES = Constants.STATE;
+	var STATE = Constants.STATE;
 
 	var makeRequestString = function(req, params) {
 		var url = "./DataService";
 
 		switch (req) {
-			case REQUESTS.PROJECT:
+			case STATE.PROJECT:
 				url += "/projects?id=" + 
 						params.ids && params.ids.length > 0 ? 
 						params.ids.join(",") : "all";
 				break; 
 
-			case REQUESTS.CODE:
+			case STATE.CODE:
 				url += "/code";
 				break;
 
-			case REQUESTS.ART:
+			case STATE.ART:
 				url += "/art";
 				break;
 
@@ -39,11 +38,11 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 		var req = "";
 
 		switch (what) {
-			case STATES.CODE:
-				req = makeRequestString(REQUESTS.CODE);
+			case STATE.CODE:
+				req = makeRequestString(STATE.CODE);
 				break;
 			default:
-				req = makeRequestString(REQUESTS.HOME);
+				req = makeRequestString(STATE.HOME);
 				break;
 		}
 
