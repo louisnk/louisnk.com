@@ -136,9 +136,10 @@ LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService
 
 LnkAPP.directive("heroImage", function factory($state) {
 	var heroImageObject = {
+		restrict: "A",
 		priority: 0,
 		templateUrl: "/views/partials/heroes.html",
-		restrict: "A",
+		// controller: "HeroController",
 		scope: false,
 		compile: function compile(tElement, tAttrs) {
 			tElement.addClass($state.current.name);
@@ -227,25 +228,32 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
     init: init
   };
 }]);
-LnkAPP.factory("CacheingService", [function() {
+LnkAPP.factory("CacheingService", ["UtilitiesService", 
+	function(UtilitiesService) {
 	// TODO: Make this use localStorage, or something of the sort
 	var registry = [];
 
-	var register = function(request, data) {
+	var register = function(requestedName, data) {
 		registry.push({
-			name: request,
+			name: requestedName,
 			data: data
 		});
 	};
 
-	var remove = function(request) {
-		var index = UtilitiesService.findWhere(registry, { name: request });
+	var remove = function(requestedName) {
+		var index = UtilitiesService.findWhere(registry, { name: requestedName });
+		var deleted = registry.splice(index, 1);
+		if (deleted.name === requestedName) {
+			return true;
+		} else {
+			return false;
+		}
 	};
 
-	var getFromRegistry = function(request) {
+	var getFromRegistry = function(requestedName) {
 		if (registry.length > 0) {
 			var cachedData = registry.filter(function(chunk) {
-				return chunk.name === request;
+				return chunk.name === requestedName;
 			})[0];
 
 			if (!cachedData) {
