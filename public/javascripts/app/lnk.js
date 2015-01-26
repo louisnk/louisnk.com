@@ -82,28 +82,10 @@ LnkAPP.constant("Constants", {
 
 LnkAPP.controller("CodeController", ["$scope", "$stateParams", "DataService", "Constants",
 	function($scope, $stateParams, DataService, Constants) {
-	$scope.page.title = "CODE";
-	$scope.page.heroImageUrl = "/images/hero/code.jpg";
-	$scope.page.heroImageAlt = "Bridger mountains as seen from Belgrade, MT";
 
-	$scope.projects = [];
 
-	var dataHandler = function(data, other) {
-		if (data && data.title) {
 
-			$scope.code = data;
-			$scope.page.title = data.title;
-		} else {
-			// get some generic json to show an error?
-		}
-	};
-
-	var getData = function() {
-		// Do other stuff, if needed?
-		DataService.get(Constants.REQUESTS.CODE, dataHandler);
-	};
-
-	getData();
+	$scope.getData(Constants.REQUESTS.CODE);
 }]);
 LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "UtilitiesService", "NavigationService", "AnimationService", "Constants", 
 	function ($rootScope, $scope, $state, DataService, UtilitiesService, NavigationService, AnimationService, Constants) {
@@ -114,6 +96,7 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataServi
 	  nav: true
 	};
 
+	$scope.navEvents = Constants.EVENT.NAVIGATION;
 	$scope.TO_CONTENT = Constants.EVENT.ANIMATION.SCROLL_TO_CONTENT;
 
 	$scope.broadcast = function(e, eventName, eventData) {
@@ -121,41 +104,30 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataServi
 	  $rootScope.$broadcast(eventName, eventData);
 	};
 
-	
+	var dataHandler = function(data, other) {
+		if (data && data.title) {
+
+			$scope.page = data;
+			$scope.page.title = data.title;
+		} else {
+			// get some generic json to show an error?
+		}
+	};
+
+	$scope.getData = function(fromWhere) {
+		console.log(fromWhere, typeof fromWhere);
+		DataService.get(fromWhere, dataHandler);
+		// Do other stuff, if needed?
+		
+	};
+
+
 }]);
 
 LnkAPP.controller("HomeController", ["$scope", "$stateParams", "Constants",
   function($scope, $stateParams, Constants) {
 
-    var NAV_EVENTS = $scope.navEvents = Constants.EVENT.NAVIGATION;
-    var ANIM_EVENTS = Constants.EVENT.ANIMATION;
-
-
-    $scope.page.title = "LOUIS KINLEY";
-    $scope.page.heroImageUrl = "/images/hero/home.jpg";
-    $scope.page.heroImageAlt = "Seattle skyline in black and white at night";
     
-
-    $scope.links = [
-      { 
-        title: Constants.STATE.CODE,
-        alt: "Louis' CODE, as presented by him.",
-        className: Constants.CLASS.CODE,
-        FRAME_CLICK: NAV_EVENTS.CLICK_CODE 
-      },
-      { 
-        title: Constants.STATE.ART,
-        alt: "Louis' ART, as presented by him.",
-        className: Constants.CLASS.ART,
-        FRAME_CLICK: NAV_EVENTS.CLICK_ART 
-      },
-      { 
-        title: Constants.STATE.LIFE,
-        alt: "Louis' LIFE, as presented by him.",
-        className: Constants.CLASS.LIFE,
-        FRAME_CLICK: NAV_EVENTS.CLICK_LIFE
-      }
-    ];
 
 }]);
 
