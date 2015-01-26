@@ -127,7 +127,7 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataServi
 LnkAPP.controller("HomeController", ["$scope", "$stateParams", "Constants",
   function($scope, $stateParams, Constants) {
 
-    
+  $scope.getData(Constants.STATE.HOME);
 
 }]);
 

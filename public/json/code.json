@@ -13,13 +13,13 @@
 				"Node.js"
 			],
 			"description": "I made it.",
-			"images": [""],
+			"images": [],
 			"imgTag": "lnk"
 		},{
 			"title": "The GazReport",
 			"subtitle": "Responsive, and clean",
 			"images": [""],
-			"imgtag": "gazreport"
+			"imgTag": "gazreport"
 		}
 	]
 }

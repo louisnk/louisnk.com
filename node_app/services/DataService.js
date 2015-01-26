@@ -35,7 +35,7 @@ var findModelFor = function(which, ids, callback) {
 		fs.readdir(dir, function(err, imgs) {
 			if (!err) { 
 				getJson(which, function(json) {
-					return callback(Utils.combineJson(imgs, json));
+					return callback(Utils.combineJson(dir, imgs, json));
 				});
 			}
 		});

@@ -4,24 +4,44 @@ var filterFor = function(dir, what) {
 	return dir.filter(function(file, i) {
 		return file.indexOf(what) !== -1;
 	});
+
+};
+
+var makeImageObjects = function(base, image) {
+	
+	if (image) {
+		return { url: 
+			path.join(base, image).split("public")[1], 
+			alt: image.split(".")[0] 
+		};
+	} else {
+		return false;
+	}
 };
 
 
 
-var combineJsonAndImages = function(imgs, jsonString) {
+var combineJsonAndImages = function(base, imgs, jsonString) {
 
 	if (jsonString) {
 		jsonString = JSON.parse(jsonString);
 	}
 
-	if (jsonString && jsonString.sections && jsonString.sections.length ) {
+	if (jsonString && jsonString.sections) {
+
 		for (var i = jsonString.sections.length - 1; i >= 0; i--) {
 			var section = jsonString.sections[i];
-			section.images = filterFor(imgs, section.title);
-		};
+			var images = filterFor(imgs, section.imgTag);
 
+			section.images = [];
+			if (images && images.length > 0) {
+				for (var j = 0; j < images.length; j++) {
+					section.images.push(makeImageObjects(base, images[j]));
+				}				
+			}
+		};
 	} else {
-		console.error("There's an error in this json file: " + json)
+		console.error("There's an error in this json file: \n" + json)
 	}
 
 	return jsonString;

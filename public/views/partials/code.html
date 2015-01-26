@@ -8,21 +8,22 @@
 
     <div class="row sections">
       <ul>
-        <li class="section" ng-repeat="sections in page.sections">
+        <li class="section" ng-repeat="section in page.sections">
           <div class="col-md-3" ng-class="{ 
             'box-left': ($index + 1) % 2 !== 0,
             'box-right': ($index + 1) % 2 === 0
           }">
-            <div class="img" ng-repeat="images in section">
-              <img src="image.url" alt="image.alt">
+            <div class="img" ng-repeat="img in section.images">
+              {{image}}
+              <img src="{{img.url}}" alt="{{img.alt}}">
             </div>
           </div>
           <div class="col-md-9" ng-class="{ 
             'box-left': ($index + 1) % 2 !== 0,
             'box-right': ($index + 1) % 2 === 0
           }">
-            <h2 class="title">{{section.title}}</h2>
-            <h3 class="subtitle"></h3>
+            <h2 class="section-title">{{section.title}}</h2>
+            <h3 class="section-subtitle">{{section.subtitle}}</h3>
           </div>
 
         </li>
