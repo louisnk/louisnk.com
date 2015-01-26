@@ -7,8 +7,6 @@ LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService
         for (var i = 0; i < data.sections.length; i++) {
           data.sections[i] = UtilitiesService.parseConstants(data.sections[i]);
         }
-
-        console.log(data);
         $scope.page = data;
       }
     } else {
