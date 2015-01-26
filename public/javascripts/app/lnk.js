@@ -228,7 +228,7 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   };
 }]);
 LnkAPP.factory("CacheingService", [function() {
-
+	// TODO: Make this use localStorage, or something of the sort
 	var registry = [];
 
 	var register = function(request, data) {
@@ -246,11 +246,11 @@ LnkAPP.factory("CacheingService", [function() {
 		if (registry.length > 0) {
 			var cachedData = registry.filter(function(chunk) {
 				return chunk.name === request;
-			})[0].data;
+			})[0];
 
 			if (!cachedData) {
 				return false;
-			} else { return cachedData; }
+			} else { return cachedData.data; }
 		} else {
 			return false;
 		}
