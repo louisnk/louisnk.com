@@ -3,7 +3,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   var findWhere = function(array, search) {
     if (typeof seacrh === "object") {
       var index = false;
-      var data = {};
+      var data = false;
 
       for (var i = 0; i < array.length; i++) {
         for (var j = 0; j < Object.keys(search).length; j++) {

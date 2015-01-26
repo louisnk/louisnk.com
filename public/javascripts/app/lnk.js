@@ -232,16 +232,22 @@ LnkAPP.factory("CacheingService", ["UtilitiesService",
 	function(UtilitiesService) {
 	// TODO: Make this use localStorage, or something of the sort
 	var registry = [];
+	var Utils = UtilitiesService;
 
 	var register = function(requestedName, data) {
-		registry.push({
-			name: requestedName,
-			data: data
-		});
+		if (!Utils.findWhere(registry, { name: requestedName }).index ) {
+			registry.push({
+				name: requestedName,
+				data: data
+			});
+		} else {
+			console.warn("Somehow I tried to re-register data for " + requestedName);
+			return Utils.findWhere(registry, { name: requestedName }).data;
+		}
 	};
 
 	var remove = function(requestedName) {
-		var index = UtilitiesService.findWhere(registry, { name: requestedName });
+		var index = Utils.findWhere(registry, { name: requestedName }).index;
 		var deleted = registry.splice(index, 1);
 		if (deleted.name === requestedName) {
 			return true;
@@ -252,11 +258,9 @@ LnkAPP.factory("CacheingService", ["UtilitiesService",
 
 	var getFromRegistry = function(requestedName) {
 		if (registry.length > 0) {
-			var cachedData = registry.filter(function(chunk) {
-				return chunk.name === requestedName;
-			})[0];
+			var cachedData = Utils.findWhere(registry, { name: requestedName });
 
-			if (!cachedData) {
+			if (!cachedData.data) {
 				return false;
 			} else { return cachedData.data; }
 		} else {
@@ -265,11 +269,12 @@ LnkAPP.factory("CacheingService", ["UtilitiesService",
 	};
 
 	return {
-		getFromRegistry: getFromRegistry,
-		register: 	register,
-		remove: 	remove
+		getFromRegistry: 		getFromRegistry,
+		register: 					register,
+		remove: 						remove
 	};
 }]);
+
 LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants", 
 	function($http, CacheingService, Constants) {
 
@@ -426,7 +431,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   var findWhere = function(array, search) {
     if (typeof seacrh === "object") {
       var index = false;
-      var data = {};
+      var data = false;
 
       for (var i = 0; i < array.length; i++) {
         for (var j = 0; j < Object.keys(search).length; j++) {

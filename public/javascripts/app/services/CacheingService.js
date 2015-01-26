@@ -12,12 +12,12 @@ LnkAPP.factory("CacheingService", ["UtilitiesService",
 			});
 		} else {
 			console.warn("Somehow I tried to re-register data for " + requestedName);
-			return Utils.findWhere(registry, { name: requestedName }.data;
+			return Utils.findWhere(registry, { name: requestedName }).data;
 		}
 	};
 
 	var remove = function(requestedName) {
-		var index = Utils.findWhere(registry, { name: requestedName });
+		var index = Utils.findWhere(registry, { name: requestedName }).index;
 		var deleted = registry.splice(index, 1);
 		if (deleted.name === requestedName) {
 			return true;
@@ -28,11 +28,9 @@ LnkAPP.factory("CacheingService", ["UtilitiesService",
 
 	var getFromRegistry = function(requestedName) {
 		if (registry.length > 0) {
-			var cachedData = registry.filter(function(chunk) {
-				return chunk.name === requestedName;
-			})[0];
+			var cachedData = Utils.findWhere(registry, { name: requestedName });
 
-			if (!cachedData) {
+			if (!cachedData.data) {
 				return false;
 			} else { return cachedData.data; }
 		} else {
@@ -41,8 +39,8 @@ LnkAPP.factory("CacheingService", ["UtilitiesService",
 	};
 
 	return {
-		getFromRegistry: getFromRegistry,
-		register: 	register,
-		remove: 	remove
+		getFromRegistry: 		getFromRegistry,
+		register: 					register,
+		remove: 						remove
 	};
 }]);
