@@ -235,7 +235,8 @@ LnkAPP.factory("CacheingService", ["UtilitiesService", "Constants",
 	var Utils = UtilitiesService;
 
 	var register = function(requestedName, data) {
-		if (!Utils.findWhere(registry, { name: requestedName }).index ) {
+		if (!registry.length || 
+				!Utils.findWhere(registry, { name: requestedName }).index ) {
 			registry.push({
 				name: requestedName,
 				data: data

@@ -1,3 +1,39 @@
-.code {
-  
+.code-content {
+
+	a {
+		h2, h3 {
+			display: inline-block;
+			position: absolute;
+			top: 1em;
+			left: 0.1em;
+			-webkit-transition: visibility 200ms ease;
+		}
+
+		h3 {
+			display: none;
+		}
+
+		&:hover {
+			h2 { display: none; }
+			h3 { display: inline-block; }
+		}
+
+		&.framed {
+			position: relative;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			width: 100%;
+			height: 100%;
+			.fontSerif4-0;
+
+			img {
+				max-width: 100%;
+				min-height: 100%;
+			}
+
+
+		}
+	}
 }
