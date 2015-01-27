@@ -1,5 +1,5 @@
-LnkAPP.factory("CacheingService", ["UtilitiesService", 
-	function(UtilitiesService) {
+LnkAPP.factory("CacheingService", ["UtilitiesService", "Constants",
+	function(UtilitiesService, Constants) {
 	// TODO: Make this use localStorage, or something of the sort
 	var registry = [];
 	var Utils = UtilitiesService;
@@ -16,7 +16,7 @@ LnkAPP.factory("CacheingService", ["UtilitiesService",
 		}
 	};
 
-	var remove = function(requestedName) {
+	var deleteFromRegistry = function(requestedName) {
 		var index = Utils.findWhere(registry, { name: requestedName }).index;
 		var deleted = registry.splice(index, 1);
 		if (deleted.name === requestedName) {
@@ -39,8 +39,8 @@ LnkAPP.factory("CacheingService", ["UtilitiesService",
 	};
 
 	return {
-		getFromRegistry: 		getFromRegistry,
-		register: 					register,
-		remove: 						remove
+		deleteFromRegistry: 		deleteFromRegistry,
+		getFromRegistry: 				getFromRegistry,
+		register: 							register
 	};
 }]);

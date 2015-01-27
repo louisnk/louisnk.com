@@ -7,7 +7,8 @@
     </div>
     <div class="row frames">
       <div class="col-md-4 frame" ng-repeat="link in page.sections">
-        <a href="javascript:void(0)" class="framed {{link.className}}" alt="{{link.alt}}"
+        <a href="javascript:void(0)" class="framed {{link.className}}" 
+           alt="{{link.alt}}" name="{{link.alt}}" tabindex="{{$index}}"
            ng-click="broadcast($event, link.FRAME_CLICK, link.title.toUpperCase())">
             {{link.title}}
          </a>
