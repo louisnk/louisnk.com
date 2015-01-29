@@ -5,6 +5,7 @@
 	"subtitle": "",
 	"sections": [
 		{
+			"id": "p0",
 			"title": "Louisnk.com",
 			"subtitle": "You're looking at it!",
 			"tech": [
@@ -16,6 +17,7 @@
 			"images": [],
 			"imgTag": "lnk"
 		},{
+			"id": "p1",
 			"title": "The GazReport",
 			"subtitle": "Responsive, and clean",
 			"images": [""],

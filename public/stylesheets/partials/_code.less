@@ -1,21 +1,25 @@
 .code-content {
-
+	li {
+		display: inline-block;
+	}
+	
 	a {
 		h2, h3 {
 			display: inline-block;
 			position: absolute;
 			top: 1em;
 			left: 0.1em;
-			-webkit-transition: visibility 200ms ease;
+			opacity: 1;
+			-webkit-transition: opacity 500ms ease;
 		}
 
 		h3 {
-			display: none;
+			opacity: 0;
 		}
 
 		&:hover {
-			h2 { display: none; }
-			h3 { display: inline-block; }
+			h2 { opacity: 0; }
+			h3 { opacity: 1; }
 		}
 
 		&.framed {

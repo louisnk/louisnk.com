@@ -12,14 +12,14 @@
       <ul>
         <li class="section" ng-repeat="project in page.sections">
           <div class="col-md-4 frame">
-            <div class="frame" ng-repeat="img in project.images">
-              <a href="javascript:void(0)" class="framed"
-                 name="{{img.alt}}" ng-click="broadcast($event, STATE.PROJECT, $index)">
-                <img src="{{img.url}}" alt="{{img.alt}}">
-                <h2 class="section-title">{{project.title}}</h2>
-                <h3 class="section-subtitle">{{project.subtitle}}</h3>
-              </a>
-            </div>
+            <a href="javascript:void(0)" class="framed"
+               name="{{project.images[0].alt}}" 
+               ng-click="broadcast($event, STATE.PROJECT, project.id)">
+               
+              <img src="{{project.images[0].url}}" alt="{{project.images[0].alt}}">
+              <h2 class="section-title">{{project.title}}</h2>
+              <h3 class="section-subtitle">{{project.subtitle}}</h3>
+            </a>
           </div>
         </li>
       </ul>

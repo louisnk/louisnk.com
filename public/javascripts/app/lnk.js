@@ -86,8 +86,8 @@ LnkAPP.controller("CodeController", ["$scope", "$stateParams", "DataService", "C
 
 	$scope.getData(Constants.STATE.CODE, dataHandler);
 }]);
-LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "UtilitiesService", "NavigationService", "AnimationService", "Constants", 
-	function ($rootScope, $scope, $state, DataService, UtilitiesService, NavigationService, AnimationService, Constants) {
+LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "Constants", 
+	function ($rootScope, $scope, $state, DataService, Constants) {
 	
 	$scope.page = {};
 
@@ -95,11 +95,12 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataServi
 	  nav: true
 	};
 
-	$scope.navEvents = Constants.EVENT.NAVIGATION;
+	$scope.NAV_EVENT = Constants.EVENT.NAVIGATION;
 	$scope.TO_CONTENT = Constants.EVENT.ANIMATION.SCROLL_TO_CONTENT;
+	$scope.STATE = Constants.STATE;
 
 	$scope.broadcast = function(e, eventName, eventData) {
-	  if (e && e.preventDefault) { e.preventDefault(); }
+	  if (e && e.isDefaultPrevented) { e.preventDefault(); }
 	  $rootScope.$broadcast(eventName, eventData);
 	};
 
@@ -236,7 +237,7 @@ LnkAPP.factory("CacheingService", ["UtilitiesService", "Constants",
 
 	var register = function(requestedName, data) {
 		if (!registry.length || 
-				!Utils.findWhere(registry, { name: requestedName }).index ) {
+				!Utils.findWhere(registry, { name: requestedName }) ) {
 			registry.push({
 				name: requestedName,
 				data: data
@@ -261,9 +262,7 @@ LnkAPP.factory("CacheingService", ["UtilitiesService", "Constants",
 		if (registry.length > 0) {
 			var cachedData = Utils.findWhere(registry, { name: requestedName });
 
-			if (!cachedData.data) {
-				return false;
-			} else { return cachedData.data; }
+			return cachedData && cachedData.data;
 		} else {
 			return false;
 		}

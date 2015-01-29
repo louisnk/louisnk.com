@@ -6,7 +6,7 @@ LnkAPP.factory("CacheingService", ["UtilitiesService", "Constants",
 
 	var register = function(requestedName, data) {
 		if (!registry.length || 
-				!Utils.findWhere(registry, { name: requestedName }).index ) {
+				!Utils.findWhere(registry, { name: requestedName }) ) {
 			registry.push({
 				name: requestedName,
 				data: data
@@ -31,9 +31,7 @@ LnkAPP.factory("CacheingService", ["UtilitiesService", "Constants",
 		if (registry.length > 0) {
 			var cachedData = Utils.findWhere(registry, { name: requestedName });
 
-			if (!cachedData.data) {
-				return false;
-			} else { return cachedData.data; }
+			return cachedData && cachedData.data;
 		} else {
 			return false;
 		}
