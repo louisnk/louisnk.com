@@ -1,7 +1,5 @@
 Louisnk.com
 ===========
 
-A brush-up on Angular.js, and some experiments with D3.js.
-
-Also a place to show a few things about me, and some things I've done.
+A re-creation of my personal website using Angular.js, a Node.js back end, and some sweet eventing. Mostly an exercise in implementing better architectural patterns and application design. Microservices ftw!
 
