@@ -10,8 +10,8 @@
 
     <div class="row frames">
       <ul>
-        <li class="section" ng-repeat="project in page.sections">
-          <div class="col-md-4 frame">
+        <li class="col-md-4 section" ng-repeat="project in page.sections">
+          <div class="frame">
             <a href="javascript:void(0)" class="framed"
                name="{{project.images[0].alt}}" 
                ng-click="broadcast($event, STATE.PROJECT, project.id)">
