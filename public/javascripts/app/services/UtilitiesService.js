@@ -22,6 +22,15 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
 
   };
 
+
+  var getUserDetails = function() {
+    return {
+      w: window.innerWidth,
+      h: window.innerHeight,
+      ua: navigator.userAgent
+    };
+  };
+
   var setListeners = function(event, callback) {
     $rootScope.$on(event, function(event, eventData) {
       callback(event, eventData);
@@ -54,6 +63,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
 
   return {
     findWhere:          findWhere,
+    getUserDetails:     getUserDetails,
   	parseConstants: 		parseConstants,
     setListeners: 			setListeners
   };

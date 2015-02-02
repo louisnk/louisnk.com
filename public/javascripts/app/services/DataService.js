@@ -3,10 +3,10 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 
 	var STATE = Constants.STATE;
 
-	var makeRequestString = function(req, params) {
+	var makeRequestString = function(request, params) {
 		var url = "./DataService";
 
-		switch (req) {
+		switch (request) {
 			case STATE.PROJECT:
 				url += "/projects?id=" + 
 						params.ids && params.ids.length > 0 ? 
@@ -33,21 +33,23 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "Constants",
 		params = params || false;
 		callback = typeof params === "function" ? params : callback;
 
-		var req = "";
+		var request = "";
 
+		params.location = UtilitiesService.getUserDetails();
+		
 		switch (what) {
 			case STATE.CODE:
-				req = makeRequestString(STATE.CODE);
+				request = makeRequestString(STATE.CODE, params);
 				break;
 			default:
-				req = makeRequestString(STATE.HOME);
+				request = makeRequestString(STATE.HOME, params);
 				break;
 		}
 
 		var existingData = CacheingService.getFromRegistry(what);
 
 		if (!existingData) {
-			$http.get(makeRequestString(what, params))
+			$http.get(request)
 				 .success(function(data, status, headers, config) {
 				 	CacheingService.register(what, data);
 				 	callback(data);
