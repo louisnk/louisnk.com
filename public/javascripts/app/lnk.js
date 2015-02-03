@@ -232,6 +232,7 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
 LnkAPP.factory("CacheingService", ["UtilitiesService", "Constants",
 	function(UtilitiesService, Constants) {
 	// TODO: Make this use localStorage, or something of the sort
+	// TODO: Use Angular's native $cacheFactory!!!
 	var registry = [];
 	var Utils = UtilitiesService;
 
