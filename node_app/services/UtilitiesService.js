@@ -7,20 +7,6 @@ var filterFor = function(dir, what) {
 
 };
 
-var makeImageObjects = function(base, image) {
-	
-	if (image) {
-		return { url: 
-			path.join(base, image).split("public")[1], 
-			alt: image.split(".")[0] 
-		};
-	} else {
-		return false;
-	}
-};
-
-
-
 var combineJsonAndImages = function(base, imgs, jsonString) {
 
 	if (jsonString) {
@@ -47,7 +33,31 @@ var combineJsonAndImages = function(base, imgs, jsonString) {
 	return jsonString;
 };
 
+var makeImageObjects = function(base, image) {
+	
+	if (image) {
+		return { url: 
+			path.join(base, image).split("public")[1], 
+			alt: image.split(".")[0] 
+		};
+	} else {
+		return false;
+	}
+};
+
+var recordUserDetails = function(details) {
+	if (typeof details === "object" && 
+			Object.keys(details) && 
+			Object.keys(details).length) {
+		// TODO: set up DB connection to log these things - or use GA
+		console.log(details);
+	} else {
+		console.log(details);
+	}
+};
+
 var UtilitiesService = module.exports = {
 	combineJson: 								combineJsonAndImages,
-	filterFor: 									filterFor
+	filterFor: 									filterFor,
+	recordUserDetails: 					recordUserDetails
 };

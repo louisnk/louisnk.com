@@ -55,6 +55,10 @@ var handleRequest = function(req, res) {
 	var which = req.params[0];
 	var ids = req.query.ids || false;
 
+	if (req.query["w"] && req.query["h"]) {
+		Utils.recordUserDetails({ h: req.query["h"], w: req.query["w"] });
+	}
+
 	findModelFor(which, ids, function(model) {
 		if (model && typeof model !== "string")	 {
 			sendJSON(res, JSON.stringify(model));

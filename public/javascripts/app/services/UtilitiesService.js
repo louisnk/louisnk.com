@@ -1,27 +1,51 @@
 LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
 
+  /**
+   *  Like _'s findWhere - seacrh the passed array for
+   *  the given search params
+   *
+   *  @param   array     [Array] The array to be searched
+   *  @param   search    [object || string] an object with the properties
+   *                      or string to search for in the given array
+   */
+
   var findWhere = function(array, search) {
-    if (typeof seacrh === "object") {
-      var index = false;
-      var data = false;
+    var index = false;
+    var data = false;
 
-      for (var i = 0; i < array.length; i++) {
-        for (var j = 0; j < Object.keys(search).length; j++) {
-          var key = Object.keys(search)[j];
-          if (array[i][key] === search[key]) {
-            data = array[i];
-            index = i;
-          }          
+    if (search && typeof search === "object") {
+      if (Array.isArray(array)) {
+          var keys = Object.keys(search);
+
+          for (var i = 0; i < array.length; i++) {
+            for (var j = 0; j < keys.length; j++) {
+              var key = keys[j];
+              if (array[i][key] === search[key]) {
+                data = array[i];
+                index = i;
+              }          
+            }
+          }
+
+        return { index: index, data: data };
+        
+      } else if (!Array.isArray(array)) {
+        var origSearch = search;
+        search = search[Object.keys(search)[0]];
+
+        if (array[search] === origSearch[search]) {
+          return { index: search, data: array[search] };
+        } else {
+          return false;
         }
-      }
-
-      return { index: index, data: data };
-    } else if (typeof search === "string") {
+      } 
+    }
+    
+    else if (typeof search === "string") {
       // TODO: handle silly string searches
     }
 
   };
-
 
   var getUserDetails = function() {
     return {
