@@ -39,7 +39,7 @@ var findModelFor = function(which, ids, callback) {
 				});
 			} else {
 				return callback("Failed to read " + dir + 
-								" \n Most likely it doesn't exist ");
+								" \n Most likely it doesn't exist.");
 			}
 		});
 	} else {
