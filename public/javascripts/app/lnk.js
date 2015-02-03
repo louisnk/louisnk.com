@@ -280,83 +280,29 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "UtilitiesService", "
 
 	var STATE = Constants.STATE;
 
-	var makeRequestString = function(request, params) {
-		var url = "./DataService";
-
-		var appendParams = function(params) {
-			if (typeof params === "object" && Object.keys(params).length) {
-				var query = "?";
-				var keys = Object.keys(params);
-
-				for (var i = 0; i < keys.length; i++) {
-					var key = keys[i];
-					if (typeof params[key] === "object") {
-
-						var subKeys = Object.keys(params[key]);
-						for (var j = 0; j < subKeys.length; j++) {
-							var sub = subKeys[j];
-							query += sub + "=" + params[key][sub];
-							query += j < subKeys.length - 1 ? "&" : "";
-						}
-					} else {
-						query += key + "=" + params[key];						
-					}
-					query += i < keys.length -1 ? "&" : "";
-				}
-
-				return query;
-			}
-		};
-
-		switch (request) {
-			case STATE.PROJECT:
-				url += "/projects?id=" + 
-						params.ids && params.ids.length > 0 ? 
-						params.ids.join(",") : "all";
-				break; 
-
-			case STATE.CODE:
-				url += "/code";
-				if (params) {
-					url += appendParams(params);
-				}
-				break;
-
-			case STATE.ART:
-				url += "/art";
-				break;
-
-			default:
-				url += "/home";
-				break;
-		}
-
-		return url;
-	};
-
 	var get = function(what, params, callback) {
 		if (typeof params === "function") {
 			callback = params;
 			params = {};
 		}
 
-		var request = "";
+		var requestUrl = "./DataService";
 
 		params.location = UtilitiesService.getUserDetails();
 
 		switch (what) {
 			case STATE.CODE:
-				request = makeRequestString(STATE.CODE, params);
+				requestUrl += "/code";
 				break;
 			default:
-				request = makeRequestString(STATE.HOME, params);
+				requestUrl += "/home";
 				break;
 		}
 
 		var existingData = CacheingService.getFromRegistry(what);
 
 		if (!existingData) {
-			$http.get(request)
+			$http.get(requestUrl, { params: params })
 				 .success(function(data, status, headers, config) {
 				 	CacheingService.register(what, data);
 				 	callback(data);

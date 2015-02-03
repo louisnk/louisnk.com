@@ -55,8 +55,8 @@ var handleRequest = function(req, res) {
 	var which = req.params[0];
 	var ids = req.query.ids || false;
 
-	if (req.query["w"] && req.query["h"]) {
-		Utils.recordUserDetails({ h: req.query["h"], w: req.query["w"] });
+	if (req.query["location"]) {
+		Utils.recordUserDetails(JSON.parse(decodeURIComponent(req.query["location"])));
 	}
 
 	findModelFor(which, ids, function(model) {
