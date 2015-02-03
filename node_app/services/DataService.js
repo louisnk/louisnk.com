@@ -38,7 +38,8 @@ var findModelFor = function(which, ids, callback) {
 					return callback(Utils.combineJson(dir, imgs, json));
 				});
 			} else {
-				return callback(err + " No files found in the Node DataService");
+				return callback("Failed to read " + dir + 
+								" \n Most likely it doesn't exist ");
 			}
 		});
 	} else {
@@ -65,8 +66,7 @@ var handleRequest = function(req, res) {
 		if (model && typeof model !== "string")	 {
 			sendJSON(res, JSON.stringify(model));
 		} else {
-			// TODO: handle this gracefully.
-			console.error("No model found for " + which);
+			sendJSON(res, JSON.stringify({ error: model }));
 		}
 	});
 };
