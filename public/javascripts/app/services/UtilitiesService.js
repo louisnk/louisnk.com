@@ -50,8 +50,8 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   var getUserDetails = function() {
     return {
       w: window.innerWidth,
-      h: window.innerHeight,
-      ua: navigator.userAgent
+      h: window.innerHeight
+      // What else do I want to get?
     };
   };
 

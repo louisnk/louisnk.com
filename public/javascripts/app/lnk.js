@@ -229,57 +229,18 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
     init: init
   };
 }]);
-LnkAPP.factory("CacheingService", ["UtilitiesService", "Constants",
-	function(UtilitiesService, Constants) {
+LnkAPP.factory("CacheingService", ["$cacheFactory",
+	function($cacheFactory) {
 	// TODO: Make this use localStorage, or something of the sort
-	// TODO: Use Angular's native $cacheFactory!!!
-	var registry = [];
-	var Utils = UtilitiesService;
 
-	var register = function(requestedName, data) {
-		if (!registry.length || 
-				!Utils.findWhere(registry, { name: requestedName }) ) {
-			registry.push({
-				name: requestedName,
-				data: data
-			});
-		} else {
-			console.warn("Somehow I tried to re-register data for " + requestedName);
-			return Utils.findWhere(registry, { name: requestedName }).data;
-		}
-	};
-
-	var deleteFromRegistry = function(requestedName) {
-		var index = Utils.findWhere(registry, { name: requestedName }).index;
-		var deleted = registry.splice(index, 1);
-		if (deleted.name === requestedName) {
-			return true;
-		} else {
-			return false;
-		}
-	};
-
-	var getFromRegistry = function(requestedName) {
-		if (registry.length > 0) {
-			var cachedData = Utils.findWhere(registry, { name: requestedName });
-
-			return cachedData && cachedData.data;
-		} else {
-			return false;
-		}
-	};
-
-	return {
-		deleteFromRegistry: 		deleteFromRegistry,
-		getFromRegistry: 				getFromRegistry,
-		register: 							register
-	};
+	return $cacheFactory("LnkCache");
 }]);
 
 LnkAPP.factory("DataService", ["$http", "CacheingService", "UtilitiesService", "Constants", 
 	function($http, CacheingService, UtilitiesService, Constants) {
 
 	var STATE = Constants.STATE;
+	var Cache = CacheingService;
 
 	var get = function(what, params, callback) {
 		if (typeof params === "function") {
@@ -300,12 +261,12 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "UtilitiesService", "
 				break;
 		}
 
-		var existingData = CacheingService.getFromRegistry(what);
+		var existingData = Cache.get(what);
 
 		if (!existingData) {
-			$http.get(requestUrl, { params: params })
+			$http.get(requestUrl, { params: params, cache: Cache })
 				 .success(function(data, status, headers, config) {
-				 	CacheingService.register(what, data);
+				 	Cache.put(what, data);
 				 	callback(data);
 				 })
 				 .error(function(data, status, headers, config) {
@@ -457,8 +418,8 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   var getUserDetails = function() {
     return {
       w: window.innerWidth,
-      h: window.innerHeight,
-      ua: navigator.userAgent
+      h: window.innerHeight
+      // What else do I want to get?
     };
   };
 

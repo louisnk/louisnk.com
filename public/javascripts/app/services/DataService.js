@@ -2,6 +2,7 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "UtilitiesService", "
 	function($http, CacheingService, UtilitiesService, Constants) {
 
 	var STATE = Constants.STATE;
+	var Cache = CacheingService;
 
 	var get = function(what, params, callback) {
 		if (typeof params === "function") {
@@ -22,12 +23,12 @@ LnkAPP.factory("DataService", ["$http", "CacheingService", "UtilitiesService", "
 				break;
 		}
 
-		var existingData = CacheingService.getFromRegistry(what);
+		var existingData = Cache.get(what);
 
 		if (!existingData) {
-			$http.get(requestUrl, { params: params })
+			$http.get(requestUrl, { params: params, cache: Cache })
 				 .success(function(data, status, headers, config) {
-				 	CacheingService.register(what, data);
+				 	Cache.put(what, data);
 				 	callback(data);
 				 })
 				 .error(function(data, status, headers, config) {
