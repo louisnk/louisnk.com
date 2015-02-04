@@ -16,8 +16,6 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataServi
 	  $rootScope.$broadcast(eventName, eventData);
 	};
 
-
-
 	$scope.getData = function(fromWhere, callback) {
 		DataService.get(fromWhere, callback);
 		// Do other stuff, if needed?

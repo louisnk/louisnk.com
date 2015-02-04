@@ -10,17 +10,15 @@
 
     <div class="row">
       <div class="roller">
-        <ul class="frames">
-          <li class="col-md-4 section" ng-repeat="project in page.sections">
-            <div class="frame">
-              <a href="javascript:void(0)" class="framed"
-                 name="{{project.images[0].alt}}" 
-                 ng-click="broadcast($event, STATE.PROJECT, project.id)">
-                 
-                <img src="{{project.images[0].url}}" alt="{{project.images[0].alt}}">
-                <h2 class="section-title">{{project.title}}</h2>
-              </a>
-            </div>
+        <ul class="tiles">
+          <li class="col-md-3 section" ng-repeat="project in page.sections">
+            <a href="javascript:void(0)" class="tile"
+               name="{{project.images[0].alt}}" 
+               ng-click="broadcast($event, STATE.PROJECT, project.id)">
+               
+              <img src="{{project.images[0].url}}" alt="{{project.images[0].alt}}">
+              <h2 class="section-title">{{project.title}}</h2>
+            </a>
           </li>
         </ul>
       </div>
