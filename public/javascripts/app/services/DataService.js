@@ -1,8 +1,8 @@
-LnkAPP.factory("DataService", ["$http", "CacheingService", "UtilitiesService", "Constants", 
-	function($http, CacheingService, UtilitiesService, Constants) {
+LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Constants", 
+	function($http, $cacheFactory, UtilitiesService, Constants) {
 
 	var STATE = Constants.STATE;
-	var Cache = CacheingService;
+	var Cache = $cacheFactory("LnkCache");
 
 	var get = function(what, params, callback) {
 		if (typeof params === "function") {
