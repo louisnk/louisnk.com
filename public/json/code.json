@@ -20,8 +20,34 @@
 			"id": "p1",
 			"title": "The GazReport",
 			"subtitle": "Responsive, and clean",
+			"tech": [
+				"Backbone.js",
+				"LESS",
+				"Bootstrap",
+				"Wordpress"
+			],
+			"description": "A basic, SEO friendly site for a real estate professional",
 			"images": [""],
 			"imgTag": "gazreport"
+		},{
+			"id": "p2",
+			"title": "BreweryScarves",
+			"subtitle": "Scarves for Beer enthusiasts",
+			"tech": [
+				"Bootstrap",
+				"Wordpress"
+			],
+			"description": "A simple, SEO'd site for a small company",
+			"images": [""],
+			"imgTag": "bscarves"
+		},{
+			"id": "",
+			"title": "",
+			"subtitle": "",
+			"tech": [""],
+			"description": "",
+			"images": [""],
+			"imgTag": ""
 		}
 	]
 }
