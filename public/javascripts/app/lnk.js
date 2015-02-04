@@ -153,19 +153,20 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   function($rootScope, $state, Constants, UtilitiesService) {
 
   var ANIM_EVENTS = Constants.EVENT.ANIMATION;
+  var scrolledAlready = false;
 
   var getContent = function() {
     return document.getElementsByClassName("content")[0];
   };
 
-  var scrollToContent = function() {
-    var content = getContent();
-    
+  var scrollToContent = function(content) {
     window.scrollTo(0, content.offsetTop);
+    return true;
   };
 
   var scrollToTop = function() {
   	window.scrollTo(0, 0);
+    return true;
   };
 
   // deals with animation request events
@@ -173,7 +174,7 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
 
     switch (event.name) {
       case ANIM_EVENTS.SCROLL_TO_CONTENT:
-        scrollToContent();
+        scrollToContent(getContent());
         break;
 
       default:
@@ -183,41 +184,42 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   };
 
   // watch the window for scroll down, and go to content if we're not already
-  var watchWindow = function() {
+  var setAutoScrollToContent = function() {
     var previousY = 0;
     var currentState = $state.current.name;
     var content = getContent();
 
     window.addEventListener("scroll", function(e) {
       var y = window.scrollY;
-      if (y > previousY && (y > 0 && previousY > 0)) {
+      if (y > previousY && (y > 0 && previousY >= 0)) {
 
-        if ($state.current.name === currentState) {
+        if ($state.current.name === currentState && !scrolledAlready) {
           if (content.offsetTop > y) {
-            scrollToContent();            
+            scrollToContent(content);            
           }
-        } else {
+        } else if (!scrolledAlready) {
           currentState = $state.current.name;
           content = getContent();
           if (content.offsetTop > y) {
-            scrollToContent();
+            scrollToContent(content);
           }
         }
+        scrolledAlready = true;
       }
-
       previousY = y;
     });
+
   };
 
   var watchState = function() {
   	$rootScope.$on("$stateChangeStart", function(a, b, c) {
-
+      scrolledAlready = false;
   		scrollToTop();
   	});
   };
 
   var init = function() {
-    watchWindow();
+    setAutoScrollToContent();
     watchState();
 
     for (var EVENT in Constants.EVENT.ANIMATION) {
