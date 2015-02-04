@@ -4,6 +4,7 @@
 */icons/*
 *.jpg
 *.png
+*.gif
 /bower_components/*
 comp.psd
 _old/*
