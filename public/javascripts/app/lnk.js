@@ -190,7 +190,7 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
 
     window.addEventListener("scroll", function(e) {
       var y = window.scrollY;
-      if (y > previousY) {
+      if (y > previousY && (y > 0 && previousY > 0)) {
 
         if ($state.current.name === currentState) {
           if (content.offsetTop > y) {
