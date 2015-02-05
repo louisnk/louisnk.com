@@ -362,7 +362,7 @@ LnkAPP.factory("NavigationService",
 LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
 
   /**
-   *  Like _'s findWhere - seacrh the passed array for
+   *  Like _'s findWhere - search the passed array for
    *  the given search params
    *
    *  @param   array     [Array] The array to be searched
