@@ -416,40 +416,46 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     };
   };
 
+  var parseConstants = function(section) {
+    var keys = Object.keys(section);
+
+    for (var i  = 0; i < keys.length; i++) {
+      var key = keys[i];
+
+      if (typeof section[key] === "string" && 
+          section[key].indexOf("Constants.") !== -1) {
+        
+        var parts = section[key].split(".");
+        var CONSTANT = Constants;
+
+        for (var j = 1; j < parts.length; j++) {
+          var part = parts[j];
+          CONSTANT = CONSTANT[part];
+        }
+
+        section[key] = CONSTANT;
+      }
+    }
+
+    return section;
+  };
+
+  var setHeroes = function(which) {
+    var origin = "http://123.456.78.255/images/hero";
+    return origin + Constants.STATE[which];
+  };
+
   var setListeners = function(event, callback) {
     $rootScope.$on(event, function(event, eventData) {
       callback(event, eventData);
     });
   };
 
-  var parseConstants = function(section) {
-  	var keys = Object.keys(section);
-
-  	for (var i  = 0; i < keys.length; i++) {
-  		var key = keys[i];
-
-  		if (typeof section[key] === "string" && 
-  				section[key].indexOf("Constants.") !== -1) {
-  			
-				var parts = section[key].split(".");
-				var CONSTANT = Constants;
-
-				for (var j = 1; j < parts.length; j++) {
-					var part = parts[j];
-					CONSTANT = CONSTANT[part];
-				}
-
-				section[key] = CONSTANT;
-  		}
-  	}
-
-  	return section;
-  };
-
   return {
     findWhere:          findWhere,
     getUserDetails:     getUserDetails,
   	parseConstants: 		parseConstants,
+    setHeroes:          setHeroes,
     setListeners: 			setListeners
   };
 }]);
