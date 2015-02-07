@@ -79,9 +79,24 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     return section;
   };
 
-  var setHeroes = function(which) {
+  var setHeroes = function(json) {
     var origin = "http://123.456.78.255/images/hero";
-    return origin + Constants.STATE[which];
+    var which;
+
+    switch (json.title.toLowerCase()) {
+      case "louis kinley":
+        which = Constants.STATE.HOME;
+        break;
+      case "code":
+        which = Constants.STATE.CODE;
+        break;
+      default:
+        which = Constants.STATE.HOME;
+        break;
+    }
+    json.heroImageUrl = origin + which + ".jpg";
+    
+    return json;
   };
 
   var setListeners = function(event, callback) {
