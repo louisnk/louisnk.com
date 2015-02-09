@@ -27,7 +27,7 @@ var combineJsonAndImages = function(base, imgs, jsonString) {
 			}
 		};
 	} else {
-		console.error("There's an error in this json file: \n" + json)
+		console.error("There's an error in this json file: \n" + jsonString)
 	}
 
 	return jsonString;

@@ -10,3 +10,4 @@ comp.psd
 _old/*
 .bowerrc
 practice/*
+.elasticbeanstalk/

@@ -442,7 +442,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   };
 
   var setHeroes = function(json) {
-    var origin = "http://123.456.78.255/images/hero";
+    var origin = "https://s3-us-west-2.amazonaws.com/louisnk/";
     var which;
 
     switch (json.title.toLowerCase()) {
@@ -456,8 +456,8 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
         which = Constants.STATE.HOME;
         break;
     }
-    json.heroImageUrl = origin + which + ".jpg";
-    
+    json.heroImageUrl = origin + which.toLowerCase() + ".jpg";
+
     return json;
   };
 
