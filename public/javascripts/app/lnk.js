@@ -442,18 +442,19 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   };
 
   var setHeroes = function(json) {
+
     var origin = "https://s3-us-west-2.amazonaws.com/louisnk/";
     var which;
 
     switch (json.title.toLowerCase()) {
       case "louis kinley":
-        which = Constants.STATE.HOME;
+        which = Constants.STATE.HOME.toLowerCase();
         break;
       case "code":
-        which = Constants.STATE.CODE;
+        which = Constants.STATE.CODE.toLowerCase();
         break;
       default:
-        which = Constants.STATE.HOME;
+        which = Constants.STATE.HOME.toLowerCase();
         break;
     }
     json.heroImageUrl = origin + which.toLowerCase() + ".jpg";
