@@ -1,4 +1,4 @@
-<div class="hero-image">
+<div class="hero-image" ng-if="page">
   <img src="{{page.heroImageUrl}}" alt="{{page.heroImageAlt}}">
   <span class="triangle-down" ng-click="broadcast($event, TO_CONTENT)"></span>
 </div>

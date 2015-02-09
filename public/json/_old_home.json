@@ -1,0 +1,20 @@
+"sections": [
+    { 
+      "title": "Constants.STATE.CODE",
+      "alt": "Louis' CODE, as presented by him.",
+      "className": "Constants.STATE.CODE",
+      "FRAME_CLICK": "Constants.EVENT.NAVIGATION.CLICK_CODE"
+    },
+    { 
+      "title": "Constants.STATE.ART",
+      "alt": "Louis' ART, as presented by him.",
+      "className": "Constants.STATE.ART",
+      "FRAME_CLICK": "Constants.EVENT.NAVIGATION.CLICK_ART"
+    },
+    { 
+      "title": "Constants.STATE.LIFE",
+      "alt": "Louis' LIFE, as presented by him.",
+      "className": "Constants.STATE.LIFE",
+      "FRAME_CLICK": "Constants.EVENT.NAVIGATION.CLICK_LIFE"
+    }
+  ]

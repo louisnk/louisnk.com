@@ -11,7 +11,7 @@
     
   </head>
 
-  <body ng-controller="GodController">
+  <body ng-controller="GodController" ng-cloak>
     <div ui-view></div>
     <div class="footer" ng-include="views/partials/footer.html"></div>
   </body>
