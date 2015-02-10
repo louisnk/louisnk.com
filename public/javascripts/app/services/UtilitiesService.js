@@ -86,7 +86,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
 
     origin = window.location.origin.match("localhost") ? 
              "/images/hero/" : 
-             "/louisnk/";
+             "https://s3-us-west-2.amazonaws.com/louisnk/";
 
     switch (json.title.toLowerCase()) {
       case "louis kinley":
