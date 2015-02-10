@@ -9,7 +9,15 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   };
 
   var scrollToContent = function(content) {
-    window.scrollTo(0, content.offsetTop);
+    
+    var scroll = setInterval(function() {
+      if (content.offsetTop > window.scrollY && window.scrollY + 450 < window.innerHeight) { 
+        window.scrollTo(0, window.scrollY + 3);
+      } else {
+        clearInterval(scroll);
+      }
+
+    },4);
     return true;
   };
 

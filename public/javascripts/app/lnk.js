@@ -158,7 +158,15 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   };
 
   var scrollToContent = function(content) {
-    window.scrollTo(0, content.offsetTop);
+    
+    var scroll = setInterval(function() {
+      if (content.offsetTop > window.scrollY && window.scrollY + 450 < window.innerHeight) { 
+        window.scrollTo(0, window.scrollY + 3);
+      } else {
+        clearInterval(scroll);
+      }
+
+    },4);
     return true;
   };
 
@@ -443,8 +451,12 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
 
   var setHeroes = function(json) {
 
-    var origin = "https://s3-us-west-2.amazonaws.com/louisnk/";
+    var origin;
     var which;
+
+    origin = window.location.origin.match("localhost") ? 
+             "/images/hero/" : 
+             "/louisnk/";
 
     switch (json.title.toLowerCase()) {
       case "louis kinley":
