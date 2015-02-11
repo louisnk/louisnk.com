@@ -58,12 +58,19 @@ var handleRequest = function(req, res) {
 	var which = req.params[0];
 	var ids = req.query.ids || false;
 
-	if (req.query["location"]) {
-		Utils.recordUserDetails(JSON.parse(decodeURIComponent(req.query["location"])));
+	if (req.query["details"]) {
+		var details = JSON.parse(decodeURIComponent(req.query["details"]));
+		Utils.recordUserDetails(details);
 	}
 
 	findModelFor(which, ids, function(model) {
 		if (model && typeof model !== "string")	 {
+			if (details.mobile) {
+				model = model.mobile;
+			} else {
+				model = model.desktop;
+			}
+
 			sendJSON(res, JSON.stringify(model));
 		} else {
 			sendJSON(res, JSON.stringify({ error: model }));

@@ -1,9 +1,20 @@
-{
-  "title": "LOUIS KINLEY",
-  "heroImageUrl": "",
-  "heroImageAlt": "Seattle skyline in black and white at night",
-  "subtitle": "stay tuned.",
-  "tagline": "the copy writer took a coffee break.",
-  "memo": "on the bright side, ec2 is running well.",
-  "sections": [""]
+{ "mobile": {
+	  "title": "LOUIS KINLEY",
+	  "heroImageUrl": "",
+	  "heroImageAlt": "",
+	  "heroImageLocation": "redwoods, ca",
+	  "subtitle": "",
+	  "tagline": "mobile/web/maker",
+	  "memo": "explore",
+	  "sections": [""]
+	},
+  "desktop": {
+		"title": "LOUIS KINLEY",
+		"heroImageUrl": "",
+	  "heroImageAlt": "Seattle skyline in black and white at night",
+	  "subtitle": "pursuing my dreams and empowering through education",
+	  "tagline": "mobile/web/maker",
+	  "memo": "explore",
+	  "sections": [""]
+  }
 }

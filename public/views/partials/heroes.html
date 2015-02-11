@@ -1,4 +1,9 @@
-<div class="hero-image">
-  <img src="{{page && page.heroImageUrl}}" alt="{{page.heroImageAlt}}"/>
-  <span class="triangle-down" ng-click="broadcast($event, TO_CONTENT)"></span>
+<div class="hero-image" 
+		 style="background-image: url('../{{page && page.heroImageUrl }}')">
+
+  <span class="triangle-down hidden-phone" 
+  			ng-click="broadcast($event, TO_CONTENT)"></span>
+	<h3 class="visible-phone photo-loc">
+		{{page.heroImageLocation}}
+	</h3>
 </div>

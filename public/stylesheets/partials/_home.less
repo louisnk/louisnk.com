@@ -1,5 +1,6 @@
 .home-content {
   height: 100%;
+  z-index: 1;
   li {
     display: block;
   }
@@ -14,15 +15,31 @@
 }
 
 
-@media only screen and (max-width: 1025px) {
+@media only screen and (max-width: 992px) {
   .home-content {
-    .title {
-      h1 {
-        .fontSerif8-0;
-      }
+    position: relative;
+    z-index: 5;
+    left: 15%;
+    margin: 130% 0 0;
+    color: @colorWhite;
+
+    .mobile-title {
+      .fontRegular9-0;
+      margin-bottom: -0.5em;
     }
-    .frame {
-      margin-bottom: 5em;
+    .mobile-subtitle {
+      margin: 0 8.7em;
+    }
+
+    
+    h3 {
+      .fontRegular3-0;
+    }
+    a {
+      color: @colorWhite;
+      margin-left: 4em;
+      .fontRegular1-6;
+      font-weight: 900;
     }
   }  
 }

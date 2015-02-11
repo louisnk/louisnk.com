@@ -12,7 +12,7 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 
 		var requestUrl = "./DataService";
 
-		params.location = UtilitiesService.getUserDetails();
+		params.details = UtilitiesService.getUserDetails();
 
 		switch (what) {
 			case STATE.CODE:

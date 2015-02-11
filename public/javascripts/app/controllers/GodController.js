@@ -1,10 +1,11 @@
-LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "Constants", 
-	function ($rootScope, $scope, $state, DataService, Constants) {
+LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesService", "DataService", "Constants", 
+	function ($rootScope, $scope, $state, UtilitiesService, DataService, Constants) {
 	
 	$scope.page = {};
 
 	$scope.states = {
-	  nav: true
+	  nav: true,
+	  mobile: UtilitiesService.isMobile()
 	};
 
 	$scope.NAV_EVENT = Constants.EVENT.NAVIGATION;

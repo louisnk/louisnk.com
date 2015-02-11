@@ -1,7 +1,7 @@
 <div class="container" ng-controller="HomeController">
   <div data-hero-image></div>
 
-  <div class="content home-content">
+  <div class="content home-content" ng-if="!states.mobile">
     <div class="row">
       <div class="col-md-12">
         <div class="title">
@@ -16,19 +16,17 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <div data-ng-if="false" class="row frames">
-      <ul>
-        <li ng-repeat="link in page.sections">
-          <div class="col-md-4 frame" >
-            <a href="javascript:void(0)" class="framed {{link.className}}" 
-               alt="{{link.alt}}" name="{{link.alt}}" tabindex="{{$index}}"
-               ng-click="broadcast($event, link.FRAME_CLICK, link.title.toUpperCase())">
-                {{link.title}}
-             </a>
-          </div>
-        </li>
-      </ul>
+  <div class="content home-content" ng-if="states.mobile">
+    <h1 class="mobile-title">{{page.title}}</h1>
+    <div class="mobile-subtitle">
+      <h3>{{page.tagline}}
+      </h3>
+      <a href="#" ng-click="broadcast($event, NAV_EVENT.SHOW_MENU)">
+        {{page.memo}}
+      </a>
+      
     </div>
   </div>
 </div>

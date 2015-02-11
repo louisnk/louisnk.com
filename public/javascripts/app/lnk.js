@@ -86,13 +86,14 @@ LnkAPP.controller("CodeController", ["$scope", "$stateParams", "DataService", "C
 
 	$scope.getData(Constants.STATE.CODE, dataHandler);
 }]);
-LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "DataService", "Constants", 
-	function ($rootScope, $scope, $state, DataService, Constants) {
+LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesService", "DataService", "Constants", 
+	function ($rootScope, $scope, $state, UtilitiesService, DataService, Constants) {
 	
 	$scope.page = {};
 
 	$scope.states = {
-	  nav: true
+	  nav: true,
+	  mobile: UtilitiesService.isMobile()
 	};
 
 	$scope.NAV_EVENT = Constants.EVENT.NAVIGATION;
@@ -256,7 +257,7 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 
 		var requestUrl = "./DataService";
 
-		params.location = UtilitiesService.getUserDetails();
+		params.details = UtilitiesService.getUserDetails();
 
 		switch (what) {
 			case STATE.CODE:
@@ -375,8 +376,6 @@ LnkAPP.factory("NavigationService",
 
 LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
 
-  var mobile = window.innerWidth < 993;
-
   /**
    *  Like _'s findWhere - search the passed array for
    *  the given search params
@@ -427,9 +426,25 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   var getUserDetails = function() {
     return {
       w: window.innerWidth,
-      h: window.innerHeight
+      h: window.innerHeight,
+      mobile: isMobile()
       // What else do I want to get?
     };
+  };
+
+  var isMobile = function() {
+    if( navigator.userAgent.match(/Android/i)       ||
+        navigator.userAgent.match(/webOS/i)         ||
+        navigator.userAgent.match(/iPhone/i)        ||
+        navigator.userAgent.match(/iPad/i)          ||
+        navigator.userAgent.match(/iPod/i)          ||
+        navigator.userAgent.match(/BlackBerry/i)    ||
+        navigator.userAgent.match(/Windows Phone/i) ||
+        window.innerWidth < 993) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   var parseConstants = function(section) {
@@ -460,18 +475,15 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
 
     var origin;
     var which;
-    var small = mobile ? "_small" : "";
+    var mobile = isMobile() ? "_mobile" : "";
 
-    origin = window.location.origin.match("localhost") ? 
+    origin = window.location.origin.match("localhost") || window.location.origin.match("50.0.0") ? 
              "images/hero/" : 
              "https://s3-us-west-2.amazonaws.com/louisnk/";
 
     switch (json.title.toLowerCase()) {
       case "louis kinley":
         which = Constants.STATE.HOME.toLowerCase();
-        if (small) {
-          which = "life";
-        }
         break;
       case "code":
         which = Constants.STATE.CODE.toLowerCase();
@@ -480,7 +492,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
         which = Constants.STATE.HOME.toLowerCase();
         break;
     }
-    json.heroImageUrl = origin + which.toLowerCase() + small + ".jpg";
+    json.heroImageUrl = origin + which.toLowerCase() + mobile + ".jpg";
 
     return json;
   };
@@ -494,6 +506,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
   return {
     findWhere:          findWhere,
     getUserDetails:     getUserDetails,
+    isMobile:           isMobile,
   	parseConstants: 		parseConstants,
     setHeroes:          setHeroes,
     setListeners: 			setListeners
