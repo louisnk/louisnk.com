@@ -160,7 +160,7 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   var scrollToContent = function(content) {
     
     var scroll = setInterval(function() {
-      if (content.offsetTop > window.scrollY && window.scrollY + 450 < window.innerHeight) { 
+      if (content.offsetTop > window.scrollY && window.scrollY + 350 < window.innerHeight) { 
         window.scrollTo(0, window.scrollY + 5);
       } else {
         clearInterval(scroll);
