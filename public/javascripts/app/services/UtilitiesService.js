@@ -94,6 +94,9 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     switch (json.title.toLowerCase()) {
       case "louis kinley":
         which = Constants.STATE.HOME.toLowerCase();
+        if (small) {
+          which = "life";
+        }
         break;
       case "code":
         which = Constants.STATE.CODE.toLowerCase();
