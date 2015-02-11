@@ -3,22 +3,27 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
 
   var ANIM_EVENTS = Constants.EVENT.ANIMATION;
   var scrolledAlready = false;
+  var mobile = window.innerWidth < 993;
 
   var getContent = function() {
     return document.getElementsByClassName("content")[0];
   };
 
   var scrollToContent = function(content) {
-    
-    var scroll = setInterval(function() {
-      if (content.offsetTop > window.scrollY && window.scrollY + 400 < window.innerHeight) { 
-        window.scrollTo(0, window.scrollY + 5);
-      } else {
-        clearInterval(scroll);
-      }
-
-    },2);
-    return true;
+    if (mobile) {
+      window.scrollTo(0, content.offsetTop);
+      return true;
+    } else {
+      var scroll = setInterval(function() {
+        if (content.offsetTop > window.scrollY + 10 && 
+            window.scrollY + 390 < window.innerHeight) { 
+          window.scrollTo(0, window.scrollY + 5);
+        } else {
+          clearInterval(scroll);
+        }
+      },2);
+      return true;
+    }
   };
 
   var scrollToTop = function() {
@@ -76,7 +81,7 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   };
 
   var init = function() {
-    setAutoScrollToContent();
+    if (window.innerWidth > 993) { setAutoScrollToContent(); }
     watchState();
 
     for (var EVENT in Constants.EVENT.ANIMATION) {
