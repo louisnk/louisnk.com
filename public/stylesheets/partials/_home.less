@@ -1,46 +1,70 @@
-.home-content {
-  height: 100%;
-  z-index: 1;
-  li {
-    display: block;
-  }
+@media only screen and (min-width: 993px) {
+  .home-content {
+    height: 100%;
+    z-index: 1;
 
-  .frame {
-    margin-bottom: 7em;  
-  }
+    .tagline {
+      position: relative;
+      top: -0.5em;
+      .fontSansSerif3-0;
+      letter-spacing: 0.0166em;
+    }
 
-  .framed {
-    border-width: 0.125em;
+    .frame {
+      margin-bottom: 7em;  
+    }
+
+    .framed {
+      border-width: 0.125em;
+    }
   }
 }
 
+@media only screen and (max-width: 900px) { // older iPhones
+  .home-content {
+    margin: 115% 0 0;
+    font-size: 0.9em;
+  }
+}
 
-@media only screen and (max-width: 992px) {
+@media screen and (min-width: 900px) and (max-width:992px) { // newer touchscreens
   .home-content {
     position: relative;
+    left: 7.5%;
+    margin: 135% 0 -10%;
+    // min-height: 15em;
+    float: left;
     z-index: 5;
-    left: 15%;
-    margin: 130% 0 0;
     color: @colorWhite;
+    a { color: @colorWhite; }
 
     .mobile-title {
-      .fontRegular9-0;
-      margin-bottom: -0.5em;
+      float: left;
+      h1 { 
+        .fontSansSerifBold15-0; 
+        margin: 0;
+        letter-spacing: -0.08em;
+      }
     }
-    .mobile-subtitle {
-      margin: 0 8.7em;
+    
+    .tagline {
+      position: relative;
+      top: -4.75em;
+      left: 0.2em;  
+      .fontSansSerif4-5;
+      letter-spacing: -0.02em;
+    }
+    .menu {
+      display: block;
+      position: relative;
+      top: -1.388em;
+      left: 6.09em;
+      margin: 0;
+      padding: 1em;
+      .fontSansSerif8-0;
+      color: @colorWhite;
     }
 
-    
-    h3 {
-      .fontRegular3-0;
-    }
-    a {
-      color: @colorWhite;
-      margin-left: 4em;
-      .fontRegular1-6;
-      font-weight: 900;
-    }
   }  
 }
 

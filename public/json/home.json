@@ -6,7 +6,7 @@
 	  "subtitle": "",
 	  "tagline": "mobile/web/maker",
 	  "memo": "explore",
-	  "sections": [""]
+	  "sections": []
 	},
   "desktop": {
 		"title": "LOUIS KINLEY",
@@ -15,6 +15,6 @@
 	  "subtitle": "pursuing my dreams and empowering through education",
 	  "tagline": "mobile/web/maker",
 	  "memo": "explore",
-	  "sections": [""]
+	  "sections": []
   }
 }
