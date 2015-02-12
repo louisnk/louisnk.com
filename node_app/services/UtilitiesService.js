@@ -67,7 +67,7 @@ var setHeroes = function(json) {
   var which;
 
   origin = global.details.dev ?  
-           "images/hero/" : 
+           "../images/hero/" : 
            "https://s3-us-west-2.amazonaws.com/louisnk/";
 
   switch (json.title.toLowerCase()) {
