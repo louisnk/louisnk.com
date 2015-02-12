@@ -113,13 +113,12 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "Utilities
 
 }]);
 
-LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService", "AnimationService", "Constants",
-  function($scope, $stateParams, UtilitiesService, AnimationService, Constants) {
+LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService", "Constants",
+  function($scope, $stateParams, UtilitiesService, Constants) {
 
   var dataHandler = function(data, other) {
     if (data && data.title) {
       $scope.page = data;
-      AnimationService.resizeBgHero();
     } else {  
       // get some generic json to show an error?
     }
@@ -155,11 +154,6 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
     return document.getElementsByClassName("content")[0];
   };
 
-  var resizeBgHero = function() {
-    var hero = document.getElementsByClassName("hero-image")[0];
-    hero.style.height(window.innerHeight + 60);
-    alert("resize");
-  };
 
   var scrollToContent = function(content) {
     var previousY = 0;
@@ -251,8 +245,7 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   };
 
   return {
-    init: init,
-    resizeBgHero: resizeBgHero
+    init: init
   };
 }]);
 LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Constants", 

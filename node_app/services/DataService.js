@@ -1,7 +1,5 @@
-// var rr = require("recursive-readdir");
 var Utils = require("./UtilitiesService");
 var STATE = global.constants.STATE;
-global.mobile = false;
 
 var findModelFor = function(which, ids, callback) {
 
@@ -37,7 +35,7 @@ var findModelFor = function(which, ids, callback) {
 		fs.readdir(dir, function(err, imgs) {
 			if (!err) { 
 				getJson(which, function(json) {
-					json = global.mobile ? json.mobile : json.desktop;
+					json = global.details.mobile ? json.mobile : json.desktop;
 					return callback(Utils.combineJson(dir, imgs, json));
 				});
 			} else {
