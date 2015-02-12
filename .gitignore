@@ -11,3 +11,4 @@ _old/*
 .bowerrc
 practice/*
 .elasticbeanstalk/
+*/images/*
