@@ -1,5 +1,6 @@
-var rr = require("recursive-readdir");
+// var rr = require("recursive-readdir");
 var Utils = require("./UtilitiesService");
+var STATE = global.constants.STATE;
 global.mobile = false;
 
 var findModelFor = function(which, ids, callback) {
@@ -19,11 +20,11 @@ var findModelFor = function(which, ids, callback) {
 	};
 
 	switch (which) {
-		case "art":
-		case "code":
-		case "home":
-		case "life":
-		case "projects":
+		case STATE.ART.toLowerCase():
+		case STATE.CODE.toLowerCase():
+		case STATE.HOME.toLowerCase():
+		case STATE.LIFE.toLowerCase():
+		case STATE.PROJECTS.toLowerCase():
 			dir = path.join(baseDir, "images", which);
 			break;
 

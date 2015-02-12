@@ -1,5 +1,8 @@
 // Utilities Service for Louisnk.com
 
+/**
+ *	Like _'s, but probably not as fast.
+ */
 var filterFor = function(dir, what) {
 	return dir.filter(function(file, i) {
 		return file.indexOf(what) !== -1;
@@ -7,12 +10,22 @@ var filterFor = function(dir, what) {
 
 };
 
+/**
+ *	Parent function for setting images dynamically in a page's data model
+ */
 var combineJson = function(base, imgs, json) {
 	var combinedJson = combineJsonAndImages(base, imgs, json);
 	combinedJson = setHeroes(combinedJson);
 	return combinedJson;
 };
 
+/**
+ *	Returns json with image "objects" in place for a given page
+ *
+ *	@param 	base				[string] path to the containing directory
+ *	@param	imgs 				[array] array of image filenames
+ *	@param	json 				[Object] the data model for the page
+ */
 var combineJsonAndImages = function(base, imgs, json) {
 
 	if (json && json.sections) {
@@ -35,6 +48,13 @@ var combineJsonAndImages = function(base, imgs, json) {
 	return json;
 };
 
+
+/**
+ *	Returns "image" objects with properties url and alt
+ *
+ *	@param	base				[string] path to the containing directory
+ *	@param	image 			[string] name of the image file
+ */
 var makeImageObjects = function(base, image) {
 	
 	if (image) {
@@ -47,6 +67,10 @@ var makeImageObjects = function(base, image) {
 	}
 };
 
+/**
+ *	Mostly for dev purposes at this point, but also useful for 
+ *	setting up some custom analytics if I want
+ */
 var recordUserDetails = function(details) {
 
 	if (typeof details === "object" && 
@@ -60,6 +84,12 @@ var recordUserDetails = function(details) {
 	}
 };
 
+/**
+ *	Sets "hero" images dynamically, based on user detail flags
+ * 	modifies and returns the original json structure
+ *
+ *	@param json 				[object] the data model for a page
+ */
 var setHeroes = function(json) {
 	var STATE = global.constants.STATE;
 	var mobile = global.details.mobile ? "_mobile" : "";

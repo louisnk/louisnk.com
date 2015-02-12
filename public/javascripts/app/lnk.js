@@ -113,12 +113,13 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "Utilities
 
 }]);
 
-LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService", "Constants",
-  function($scope, $stateParams, UtilitiesService, Constants) {
+LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService", "AnimationService", "Constants",
+  function($scope, $stateParams, UtilitiesService, AnimationService, Constants) {
 
   var dataHandler = function(data, other) {
     if (data && data.title) {
       $scope.page = data;
+      AnimationService.resizeBgHero();
     } else {  
       // get some generic json to show an error?
     }
@@ -152,6 +153,12 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
 
   var getContent = function() {
     return document.getElementsByClassName("content")[0];
+  };
+
+  var resizeBgHero = function() {
+    var hero = document.getElementsByClassName("hero-image")[0];
+    hero.style.height(window.innerHeight + 60);
+    alert("resize");
   };
 
   var scrollToContent = function(content) {
@@ -244,7 +251,8 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   };
 
   return {
-    init: init
+    init: init,
+    resizeBgHero: resizeBgHero
   };
 }]);
 LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Constants", 
@@ -430,6 +438,10 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
 
   };
 
+  /**
+   *  Get things that aren't easy to get from the server
+   *  returns an [object]
+   */
   var getUserDetails = function() {
     return {
       w: window.innerWidth,
@@ -440,6 +452,9 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     };
   };
 
+  /**
+   *  Returns boolean true or false
+   */
   var isMobile = function() {
     if( navigator.userAgent.match(/Android/i)       ||
         navigator.userAgent.match(/webOS/i)         ||
@@ -455,6 +470,10 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     }
   };
 
+  /**
+   *  May not be needed anymore, with addition of constants on the server
+   *  which should be browserified for simplicity
+   */
   var parseConstants = function(section) {
     var keys = Object.keys(section);
 

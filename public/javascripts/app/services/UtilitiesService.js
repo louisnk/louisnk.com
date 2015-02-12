@@ -51,6 +51,10 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
 
   };
 
+  /**
+   *  Get things that aren't easy to get from the server
+   *  returns an [object]
+   */
   var getUserDetails = function() {
     return {
       w: window.innerWidth,
@@ -61,6 +65,9 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     };
   };
 
+  /**
+   *  Returns boolean true or false
+   */
   var isMobile = function() {
     if( navigator.userAgent.match(/Android/i)       ||
         navigator.userAgent.match(/webOS/i)         ||
@@ -76,6 +83,10 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     }
   };
 
+  /**
+   *  May not be needed anymore, with addition of constants on the server
+   *  which should be browserified for simplicity
+   */
   var parseConstants = function(section) {
     var keys = Object.keys(section);
 
