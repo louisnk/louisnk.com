@@ -6,6 +6,8 @@
 global.path = require('path');
 global.log = console.log;
 global.fs = require('fs');
+global.constants = require("./node_app/constants");
+global.details = {};
 
 var express = require('express');
 var routes = require('./routes');

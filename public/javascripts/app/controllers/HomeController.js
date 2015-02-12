@@ -3,12 +3,7 @@ LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService
 
   var dataHandler = function(data, other) {
     if (data && data.title) {
-      if (data.sections.length > 0) {
-        for (var i = 0; i < data.sections.length; i++) {
-          data.sections[i] = UtilitiesService.parseConstants(data.sections[i]);
-        }
-        $scope.page = data;
-      }
+      $scope.page = data;
     } else {
       // get some generic json to show an error?
     }

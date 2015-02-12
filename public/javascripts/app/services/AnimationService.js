@@ -3,13 +3,14 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
 
   var ANIM_EVENTS = Constants.EVENT.ANIMATION;
   var scrolledAlready = false;
-  var mobile = window.innerWidth < 993;
+  var mobile = UtilitiesService.isMobile();
 
   var getContent = function() {
     return document.getElementsByClassName("content")[0];
   };
 
   var scrollToContent = function(content) {
+    var previousY = 0;
     if (mobile) {
       window.scrollTo(0, content.offsetTop);
       return true;
@@ -17,7 +18,11 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
       var scroll = setInterval(function() {
         if (content.offsetTop > window.scrollY + 10 && 
             window.scrollY + 390 < window.innerHeight) { 
+          previousY = window.scrollY;
           window.scrollTo(0, window.scrollY + 5);
+          if (window.scrollY === previousY) {
+            clearInterval(scroll);
+          }
         } else {
           clearInterval(scroll);
         }
@@ -27,7 +32,11 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   };
 
   var scrollToTop = function() {
-  	window.scrollTo(0, 0);
+    if (!mobile) {
+  	  window.scrollTo(0, 0);
+    } else {
+      window.scrollTo(0, 100);
+    }
     return true;
   };
 

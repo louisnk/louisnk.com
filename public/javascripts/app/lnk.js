@@ -118,12 +118,7 @@ LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService
 
   var dataHandler = function(data, other) {
     if (data && data.title) {
-      if (data.sections.length > 0) {
-        for (var i = 0; i < data.sections.length; i++) {
-          data.sections[i] = UtilitiesService.parseConstants(data.sections[i]);
-        }
-        $scope.page = data;
-      }
+      $scope.page = data;
     } else {
       // get some generic json to show an error?
     }
@@ -153,13 +148,14 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
 
   var ANIM_EVENTS = Constants.EVENT.ANIMATION;
   var scrolledAlready = false;
-  var mobile = window.innerWidth < 993;
+  var mobile = UtilitiesService.isMobile();
 
   var getContent = function() {
     return document.getElementsByClassName("content")[0];
   };
 
   var scrollToContent = function(content) {
+    var previousY = 0;
     if (mobile) {
       window.scrollTo(0, content.offsetTop);
       return true;
@@ -167,7 +163,11 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
       var scroll = setInterval(function() {
         if (content.offsetTop > window.scrollY + 10 && 
             window.scrollY + 390 < window.innerHeight) { 
+          previousY = window.scrollY;
           window.scrollTo(0, window.scrollY + 5);
+          if (window.scrollY === previousY) {
+            clearInterval(scroll);
+          }
         } else {
           clearInterval(scroll);
         }
@@ -177,7 +177,11 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   };
 
   var scrollToTop = function() {
-  	window.scrollTo(0, 0);
+    if (!mobile) {
+  	  window.scrollTo(0, 0);
+    } else {
+      window.scrollTo(0, 100);
+    }
     return true;
   };
 
@@ -273,7 +277,6 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 		if (!existingData) {
 			$http.get(requestUrl, { params: params, cache: Cache })
 				 .success(function(data, status, headers, config) {
-				 	data = UtilitiesService.setHeroes(data);
 				 	Cache.put(what, data);
 				 	callback(data);
 				 })
@@ -376,6 +379,10 @@ LnkAPP.factory("NavigationService",
 
 LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
 
+  var STATE = Constants.STATE;
+  var dev = window.location.origin.match("50.0.0") || 
+            window.location.origin.match("localhost") ? true : false;
+
   /**
    *  Like _'s findWhere - search the passed array for
    *  the given search params
@@ -427,6 +434,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     return {
       w: window.innerWidth,
       h: window.innerHeight,
+      dev: dev,
       mobile: isMobile()
       // What else do I want to get?
     };
@@ -471,32 +479,6 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     return section;
   };
 
-  var setHeroes = function(json) {
-
-    var origin;
-    var which;
-    var mobile = isMobile() ? "_mobile" : "";
-
-    origin = window.location.origin.match("localhost") || window.location.origin.match("50.0.0") ? 
-             "images/hero/" : 
-             "https://s3-us-west-2.amazonaws.com/louisnk/";
-
-    switch (json.title.toLowerCase()) {
-      case "louis kinley":
-        which = Constants.STATE.HOME.toLowerCase();
-        break;
-      case "code":
-        which = Constants.STATE.CODE.toLowerCase();
-        break;
-      default:
-        which = Constants.STATE.HOME.toLowerCase();
-        break;
-    }
-    json.heroImageUrl = origin + which.toLowerCase() + mobile + ".jpg";
-
-    return json;
-  };
-
   var setListeners = function(event, callback) {
     $rootScope.$on(event, function(event, eventData) {
       callback(event, eventData);
@@ -508,7 +490,6 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     getUserDetails:     getUserDetails,
     isMobile:           isMobile,
   	parseConstants: 		parseConstants,
-    setHeroes:          setHeroes,
     setListeners: 			setListeners
   };
 }]);

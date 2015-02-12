@@ -28,7 +28,6 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 		if (!existingData) {
 			$http.get(requestUrl, { params: params, cache: Cache })
 				 .success(function(data, status, headers, config) {
-				 	data = UtilitiesService.setHeroes(data);
 				 	Cache.put(what, data);
 				 	callback(data);
 				 })

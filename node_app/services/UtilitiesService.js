@@ -7,16 +7,18 @@ var filterFor = function(dir, what) {
 
 };
 
-var combineJsonAndImages = function(base, imgs, jsonString) {
+var combineJson = function(base, imgs, json) {
+	var combinedJson = combineJsonAndImages(base, imgs, json);
+	combinedJson = setHeroes(combinedJson);
+	return combinedJson;
+};
 
-	if (jsonString) {
-		jsonString = JSON.parse(jsonString);
-	}
+var combineJsonAndImages = function(base, imgs, json) {
 
-	if (jsonString && jsonString.sections) {
+	if (json && json.sections) {
 
-		for (var i = jsonString.sections.length - 1; i >= 0; i--) {
-			var section = jsonString.sections[i];
+		for (var i = json.sections.length - 1; i >= 0; i--) {
+			var section = json.sections[i];
 			var images = filterFor(imgs, section.imgTag);
 
 			section.images = [];
@@ -27,10 +29,10 @@ var combineJsonAndImages = function(base, imgs, jsonString) {
 			}
 		};
 	} else {
-		console.error("There's an error in this json file: \n" + jsonString)
+		// console.error("There's an error in this json file: \n" + json)
 	}
 
-	return jsonString;
+	return json;
 };
 
 var makeImageObjects = function(base, image) {
@@ -46,18 +48,46 @@ var makeImageObjects = function(base, image) {
 };
 
 var recordUserDetails = function(details) {
+
 	if (typeof details === "object" && 
 			Object.keys(details) && 
 			Object.keys(details).length) {
 		// TODO: set up DB connection to log these things - or use GA
+		global.details = details;
 		console.log(details);
 	} else {
 		console.log(details);
 	}
 };
 
+var setHeroes = function(json) {
+	var STATE = global.constants.STATE;
+	var mobile = global.details.mobile ? "_mobile" : "";
+  var origin;
+  var which;
+
+  origin = global.details.dev ?  
+           "images/hero/" : 
+           "https://s3-us-west-2.amazonaws.com/louisnk/";
+
+  switch (json.title.toLowerCase()) {
+    case "louis kinley":
+      which = STATE.HOME;
+      break;
+    case "code":
+      which = STATE.CODE;
+      break;
+    default:
+      which = STATE.HOME;
+      break;
+  }
+  json.heroImageUrl = origin + which.toLowerCase() + mobile + ".jpg";
+
+  return json;
+};
+
 var UtilitiesService = module.exports = {
-	combineJson: 								combineJsonAndImages,
+	combineJson: 								combineJson,
 	filterFor: 									filterFor,
 	recordUserDetails: 					recordUserDetails
 };

@@ -1,5 +1,6 @@
 var rr = require("recursive-readdir");
 var Utils = require("./UtilitiesService");
+global.mobile = false;
 
 var findModelFor = function(which, ids, callback) {
 
@@ -10,7 +11,7 @@ var findModelFor = function(which, ids, callback) {
 		fs.readFile(path.join(baseDir, "json", page + ".json"), {encoding: "utf8"}, 
 			function(err, contents) {
 				if (!err) { 
-					return cb(contents);
+					return cb(JSON.parse(contents));
 				} else {
 					console.error(err);
 				}
@@ -35,6 +36,7 @@ var findModelFor = function(which, ids, callback) {
 		fs.readdir(dir, function(err, imgs) {
 			if (!err) { 
 				getJson(which, function(json) {
+					json = global.mobile ? json.mobile : json.desktop;
 					return callback(Utils.combineJson(dir, imgs, json));
 				});
 			} else {
@@ -57,20 +59,15 @@ var sendJSON = function(res, data) {
 var handleRequest = function(req, res) {
 	var which = req.params[0];
 	var ids = req.query.ids || false;
-
+	log(req.query);
 	if (req.query["details"]) {
 		var details = JSON.parse(decodeURIComponent(req.query["details"]));
+		log(details);
 		Utils.recordUserDetails(details);
 	}
 
 	findModelFor(which, ids, function(model) {
 		if (model && typeof model !== "string")	 {
-			if (details.mobile) {
-				model = model.mobile;
-			} else {
-				model = model.desktop;
-			}
-
 			sendJSON(res, JSON.stringify(model));
 		} else {
 			sendJSON(res, JSON.stringify({ error: model }));

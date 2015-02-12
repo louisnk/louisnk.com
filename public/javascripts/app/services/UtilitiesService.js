@@ -1,5 +1,9 @@
 LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootScope, Constants) {
 
+  var STATE = Constants.STATE;
+  var dev = window.location.origin.match("50.0.0") || 
+            window.location.origin.match("localhost") ? true : false;
+
   /**
    *  Like _'s findWhere - search the passed array for
    *  the given search params
@@ -51,6 +55,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     return {
       w: window.innerWidth,
       h: window.innerHeight,
+      dev: dev,
       mobile: isMobile()
       // What else do I want to get?
     };
@@ -95,32 +100,6 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     return section;
   };
 
-  var setHeroes = function(json) {
-
-    var origin;
-    var which;
-    var mobile = isMobile() ? "_mobile" : "";
-
-    origin = window.location.origin.match("localhost") || window.location.origin.match("50.0.0") ? 
-             "images/hero/" : 
-             "https://s3-us-west-2.amazonaws.com/louisnk/";
-
-    switch (json.title.toLowerCase()) {
-      case "louis kinley":
-        which = Constants.STATE.HOME.toLowerCase();
-        break;
-      case "code":
-        which = Constants.STATE.CODE.toLowerCase();
-        break;
-      default:
-        which = Constants.STATE.HOME.toLowerCase();
-        break;
-    }
-    json.heroImageUrl = origin + which.toLowerCase() + mobile + ".jpg";
-
-    return json;
-  };
-
   var setListeners = function(event, callback) {
     $rootScope.$on(event, function(event, eventData) {
       callback(event, eventData);
@@ -132,7 +111,6 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     getUserDetails:     getUserDetails,
     isMobile:           isMobile,
   	parseConstants: 		parseConstants,
-    setHeroes:          setHeroes,
     setListeners: 			setListeners
   };
 }]);
