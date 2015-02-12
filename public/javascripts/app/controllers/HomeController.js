@@ -4,7 +4,7 @@ LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService
   var dataHandler = function(data, other) {
     if (data && data.title) {
       $scope.page = data;
-    } else {
+    } else {  
       // get some generic json to show an error?
     }
   };
