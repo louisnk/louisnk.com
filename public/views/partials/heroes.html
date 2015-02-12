@@ -3,7 +3,7 @@
 
   <span class="triangle-down hidden-phone" 
   			ng-click="broadcast($event, TO_CONTENT)"></span>
-	<h3 class="visible-phone photo-loc">
-		{{page.heroImageLocation}}
+	<h3 ng-if="states.mobile" class="photo-loc">
+		{{page.heroIageLocation}}
 	</h3>
 </div>
