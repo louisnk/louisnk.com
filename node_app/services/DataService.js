@@ -59,10 +59,9 @@ var sendJSON = function(res, data) {
 var handleRequest = function(req, res) {
 	var which = req.params[0];
 	var ids = req.query.ids || false;
-	log(req.query);
+
 	if (req.query["details"]) {
 		var details = JSON.parse(decodeURIComponent(req.query["details"]));
-		log(details);
 		Utils.recordUserDetails(details);
 	}
 

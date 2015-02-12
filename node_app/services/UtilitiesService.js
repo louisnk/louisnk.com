@@ -54,7 +54,7 @@ var recordUserDetails = function(details) {
 			Object.keys(details).length) {
 		// TODO: set up DB connection to log these things - or use GA
 		global.details = details;
-		console.log(details);
+
 	} else {
 		console.log(details);
 	}
