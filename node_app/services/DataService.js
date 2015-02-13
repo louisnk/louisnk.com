@@ -36,7 +36,7 @@ var findModelFor = function(which, ids, callback) {
 			if (!err) { 
 				getJson(which, function(json) {
 					json = global.details.mobile ? json.mobile : json.desktop;
-					return callback(Utils.combineJson(dir, imgs, json));
+					return callback(Utils.combineJson(dir, imgs, json, which));
 				});
 			} else {
 				return callback("Failed to read " + dir + 
