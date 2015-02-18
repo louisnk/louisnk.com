@@ -96,7 +96,7 @@ module.exports = function(grunt) {
       },
       less: {
         files: [
-          "<%= config.app %>/stylesheets/*.less"
+          "<%= config.app %>/stylesheets/**/*.less"
         ],
         tasks: [ "less" ],
         options: {
@@ -172,7 +172,9 @@ module.exports = function(grunt) {
     "watch" 
   ]);
 
-  grunt.registerTask("js", [ "watch:js_dev" ]);
+  grunt.registerTask("js", [ 
+    "watch:js_dev", "watch:less"
+  ]);
 
   grunt.registerTask("s", [ "serve" ]);
 
