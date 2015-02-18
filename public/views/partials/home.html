@@ -12,9 +12,10 @@
         </div>
         <div class="subtitle">
           <!-- <h2>{{page.subtitle}}</h2> -->
-          <a href="#" ng-click="broadcast($event, NAV_EVENT.EXPLORE)">
+          <a href="#" ng-click="broadcast($event, ANIM_EVENT.EXPLORE)">
             <h4>{{page.memo}}</h4>
           </a>
+          <ul data-dropin-menu></ul>
         </div>
       </div>
     </div>
@@ -28,7 +29,6 @@
     <a href="#" ng-click="broadcast($event, NAV_EVENT.SHOW_MENU)" class="menu">
       {{page.memo}}
     </a>
-      
   </div>
 </div>
 

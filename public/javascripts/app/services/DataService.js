@@ -32,7 +32,7 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 				 	callback(data);
 				 })
 				 .error(function(data, status, headers, config) {
-				 	console.log(data, status);
+				 		new Error(data, status);
 				 });
 		} else {
 			return callback(existingData);

@@ -9,9 +9,11 @@ LnkAPP.constant("Constants", {
     NAVIGATION: {
       CLICK_CODE:             "CLICK_CODE",
       CLICK_ART:              "CLICK_ART",
-      CLICK_LIFE:             "CLICK_LIFE"
+      CLICK_LIFE:             "CLICK_LIFE",
+      SHOW_MENU:              "SHOW_MENU"
     },
     ANIMATION: {
+      EXPLORE:                "EXPLORE",
       SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT" 
     }
   },

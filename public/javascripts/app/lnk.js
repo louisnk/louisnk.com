@@ -54,9 +54,11 @@ LnkAPP.constant("Constants", {
     NAVIGATION: {
       CLICK_CODE:             "CLICK_CODE",
       CLICK_ART:              "CLICK_ART",
-      CLICK_LIFE:             "CLICK_LIFE"
+      CLICK_LIFE:             "CLICK_LIFE",
+      SHOW_MENU:              "SHOW_MENU"
     },
     ANIMATION: {
+      EXPLORE:                "EXPLORE",
       SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT" 
     }
   },
@@ -88,17 +90,32 @@ LnkAPP.controller("CodeController", ["$scope", "$stateParams", "DataService", "C
 }]);
 LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesService", "DataService", "Constants", 
 	function ($rootScope, $scope, $state, UtilitiesService, DataService, Constants) {
-	
+	var EVENT = Constants.EVENT;
+
 	$scope.page = {};
 
+	$scop.menu = [
+		{
+			EVENT: EVENT.NAVIGATION.CLICK_CODE,
+			name: Contsants.STATE.CODE
+		},{
+			EVENT: EVENT.NAVIGATION.CLICK_ART,
+			name: Contsants.STATE.ART
+		},{
+			EVENT: EVENT.NAVIGATION.CLICK_LIFE,
+			name: Contsants.STATE.LIFE
+		}
+	];
+
 	$scope.states = {
-	  nav: true,
+	  nav: false,
 	  mobile: UtilitiesService.isMobile()
 	};
 
-	$scope.NAV_EVENT = Constants.EVENT.NAVIGATION;
-	$scope.TO_CONTENT = Constants.EVENT.ANIMATION.SCROLL_TO_CONTENT;
+	$scope.NAV_EVENT = EVENT.NAVIGATION;
+	$scope.TO_CONTENT = EVENT.ANIMATION.SCROLL_TO_CONTENT;
 	$scope.STATE = Constants.STATE;
+	$scope.ANIM_EVENT = EVENT.NANIMATION;
 
 	$scope.broadcast = function(e, eventName, eventData) {
 	  if (e && e.isDefaultPrevented) { e.preventDefault(); }
@@ -282,7 +299,7 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 				 	callback(data);
 				 })
 				 .error(function(data, status, headers, config) {
-				 	console.log(data, status);
+				 		new Error(data, status);
 				 });
 		} else {
 			return callback(existingData);

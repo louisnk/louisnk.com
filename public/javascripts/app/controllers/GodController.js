@@ -1,16 +1,31 @@
 LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesService", "DataService", "Constants", 
 	function ($rootScope, $scope, $state, UtilitiesService, DataService, Constants) {
-	
+	var EVENT = Constants.EVENT;
+
 	$scope.page = {};
 
+	$scop.menu = [
+		{
+			EVENT: EVENT.NAVIGATION.CLICK_CODE,
+			name: Contsants.STATE.CODE
+		},{
+			EVENT: EVENT.NAVIGATION.CLICK_ART,
+			name: Contsants.STATE.ART
+		},{
+			EVENT: EVENT.NAVIGATION.CLICK_LIFE,
+			name: Contsants.STATE.LIFE
+		}
+	];
+
 	$scope.states = {
-	  nav: true,
+	  nav: false,
 	  mobile: UtilitiesService.isMobile()
 	};
 
-	$scope.NAV_EVENT = Constants.EVENT.NAVIGATION;
-	$scope.TO_CONTENT = Constants.EVENT.ANIMATION.SCROLL_TO_CONTENT;
+	$scope.NAV_EVENT = EVENT.NAVIGATION;
+	$scope.TO_CONTENT = EVENT.ANIMATION.SCROLL_TO_CONTENT;
 	$scope.STATE = Constants.STATE;
+	$scope.ANIM_EVENT = EVENT.NANIMATION;
 
 	$scope.broadcast = function(e, eventName, eventData) {
 	  if (e && e.isDefaultPrevented) { e.preventDefault(); }

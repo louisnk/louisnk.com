@@ -28,7 +28,7 @@ module.exports = function(grunt) {
           compress: true
         },
         files: {
-          "./<%= config.dev %>/public/stylesheets/LNK.css": "./<%= config.app %>/stylesheets/**/*.less"
+          "<%= config.app %>/public/stylesheets/lnk.css": "<%= config.app %>/stylesheets/**/*.less"
         }
       }
     },
@@ -84,15 +84,6 @@ module.exports = function(grunt) {
           "!<%= config.app %>/javascripts/app/lnk.js"
         ],
         tasks: [ "jshint", "concat:js_frontend" ]
-      },
-      js_frontend: {
-        files: [
-          "<%= config.app %>/javascript/**/*.js"
-        ],
-        tasks: [ "concat:js_frontend", "uglify:frontend" ],
-        options: {
-          livereload: true
-        }
       },
       less: {
         files: [
@@ -173,7 +164,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask("js", [ 
-    "watch:js_dev", "watch:less"
+    "watch:js_dev"
   ]);
 
   grunt.registerTask("s", [ "serve" ]);

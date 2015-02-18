@@ -1,0 +1,12 @@
+<div class="header" data-ng-if="states.nav">
+	<a href="#" data-ng-click="broadcast($event, NAV_EVENT.SHOW_MENU"
+							class="menu-button">
+		<span class="icon icon-menu3"></span>
+	</a>
+	<ul class="menu">
+		<li class="menu-item" data-ng-repeat="item in menu"
+				data-ng-click="broadcast($event, NAV_EVENT[item.EVENT])">
+			{{item.name}}
+		</li>
+	</ul>
+</div>
