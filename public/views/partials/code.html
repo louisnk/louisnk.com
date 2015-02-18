@@ -2,25 +2,19 @@
   <div data-hero-image></div>
 
   <div class="content code-content">
-    <div class="row title">
+    <div class="row">
       <div class="col-d-12">
-        <h1>{{page.title}}</h1>
+        <div class="title">
+          <h1>{{page.title}}</h1>
+        </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="roller">
-        <ul class="tiles">
-          <li class="col-d-3 section" ng-repeat="project in page.sections">
-            <a href="javascript:void(0)" class="tile"
-               name="{{project.images[0].alt}}" 
-               ng-click="broadcast($event, STATE.PROJECT, project.id)">
-               
-              <img src="{{project.images[0].url}}" alt="{{project.images[0].alt}}">
-              <h2 class="section-title">{{project.title}}</h2>
-            </a>
-          </li>
-        </ul>
+      <div class="col-d-4 col-m-12 circle-graph" 
+           ng-repeat="chart in page.skills">
+
+         
       </div>
     </div>
   </div>  

@@ -13,9 +13,9 @@ var filterFor = function(dir, what) {
 /**
  *	Parent function for setting images dynamically in a page's data model
  */
-var combineJson = function(base, imgs, json) {
+var combineJson = function(base, imgs, json, which) {
 	var combinedJson = combineJsonAndImages(base, imgs, json);
-	combinedJson = setHeroes(combinedJson);
+	combinedJson = setHeroes(combinedJson, which);
 	return combinedJson;
 };
 
@@ -42,7 +42,7 @@ var combineJsonAndImages = function(base, imgs, json) {
 			}
 		};
 	} else {
-		// console.error("There's an error in this json file: \n" + json)
+		// TODO: Improve error logging
 	}
 
 	return json;
@@ -57,7 +57,7 @@ var combineJsonAndImages = function(base, imgs, json) {
  */
 var makeImageObjects = function(base, image) {
 	
-	if (image) {
+	if (base && image) {
 		return { url: 
 			path.join(base, image).split("public")[1], 
 			alt: image.split(".")[0] 
@@ -90,7 +90,7 @@ var recordUserDetails = function(details) {
  *
  *	@param json 				[object] the data model for a page
  */
-var setHeroes = function(json) {
+var setHeroes = function(json, state) {
 	var STATE = global.constants.STATE;
 	var mobile = global.details.mobile ? "_mobile" : "";
   var origin;
@@ -100,11 +100,11 @@ var setHeroes = function(json) {
            "../images/hero/" : 
            "https://s3-us-west-2.amazonaws.com/louisnk/";
 
-  switch (json.title.toLowerCase()) {
-    case "louis kinley":
+  switch (state.toLowerCase()) {
+    case STATE.HOME.toLowerCase():
       which = STATE.HOME;
       break;
-    case "code":
+    case STATE.CODE.toLowerCase():
       which = STATE.CODE;
       break;
     default:
