@@ -4,16 +4,16 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "Utilities
 
 	$scope.page = {};
 
-	$scop.menu = [
+	$scope.menu = [
 		{
 			EVENT: EVENT.NAVIGATION.CLICK_CODE,
-			name: Contsants.STATE.CODE
+			name: Constants.STATE.CODE
 		},{
 			EVENT: EVENT.NAVIGATION.CLICK_ART,
-			name: Contsants.STATE.ART
+			name: Constants.STATE.ART
 		},{
 			EVENT: EVENT.NAVIGATION.CLICK_LIFE,
-			name: Contsants.STATE.LIFE
+			name: Constants.STATE.LIFE
 		}
 	];
 

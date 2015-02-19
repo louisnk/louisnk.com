@@ -1,53 +1,77 @@
 {
-	"title": "CODE",
-	"heroImageAlt": "Bridger mountains as seen from Belgrade, MT",
-	"heroImageUrl": "/images/hero/code.jpg",
-	"subtitle": "",
-	"sections": [
-		{
-			"id": "p0",
-			"title": "Louisnk.com",
-			"subtitle": "You're looking at it!",
-			"tech": [
-				"Angular.js 1.3",
-				"LESS",
-				"Node.js"
-			],
-			"description": "I made it.",
-			"images": [],
-			"imgTag": "lnk"
-		},{
-			"id": "p1",
-			"title": "The GazReport",
-			"subtitle": "Responsive, and clean",
-			"tech": [
-				"Backbone.js",
-				"LESS",
-				"Bootstrap",
-				"Wordpress"
-			],
-			"description": "A basic, SEO friendly site for a real estate professional",
-			"images": [""],
-			"imgTag": "gazreport"
-		},{
-			"id": "p2",
-			"title": "BreweryScarves",
-			"subtitle": "Scarves for Beer enthusiasts",
-			"tech": [
-				"Bootstrap",
-				"Wordpress"
-			],
-			"description": "A simple, SEO'd site for a small company",
-			"images": [""],
-			"imgTag": "bscarves"
-		},{
-			"id": "",
-			"title": "",
-			"subtitle": "",
-			"tech": [""],
-			"description": "",
-			"images": [""],
-			"imgTag": ""
-		}
-	]
+	"desktop": {
+		"title": "CODE",
+		"heroImageAlt": "Bridger mountains as seen from Belgrade, MT",
+		"heroImageUrl": "/images/hero/code.jpg",
+		"subtitle": "",
+		"sections": [
+			{
+				"id": "p0",
+				"title": "Louisnk.com",
+				"subtitle": "You're looking at it!",
+				"tech": [
+					"Angular.js 1.3",
+					"LESS",
+					"Node.js"
+				],
+				"description": "I made it.",
+				"images": [],
+				"imgTag": "lnk"
+			},{
+				"id": "p1",
+				"title": "The GazReport",
+				"subtitle": "Responsive, and clean",
+				"tech": [
+					"Backbone.js",
+					"LESS",
+					"Bootstrap",
+					"Wordpress"
+				],
+				"description": "A basic, SEO friendly site for a real estate professional",
+				"images": [""],
+				"imgTag": "gazreport"
+			},{
+				"id": "p2",
+				"title": "BreweryScarves",
+				"subtitle": "Scarves for Beer enthusiasts",
+				"tech": [
+					"Bootstrap",
+					"Wordpress"
+				],
+				"description": "A simple, SEO'd site for a small company",
+				"images": [""],
+				"imgTag": "bscarves"
+			},{
+				"id": "",
+				"title": "",
+				"subtitle": "",
+				"tech": [""],
+				"description": "",
+				"images": [""],
+				"imgTag": ""
+			}
+		],
+		"skills": [
+			{
+				"title": "JS",
+				"level": "92",
+				"description": "Who needs strong typing?"
+			},
+			{
+				"title": "RTFM",
+				"level": "95",
+				"description": "Teaching yourself demands API doc literacy"
+			},
+			{
+				"title": "HTML/CSS",
+				"level": "ninja",
+				"description": "I've been making websites for 18 years."
+			}
+		]
+	},
+	"mobile": {
+		"title": "CODE",
+		"heroImageAlt": "Bridger mountains as seen from Belgrade, MT",
+		"heroImageUrl": "/images/hero/code.jpg"
+	}	
 }
