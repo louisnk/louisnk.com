@@ -2,7 +2,7 @@
 	"desktop": {
 		"title": "CODE",
 		"heroImageAlt": "Bridger mountains as seen from Belgrade, MT",
-		"heroImageUrl": "/images/hero/code.jpg",
+		"heroImageUrl": "",
 		"subtitle": "",
 		"sections": [
 			{
@@ -55,23 +55,46 @@
 			{
 				"title": "JS",
 				"level": "92",
-				"description": "Who needs strong typing?"
+				"description": "Who needs strong typing?",
+				"content": ""
 			},
 			{
 				"title": "RTFM",
 				"level": "95",
-				"description": "Teaching yourself demands API doc literacy"
+				"description": "Teaching yourself demands doc literacy",
+				"content": ""
 			},
 			{
 				"title": "HTML/CSS",
 				"level": "ninja",
-				"description": "I've been making websites for 18 years."
+				"description": "I've been making websites for 18 years.",
+				"content": ""
 			}
 		]
 	},
 	"mobile": {
 		"title": "CODE",
 		"heroImageAlt": "Bridger mountains as seen from Belgrade, MT",
-		"heroImageUrl": "/images/hero/code.jpg"
+		"heroImageUrl": "",
+		"skills": [
+			{
+				"title": "JS",
+				"level": "92",
+				"description": "Who needs strong typing?",
+				"content": ""
+			},
+			{
+				"title": "RTFM",
+				"level": "95",
+				"description": "Teaching yourself demands doc literacy",
+				"content": ""
+			},
+			{
+				"title": "HTML/CSS",
+				"level": "ninja",
+				"description": "I've been making websites for 18 years.",
+				"content": ""
+			}
+		]
 	}	
 }

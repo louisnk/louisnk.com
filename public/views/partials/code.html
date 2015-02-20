@@ -13,9 +13,9 @@
     <div class="row">
       <div class="col-d-4 col-m-12 circle-graph" 
            ng-repeat="chart in page.skills">
-        <canvas>
-          <arc></arc>
-        </canvas>
+        
+        <canvas ng-class="chart.title"></canvas>
+
         <h2 class="subtitle">{{chart.title}}</h2>
       </div>
     </div>
