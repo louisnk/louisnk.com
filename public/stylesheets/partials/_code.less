@@ -1,51 +1,16 @@
 .code-content {
-	li {
-		display: inline-block;
-	}
-
-	[class^=col-] {
-		padding: 1em;
-	}
-
-	.roller {
+	canvas {
 		display: block;
-		float: left;
-		width: 80%;
-		height: 100%;
-		margin: 0 5.9% 5em;
-		border: 1.5em solid @colorBlack;
-		padding: 4em;
+		width: 90%;
+		height: 40%;
+		min-height: 300px;
+		margin: 0 auto;
+		background-color: #acf;
 	}
 
-	a {
-		h2 {
-			display: inline-block;
-			position: absolute;
-			top: 1em;
-			left: 0.1em;
-			opacity: 0;
-			-webkit-transition: opacity 500ms ease-in-ease-out;
-		}
-
-		&:hover {
-			h2 { opacity: 1; }
-		}
-
-		&.framed {
-			position: relative;
-			padding: 4em 3em;
-			border-width: 0.5em;
-			.fontSerif2-0;
-
-			img {
-				position: absolute;
-				max-width: 100%;
-				min-height: 100%;
-				top: 0;
-				left: 0;
-			}
-
-
-		}
+	.circle-graph {
+		margin: 7% 0;
+		h3 { margin: 0; }
 	}
+
 }

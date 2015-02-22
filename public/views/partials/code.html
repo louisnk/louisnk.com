@@ -15,8 +15,9 @@
            ng-repeat="chart in page.skills">
         
         <canvas ng-class="chart.title"></canvas>
-
-        <h2 class="subtitle">{{chart.title}}</h2>
+        <div class="subtitle">
+          <h3>{{chart.title}}</h3>
+        </div>
       </div>
     </div>
   </div>  
