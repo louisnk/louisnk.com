@@ -54,18 +54,21 @@
 		"skills": [
 			{
 				"title": "JS",
+				"class": "js",
 				"level": "92",
 				"description": "Who needs strong typing?",
 				"content": ""
 			},
 			{
 				"title": "RTFM",
+				"class": "docs",
 				"level": "95",
 				"description": "Teaching yourself demands doc literacy",
 				"content": ""
 			},
 			{
 				"title": "HTML/CSS",
+				"class": "markup",
 				"level": "ninja",
 				"description": "I've been making websites for 18 years.",
 				"content": ""
