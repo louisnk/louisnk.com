@@ -14,7 +14,7 @@
       <div class="col-d-4 col-m-12 circle-graph" 
            ng-repeat="chart in page.skills">
         
-        <canvas ng-class="chart.title"></canvas>
+        <svg class="graph-box" ng-class="chart.title.toLowerCase()"></svg>
         <div class="subtitle">
           <h3>{{chart.title}}</h3>
         </div>

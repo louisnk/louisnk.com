@@ -350,6 +350,16 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 	};
 
 }]);
+LnkAPP.factory("GraphsService", [function() {
+	var donutGraph = function(params, section) {
+		var scale = d3.scale.linear().domain([0,100]).range([0, Math.PI * 2]);
+		var graph = d3.select(section);
+	};
+
+	return {
+		donutGraph: donutGraph
+	};
+}]);
 LnkAPP.factory("NavigationService", 
   ["$rootScope", "$state", "$stateParams", "Constants", "UtilitiesService",
   function($rootScope, $state, $stateParams, Constants, UtilitiesService) {
