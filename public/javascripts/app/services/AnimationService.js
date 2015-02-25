@@ -5,39 +5,6 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   var scrolledAlready = false;
   var mobile = UtilitiesService.isMobile();
 
-  var drawCircles = function(target, level) {
-    var canvas = document.getElementsByClassName(target)[0],
-        context = canvas.getContext("2d"),
-        centerX = canvas.width / 2,
-        centerY = canvas.height / 2,
-        radius = 70;
-
-    function drawArc() {
-      context.beginPath();
-      context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-      return this;
-    }
-
-    function fill(color) {
-      context.fillStyle = color;
-      context.fill();
-      return this;
-    }
-
-    function stroke(width, color) {
-      context.lineWidth = width;
-      context.strokeStyle = (color && color) || width;
-      context.stroke();
-      return this;
-    }
-
-    if (!level) {
-      drawArc().fill("black").stroke(30, "black");
-    } else {
-
-    }
-  };
-
   var getContent = function() {
     return document.getElementsByClassName("content")[0];
   };
