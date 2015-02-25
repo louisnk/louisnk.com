@@ -152,14 +152,15 @@ LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService
 }]);
 
 
-LnkAPP.directive("donutGraph", ["GraphService", "$state", function(GraphService, $state) {
+LnkAPP.directive("donutGraph", ["GraphService", "$state", "$timeout", function(GraphService, $state, $timeout) {
 	var graphDirectiveObject = {
 		restrict: "A",
 		priority: 0,
-		template: "<svg class='graph-box'></svg>",
 		scope: "=",
 		link: function(scope, tElement, tAttrs) {
-			GraphService.makeDonutGraphFor(scope.page.skills[tAttrs.index], tElement[0].parentElement);
+			$timeout(function() {
+				GraphService.makeDonutGraphFor(scope.page.skills[tAttrs.index], tElement[0]); 
+			}, 200);
 		}
 	};
 
@@ -397,9 +398,10 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	makeDonutGraphFor = function(datas, section) {
 		datas = new paramsArray(datas); 
 		datas.push(fillSection(datas));
+		// var $section = $( section + " .graph-box");
 
-		var w = $(".graph-box", section).width(), h = $(".graph-box", section).height();
-		var graph = d3.select(".graph-box", section);
+		var w = $(section).width(), h = $(section).height();
+		var graph = d3.select(section);
 		var arc = d3.svg.arc().innerRadius(50).outerRadius(100)
 													.startAngle(function(d) { return scale(d[0]); })
 													.endAngle(function(d) { return scale(d[1]); });

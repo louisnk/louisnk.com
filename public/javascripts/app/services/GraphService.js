@@ -55,9 +55,10 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	makeDonutGraphFor = function(datas, section) {
 		datas = new paramsArray(datas); 
 		datas.push(fillSection(datas));
+		// var $section = $( section + " .graph-box");
 
-		var w = $(".graph-box", section).width(), h = $(".graph-box", section).height();
-		var graph = d3.select(".graph-box", section);
+		var w = $(section).width(), h = $(section).height();
+		var graph = d3.select(section);
 		var arc = d3.svg.arc().innerRadius(50).outerRadius(100)
 													.startAngle(function(d) { return scale(d[0]); })
 													.endAngle(function(d) { return scale(d[1]); });
