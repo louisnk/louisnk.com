@@ -158,9 +158,7 @@ LnkAPP.directive("donutGraph", ["GraphService", "$state", "$timeout", function(G
 		priority: 0,
 		scope: "=",
 		link: function(scope, tElement, tAttrs) {
-			$timeout(function() {
-				GraphService.makeDonutGraphFor(scope.page.skills[tAttrs.index], tElement[0]); 
-			}, 200);
+			GraphService.makeDonutGraphFor(scope.page.skills[tAttrs.index], tElement[0]); 
 		}
 	};
 
@@ -381,7 +379,7 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 		if (typeof percentage === "number") {
 			return Number(percentage);
 		} else if (typeof percentage === "string") {
-			return percentage.toLowerCase() === Constants.NINJA.toLowerCase() ? 100 : 50;
+			return percentage.toLowerCase() === Constants.NINJA.toLowerCase() ? 99 : 50;
 		} else {
 			return 0;
 		}
@@ -398,7 +396,6 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	makeDonutGraphFor = function(datas, section) {
 		datas = new paramsArray(datas); 
 		datas.push(fillSection(datas));
-		// var $section = $( section + " .graph-box");
 
 		var w = $(section).width(), h = $(section).height();
 		var graph = d3.select(section);
