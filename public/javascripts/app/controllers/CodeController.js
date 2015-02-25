@@ -13,17 +13,5 @@ LnkAPP.controller("CodeController", ["$scope", "$stateParams", "$timeout", "Data
 		$scope.getData(Constants.STATE.CODE, dataHandler);
 	};
 
-	var makeCircles = function(datas) {
-		function makeSelector(className) {
-			return "." + className + " .graph-box";
-		}
-
-		if (datas) {
-			datas.skills.forEach(function(skill, i) {
-				GraphService.makeDonutGraphFor(skill, makeSelector(skill.class));
-			});
-		}
-	};
-
 	init();
 }]);
