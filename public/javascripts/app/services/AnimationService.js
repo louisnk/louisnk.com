@@ -51,7 +51,6 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
       default:
         break;
     }
-
   };
 
   // watch the window for scroll down, and go to content if we're not already
@@ -79,7 +78,6 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
       }
       previousY = y;
     });
-
   };
 
   var watchState = function() {
@@ -89,17 +87,20 @@ LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "Utilit
   	});
   };
 
-  var init = function() {
-    if (window.innerWidth > 993) { setAutoScrollToContent(); }
-    watchState();
-
+  // Set event listeners for every animation event
+  var setAllListeners = function() {
     for (var EVENT in Constants.EVENT.ANIMATION) {
       UtilitiesService.setListeners(EVENT, handleAnimations);
     }
   };
 
+  var init = function() {
+    if (window.innerWidth > 993) { setAutoScrollToContent(); }
+    watchState();
+    setAllListeners();
+  };
+
   return {
-    init: init,
-    drawCircles: drawCircles
+    init: init
   };
 }]);

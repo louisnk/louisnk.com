@@ -7,15 +7,18 @@ LnkAPP.constant("Constants", {
   },
 
   EVENT: {
+    ANIMATION: {
+      EXPLORE:                "EXPLORE",
+      SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT"
+    },
+    DATA: {
+      CODE_DATA_RECEIVED:     "CODE_DATA_RECEIVED"
+    },
     NAVIGATION: {
       CLICK_CODE:             "CLICK_CODE",
       CLICK_ART:              "CLICK_ART",
       CLICK_LIFE:             "CLICK_LIFE",
       SHOW_MENU:              "SHOW_MENU"
-    },
-    ANIMATION: {
-      EXPLORE:                "EXPLORE",
-      SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT" 
     }
   },
   

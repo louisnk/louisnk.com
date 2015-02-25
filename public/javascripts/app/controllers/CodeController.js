@@ -1,29 +1,29 @@
 LnkAPP.controller("CodeController", ["$scope", "$stateParams", "$timeout", "DataService", "GraphService", "Constants",
 	function($scope, $stateParams, $timeout, DataService, GraphService, Constants) {
 
-	this.dataHandler = function(data, other) {
+	var dataHandler = function(data, other) {
 		if (data && data.title) {
 			$scope.page = data;
-			$timeout(function() { makeCircles(data); }, 250);
 		} else {
 			// get some generic json to show an error?
 		}
 	};
 
 	var init = function() {
-		$scope.getdata(Constants.STATE.CODE, this.dataHandler);
+		$scope.getData(Constants.STATE.CODE, dataHandler);
 	};
 
-	var makeCircles = function() {
-		var version = $scope.states.mobile ? "mobile" : "desktop";
+	var makeCircles = function(datas) {
+		function makeSelector(className) {
+			return "." + className + " .graph-box";
+		}
 
-		data[version].skills.forEach(function(skill, i) {
-			var className = "." + skill.class + " .graph-box";
-			GraphService.makeDonutGraphOf(null, className); // draw the black background arc
-			GraphService.makeDonutGraphOf(skill, className); // draw the "skill" arc
-		});
+		if (datas) {
+			datas.skills.forEach(function(skill, i) {
+				GraphService.makeDonutGraphFor(skill, makeSelector(skill.class));
+			});
+		}
 	};
 
-	// $scope.getData(Constants.STATE.CODE, dataHandler);
 	init();
 }]);
