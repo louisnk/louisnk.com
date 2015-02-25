@@ -44,6 +44,7 @@ LnkAPP.config(["$stateProvider", "$urlRouterProvider", "Constants",
 }]);
 
 LnkAPP.constant("Constants", {
+  NINJA:                      "ninja",
   CLASS: {
     CODE:                     "code",
     ART:                      "art",
@@ -78,21 +79,33 @@ LnkAPP.constant("Constants", {
 LnkAPP.controller("CodeController", ["$scope", "$stateParams", "$timeout", "DataService", "GraphService", "Constants",
 	function($scope, $stateParams, $timeout, DataService, GraphService, Constants) {
 
-	var dataHandler = function(data, other) {
+	this.dataHandler = function(data, other) {
 		if (data && data.title) {
 			$scope.page = data;
-			$timeout(function() { makeCircles(); }, 250);
+			$timeout(function() { makeCircles(data); }, 250);
 		} else {
 			// get some generic json to show an error?
 		}
 	};
 
-	var makeCircles = function() {
-		GraphService.donutGraph(false, ".js .graph-box");
+	var init = function() {
+		$scope.getdata(Constants.STATE.CODE, this.dataHandler);
 	};
 
-	$scope.getData(Constants.STATE.CODE, dataHandler);
+	var makeCircles = function() {
+		var version = $scope.states.mobile ? "mobile" : "desktop";
+
+		data[version].skills.forEach(function(skill, i) {
+			var className = "." + skill.class + " .graph-box";
+			GraphService.makeDonutGraphOf(null, className); // draw the black background arc
+			GraphService.makeDonutGraphOf(skill, className); // draw the "skill" arc
+		});
+	};
+
+	// $scope.getData(Constants.STATE.CODE, dataHandler);
+	init();
 }]);
+
 LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesService", "DataService", "Constants", 
 	function ($rootScope, $scope, $state, UtilitiesService, DataService, Constants) {
 	var EVENT = Constants.EVENT;
@@ -323,14 +336,39 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 
 }]);
 LnkAPP.factory("GraphService", ["Constants", function(Constants) {
-	console.log("ja know");
 
-	var donutGraph = function(params, section) {
-		params = params || { data: [[0,25, "#f00"], [25, 65, "#00f"], [75, 100, "#0f0"]] };
+	this.scale = d3.scale.linear().domain([0,100]).range([0, Math.PI * 2]);
+
+	/**
+	 *	Creates an array with all 3 params needed for d3 donut graphs
+	 *
+	 *	@param  params 				[object] ------TODO ???
+	 */
+	var paramsObject = function(params) {
+		params = params || { skill: 100, color: "#000", start: 0 };
+
+		return [ 	params.start || 0,			// start of the arc
+							params.skill,  					// end of the arc
+							params.color || "#0c0"	// color of the arc fill
+		];
+	};
+
+	var parsePercentage = function(percentage) {
+
+		if (percentage && typeof percentage === "number") {
+			return percentage;
+		} else if (percentage && typeof percentage === "string") {
+			return percentage.toLowerCase() === Constants.NINJA.toLowerCase() ? 100 : 50;
+		} else {
+			return 0;
+		}
+	};
+
+	var makeDonutGraphOf = function(params, section) {
+		params = params || { data: [[0, -25, "#f00"], [10, 20, "#000"], [30, 40, "#000"]] };
 
 		var d3data = params.data;
 		var w = $(section).width(), h = $(section).height();
-		var scale = d3.scale.linear().domain([0,100]).range([0, Math.PI * 2]);
 		var graph = d3.select(section);
 		var arc = d3.svg.arc().innerRadius(50).outerRadius(100)
 													.startAngle(function(d) { return scale(d[0]); })
@@ -342,7 +380,7 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	};
 
 	return {
-		donutGraph: donutGraph
+		makeDonutGraphOf: makeDonutGraphOf
 	};
 }]);
 

@@ -55,14 +55,14 @@
 			{
 				"title": "JS",
 				"class": "js",
-				"level": "92",
+				"level": 92,
 				"description": "Who needs strong typing?",
 				"content": ""
 			},
 			{
 				"title": "RTFM",
 				"class": "docs",
-				"level": "95",
+				"level": 95,
 				"description": "Teaching yourself demands doc literacy",
 				"content": ""
 			},
@@ -82,13 +82,13 @@
 		"skills": [
 			{
 				"title": "JS",
-				"level": "92",
+				"level": 92,
 				"description": "Who needs strong typing?",
 				"content": ""
 			},
 			{
 				"title": "RTFM",
-				"level": "95",
+				"level": 95,
 				"description": "Teaching yourself demands doc literacy",
 				"content": ""
 			},

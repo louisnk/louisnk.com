@@ -1,4 +1,5 @@
 LnkAPP.constant("Constants", {
+  NINJA:                      "ninja",
   CLASS: {
     CODE:                     "code",
     ART:                      "art",

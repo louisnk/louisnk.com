@@ -1,4 +1,5 @@
 module.exports = Object.freeze({
+  NINJA:                      "ninja",
 	CLASS: {
     CODE:                     "code",
     ART:                      "art",
