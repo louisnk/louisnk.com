@@ -56,9 +56,10 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 		datas = new paramsArray(datas); 
 		datas.push(new fillSection(datas));
 		// || [[0, -25, "#f00"], [10, 20, "#000"], [30, 40, "#000"]]
+		
 
-		var w = $(section).width(), h = $(section).height();
-		var graph = d3.select(section);
+		var w = $(".graph-box", section).width(), h = $(".graph-box", section).height();
+		var graph = d3.select(".graph-box", section);
 		var arc = d3.svg.arc().innerRadius(50).outerRadius(100)
 													.startAngle(function(d) { return scale(d[0]); })
 													.endAngle(function(d) { return scale(d[1]); });

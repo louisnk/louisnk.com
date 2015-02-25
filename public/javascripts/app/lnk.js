@@ -56,9 +56,6 @@ LnkAPP.constant("Constants", {
       EXPLORE:                "EXPLORE",
       SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT"
     },
-    DATA: {
-      CODE_DATA_RECEIVED:     "CODE_DATA_RECEIVED"
-    },
     NAVIGATION: {
       CLICK_CODE:             "CLICK_CODE",
       CLICK_ART:              "CLICK_ART",
@@ -167,19 +164,19 @@ LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService
 }]);
 
 
-LnkAPP.directive("GraphDirective", function factory($state) {
-	return {
+LnkAPP.directive("donutGraph", ["GraphService", "$state", function(GraphService, $state) {
+	var graphDirectiveObject = {
 		restrict: "A",
 		priority: 0,
-		templateUrl: "/views/partials/graphs.html",
-		scope: false,
-		compile: function compile(tElement, tAttrs) {
-			tElement.forEach(function() {
-
-			});
+		template: "<svg class='graph-box'></svg>",
+		scope: "=",
+		link: function(scope, tElement, tAttrs) {
+			GraphService.makeDonutGraphFor(scope.page.skills[tAttrs.index], tElement[0].parentElement);
 		}
 	};
-});
+
+	return graphDirectiveObject;
+}]);
 
 LnkAPP.directive("heroImage", function factory($state) {
 	var heroImageObject = {
@@ -195,6 +192,7 @@ LnkAPP.directive("heroImage", function factory($state) {
 
 	return heroImageObject;
 });
+
 LnkAPP.factory("AnimationService", ["$rootScope", "$state", "Constants", "UtilitiesService",
   function($rootScope, $state, Constants, UtilitiesService) {
 
@@ -412,9 +410,10 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 		datas = new paramsArray(datas); 
 		datas.push(new fillSection(datas));
 		// || [[0, -25, "#f00"], [10, 20, "#000"], [30, 40, "#000"]]
+		
 
-		var w = $(section).width(), h = $(section).height();
-		var graph = d3.select(section);
+		var w = $(".graph-box", section).width(), h = $(".graph-box", section).height();
+		var graph = d3.select(".graph-box", section);
 		var arc = d3.svg.arc().innerRadius(50).outerRadius(100)
 													.startAngle(function(d) { return scale(d[0]); })
 													.endAngle(function(d) { return scale(d[1]); });

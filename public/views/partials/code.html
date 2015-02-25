@@ -14,7 +14,7 @@
       <div class="col-d-4 col-m-12 circle-graph" 
            data-ng-repeat="chart in page.skills" data-ng-class="chart.class">
         
-        <svg class="graph-box"></svg>
+        <div data-donut-graph data-index="{{$index}}"></div>
         <div class="subtitle">
           <h3>{{chart.title}}</h3>
         </div>

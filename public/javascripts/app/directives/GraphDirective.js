@@ -1,13 +1,13 @@
-LnkAPP.directive("GraphDirective", function factory($state) {
-	return {
+LnkAPP.directive("donutGraph", ["GraphService", "$state", function(GraphService, $state) {
+	var graphDirectiveObject = {
 		restrict: "A",
 		priority: 0,
-		templateUrl: "/views/partials/graphs.html",
-		scope: false,
-		compile: function compile(tElement, tAttrs) {
-			tElement.forEach(function() {
-
-			});
+		template: "<svg class='graph-box'></svg>",
+		scope: "=",
+		link: function(scope, tElement, tAttrs) {
+			GraphService.makeDonutGraphFor(scope.page.skills[tAttrs.index], tElement[0].parentElement);
 		}
 	};
-});
+
+	return graphDirectiveObject;
+}]);
