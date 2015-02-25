@@ -396,9 +396,7 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	 */
 	makeDonutGraphFor = function(datas, section) {
 		datas = new paramsArray(datas); 
-		datas.push(new fillSection(datas));
-		// || [[0, -25, "#f00"], [10, 20, "#000"], [30, 40, "#000"]]
-		
+		datas.push(fillSection(datas));
 
 		var w = $(".graph-box", section).width(), h = $(".graph-box", section).height();
 		var graph = d3.select(".graph-box", section);
