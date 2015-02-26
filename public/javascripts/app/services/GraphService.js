@@ -18,8 +18,8 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	paramsArray = function(params) {
 		params = params && params.level ? params : { start: 0, level: 100, color: "#000" };
 
-		return [[ -50,																	// start of the arc
-		 				 parsePercentage(params.level) -50, 		// end of the arc
+		return [[ -35,																	// start of the arc
+		 				 parsePercentage(params.level) -35, 		// end of the arc
 						 params.color || "#0c0"									// color of the arc fill
 					 ]];
 	},
@@ -28,7 +28,7 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	 *	Provides black "filler" data to make donuts 360°
 	 */
 	fillSection = function(params) {
-		return [ parsePercentage(params[0][1]), 50, "#000" ];
+		return [ params[0][1], 65, "#000" ];
 	},
 
 	/**
@@ -58,13 +58,15 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 
 		var w = $(section).width(), h = $(section).height();
 		var graph = d3.select(section);
-		var arc = d3.svg.arc().innerRadius(50).outerRadius(100)
+		var arc = d3.svg.arc().innerRadius(75).outerRadius(120)
 													.startAngle(function(d) { return scale(d[0]); })
 													.endAngle(function(d) { return scale(d[1]); });
 
-		graph.selectAll("path").data(datas).enter().append("path").attr("d", arc)
-													 .style("fill", function(d) { return d[2]; })
-													 .attr("transform", "translate(" + w/2 + "," + h/2 + ")");
+		graph.selectAll("path").data(datas).enter().append("path")
+													 .attr("transform", "translate(" + w/2 + "," + h/2 + ")")
+													 .transition().duration(500)
+													 .attr("d", arc)
+													 .style("fill", function(d) { return d[2]; });
 	};
 
 	return {

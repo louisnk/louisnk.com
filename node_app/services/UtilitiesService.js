@@ -91,7 +91,7 @@ var recordUserDetails = function(details) {
  *	@param json 				[object] the data model for a page
  */
 var setHeroes = function(json, state) {
-	log(json);
+
 	var STATE = global.constants.STATE,
 			mobile = global.details.mobile ? "_mobile" : "",
   		origin, which,

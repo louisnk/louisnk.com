@@ -1,5 +1,4 @@
 <div class="container" ng-controller="CodeController">
-  <div data-hero-image></div>
 
   <div class="content code-content">
     <div class="row">
@@ -13,11 +12,12 @@
     <div class="row">
       <div class="col-d-4 col-m-12 circle-graph" 
            data-ng-repeat="chart in page.skills" data-ng-class="chart.class">
-        
-        <svg class="graph-box" data-donut-graph data-index="{{$index}}"></svg>
-        <div class="subtitle">
-          <h3>{{chart.title}}</h3>
-        </div>
+           <div class="content-wrapper">
+              <svg class="graph-box" data-donut-graph data-index="{{$index}}"></svg>
+              <div class="subtitle">
+                <h3>{{chart.title}}</h3>
+              </div>
+           </div>
       </div>
     </div>
   </div>  

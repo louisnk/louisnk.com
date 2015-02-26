@@ -20,10 +20,19 @@
 
 		svg.graph-box {
 			display: block;
-			width: 90%;
+			width: 65%;
 			height: 300px;
 			margin: 0 auto;
 		}
-	}
 
+		&:first-child {
+			.graph-box { width: 100%; }
+			.content-wrapper { padding-left: 50%; }
+		}
+
+		&:last-child {
+			.graph-box { width: 100%; }
+			.content-wrapper { padding-right: 50%; }
+		}
+	}
 }
