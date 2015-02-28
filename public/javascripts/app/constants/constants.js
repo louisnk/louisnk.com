@@ -26,6 +26,7 @@ LnkAPP.constant("Constants", {
     GALLERY:                  "GALLERY",
     PROJECT:                  "PROJECT",
     LIFE:                     "LIFE",
+    PLACEHOLDER:              "PLACEHOLDER",
     RESUME:                   "RESUME"
   }
 });
