@@ -61,8 +61,9 @@ LnkAPP.constant("Constants", {
       SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT"
     },
     NAVIGATION: {
-      CLICK_CODE:             "CLICK_CODE",
       CLICK_ART:              "CLICK_ART",
+      CLICK_CODE:             "CLICK_CODE",
+      CLICK_EXPLORE:          "CLICK_EXPLORE",
       CLICK_LIFE:             "CLICK_LIFE",
       SHOW_MENU:              "SHOW_MENU"
     }
@@ -399,7 +400,7 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	 *	@param 	section 			[string] the selector for d3 to draw the arcs in
 	 */
 	makeDonutGraphFor = function(datas, section) {
-		datas = new paramsArray(datas); 
+		datas = paramsArray(datas); 
 		datas.push(fillSection(datas));
 
 		var w = $(section).width(), h = $(section).height();
@@ -441,12 +442,16 @@ LnkAPP.factory("NavigationService",
       }
 
       switch (event.name) { 
+        case NAV_EVENTS.CLICK_ART:
+          targetState = STATE.ART;
+          break;
+
         case NAV_EVENTS.CLICK_CODE:
           targetState = STATE.CODE;
           break;
 
-        case NAV_EVENTS.CLICK_ART:
-          targetState = STATE.ART;
+        case NAV_EVENTS.CLICK_EXPLORE:
+          targetState = STATE.PLACEHOLDER;
           break;
 
         case NAV_EVENTS.CLICK_LIFE:

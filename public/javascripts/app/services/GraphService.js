@@ -53,7 +53,7 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	 *	@param 	section 			[string] the selector for d3 to draw the arcs in
 	 */
 	makeDonutGraphFor = function(datas, section) {
-		datas = new paramsArray(datas); 
+		datas = paramsArray(datas); 
 		datas.push(fillSection(datas));
 
 		var w = $(section).width(), h = $(section).height();

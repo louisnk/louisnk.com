@@ -12,8 +12,9 @@ LnkAPP.constant("Constants", {
       SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT"
     },
     NAVIGATION: {
-      CLICK_CODE:             "CLICK_CODE",
       CLICK_ART:              "CLICK_ART",
+      CLICK_CODE:             "CLICK_CODE",
+      CLICK_EXPLORE:          "CLICK_EXPLORE",
       CLICK_LIFE:             "CLICK_LIFE",
       SHOW_MENU:              "SHOW_MENU"
     }

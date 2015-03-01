@@ -18,12 +18,16 @@ LnkAPP.factory("NavigationService",
       }
 
       switch (event.name) { 
+        case NAV_EVENTS.CLICK_ART:
+          targetState = STATE.ART;
+          break;
+
         case NAV_EVENTS.CLICK_CODE:
           targetState = STATE.CODE;
           break;
 
-        case NAV_EVENTS.CLICK_ART:
-          targetState = STATE.ART;
+        case NAV_EVENTS.CLICK_EXPLORE:
+          targetState = STATE.PLACEHOLDER;
           break;
 
         case NAV_EVENTS.CLICK_LIFE:

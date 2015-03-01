@@ -12,7 +12,7 @@
         </div>
         <div class="subtitle">
           <!-- <h2>{{page.subtitle}}</h2> -->
-          <a href="#" ui-sref="/thanks">
+          <a href="#" ng-click="broadcast($event, NAV_EVENT.CLICK_EXPLORE)">
             <h4>{{page.memo}}</h4>
           </a>
           <ul data-dropin-menu></ul>
@@ -26,7 +26,7 @@
       <h1>{{page.title}}</h1>
     </a>
     <span class="tagline">{{page.tagline}}</span>
-    <a href="#" ui-sref="/thanks" class="menu">
+    <a href="#" ng-click="broadcast($event, NAV_EVENT.CLICK_EXPLORE)" class="menu">
       {{page.memo}}
     </a>
   </div>
