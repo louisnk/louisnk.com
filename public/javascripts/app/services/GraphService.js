@@ -6,10 +6,6 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 		setListeners();
 	},
 
-	setListeners = function() {
-
-	},
-
 	/**
 	 *	Creates an array with all 3 params needed for d3 donut graphs
 	 *
@@ -45,7 +41,7 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	},
 
 	/**
-	 * Does the heavy lifting to actually draw the donut graph.
+	 * Does the actual drawing of the donut graph.
 	 *
 	 *	@param  datas					[object || bool] if an object, parses relevant info for d3;
 	 *																				 if a bool, creates generic half & half donuts
