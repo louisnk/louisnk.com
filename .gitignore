@@ -12,3 +12,6 @@ _old/*
 practice/*
 .elasticbeanstalk/
 */images/*
+.idea/
+louisnk.com.iml
+lnk.psd
