@@ -368,7 +368,7 @@ LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 	},
 
 	/**
-	 *	Provides black "filler" data to make donuts 360°
+	 *	Provides black "filler" data to make circles 360°
 	 */
 	fillSection = function(params) {
 		return [ params[0][1], 65, "#000" ];
