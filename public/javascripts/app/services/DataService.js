@@ -18,6 +18,11 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 			case STATE.CODE:
 				requestUrl += "/code";
 				break;
+
+			case STATE.LIFE:
+				requestUrl += "/life";
+				break;
+				
 			default:
 				requestUrl += "/home";
 				break;

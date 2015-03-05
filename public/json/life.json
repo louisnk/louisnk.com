@@ -1,0 +1,20 @@
+{ "mobile": {
+	  "title": "LIFE",
+	  "heroImageUrl": "",
+	  "heroImageAlt": "",
+	  "heroImageLocation": "redwoods, ca",
+	  "subtitle": "",
+	  "tagline": "Moving mountains to shake things up since day 1.",
+	  "memo": "explore",
+	  "sections": []
+	},
+  "desktop": {
+		"title": "LIFE",
+		"heroImageUrl": "",
+	  "heroImageAlt": "Seattle skyline in black and white at night",
+	  "subtitle": "pursuing my dreams and empowering through education",
+	  "tagline": "Moving mountains to shake things up since day 1.",
+	  "memo": "explore",
+	  "sections": []
+  }
+}

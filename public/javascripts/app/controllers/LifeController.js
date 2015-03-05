@@ -2,6 +2,7 @@ LnkAPP.controller("LifeController", ["$scope", "$stateParams", "Constants",
 	function($scope, $stateParams, Constants) {
 
 	var dataHandler = function(data, other) {
+		console.log(data, other);
 		if (data && data.title) {
 			$scope.page = data;
 		} else {

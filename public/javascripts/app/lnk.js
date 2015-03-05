@@ -162,6 +162,7 @@ LnkAPP.controller("LifeController", ["$scope", "$stateParams", "Constants",
 	function($scope, $stateParams, Constants) {
 
 	var dataHandler = function(data, other) {
+		console.log(data, other);
 		if (data && data.title) {
 			$scope.page = data;
 		} else {
@@ -331,6 +332,11 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 			case STATE.CODE:
 				requestUrl += "/code";
 				break;
+
+			case STATE.LIFE:
+				requestUrl += "/life";
+				break;
+				
 			default:
 				requestUrl += "/home";
 				break;
@@ -363,6 +369,7 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 	};
 
 }]);
+
 LnkAPP.factory("GraphService", ["Constants", function(Constants) {
 
 	var scale = d3.scale.linear().domain([0,100]).range([0, Math.PI * 2]),
