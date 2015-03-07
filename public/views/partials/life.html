@@ -10,8 +10,8 @@
 			<img src="{{page.profileImage}}" alt="A picture of Louis">
 		</div>
 
-		<div class="bio">
-			<p ng-repeat="chunk in page.sections">{{chunk.content}}</p>
-		</div>
+		<ul class="bio">
+			<li ng-repeat="chunk in page.sections">{{chunk.content}}</li>
+		</ul>
 	</div>
 </div>
