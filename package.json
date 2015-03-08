@@ -44,6 +44,7 @@
     "hjs": "*",
     "less-middleware": "*",
     "lodash": "^2.4.1",
+    "promise": "^6.1.0",
     "recursive-readdir": "^1.2.1"
   }
 }
