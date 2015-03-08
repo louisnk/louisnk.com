@@ -1,4 +1,5 @@
 // Utilities Service for Louisnk.com
+var Promise = require("promise");
 
 /**
  *	Like _'s, but probably not as fast.
@@ -68,6 +69,22 @@ var makeImageObjects = function(base, image) {
 };
 
 /**
+ *	Opens or creates a log file, then writes details to it
+ *	
+ *	@param 	details 				[object] details object to be written to log
+ */
+
+var writeLogFile = function(details) {
+	console.log(global.logFile, details);
+	return new Promise(function(resolve, reject) { 
+		fs.write(global.logFile, JSON.stringify(details), 0, "utf8", function(err, written, string) { 
+			if (err) { reject(err); }
+			else { resolve(string); }
+		});
+	});
+};
+
+/**
  *	Mostly for dev purposes at this point, but also useful for 
  *	setting up some custom analytics if I want
  */
@@ -77,7 +94,12 @@ var recordUserDetails = function(details) {
 			Object.keys(details) && 
 			Object.keys(details).length) {
 		// TODO: set up DB connection to log these things - or use GA
-		global.details = details;
+		details.dateString = (new Date()).toTimeString();
+		var logged = writeLogFile(details)
+			.done(function(datas) {
+				console.log(typeof datas);
+			});
+		// console.log(logged);
 
 	} else {
 		console.log(details);
@@ -108,10 +130,14 @@ var setHeroes = function(json, state) {
     case STATE.CODE.toLowerCase():
       which = STATE.CODE;
       break;
+    case STATE.LIFE.toLowerCase():
+    	which = STATE.LIFE;
+    	break;
     default:
       which = STATE.HOME;
       break;
   }
+
   json.heroImageUrl = origin + which.toLowerCase() + mobile + ".jpg";
 
   return json;
