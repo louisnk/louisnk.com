@@ -6,7 +6,7 @@
 global.path = require('path');
 global.log = console.log;
 global.fs = require('fs');
-global.logFile = global.path.join(__dirname, "logs");
+global.logFile = global.path.join(__dirname, "logs", "log.txt");
 global.constants = require("./node_app/constants");
 global.details = {};
 

@@ -75,11 +75,11 @@ var makeImageObjects = function(base, image) {
  */
 
 var writeLogFile = function(details) {
-	console.log(global.logFile, details);
+
 	return new Promise(function(resolve, reject) { 
-		fs.write(global.logFile, JSON.stringify(details), 0, "utf8", function(err, written, string) { 
+		fs.writeFile(global.logFile, JSON.stringify(details), function(err, success) { 
 			if (err) { reject(err); }
-			else { resolve(string); }
+			else { resolve(success); }
 		});
 	});
 };
@@ -97,9 +97,9 @@ var recordUserDetails = function(details) {
 		details.dateString = (new Date()).toTimeString();
 		var logged = writeLogFile(details)
 			.done(function(datas) {
-				console.log(typeof datas);
+				console.log("saved");
 			});
-		// console.log(logged);
+		console.log(logged);
 
 	} else {
 		console.log(details);
