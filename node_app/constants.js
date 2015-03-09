@@ -26,4 +26,4 @@ module.exports = Object.freeze({
     LIFE:                     "LIFE",
     RESUME:                   "RESUME"
   }
-})
+});
