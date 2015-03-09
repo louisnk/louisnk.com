@@ -1,78 +1,78 @@
 var Utils = require("./UtilitiesService");
 var STATE = global.constants.STATE;
 
-var findModelFor = function(which, ids, callback) {
+module.exports = {
+	findModelFor: function(which, ids, mobile, callback) {
+		mobile = mobile || false;
 
-	var baseDir = path.join(__dirname, "..", "..", "public");
-	var dir;
+		var baseDir = path.join(__dirname, "..", "..", "public"),
+				getJson = this.getJson.bind(this, baseDir),
+				dir;
 
-	var getJson = function(page, cb) {
+		switch (which) {
+			case STATE.ART.toLowerCase():
+			case STATE.CODE.toLowerCase():
+			case STATE.HOME.toLowerCase():
+			case STATE.LIFE.toLowerCase():
+			case STATE.PROJECTS.toLowerCase():
+				dir = path.join(baseDir, "images", which);
+				break;
+
+			default:
+				dir = path.join(baseDir, "images");
+				break;
+		}
+
+		if (dir) {
+			fs.readdir(dir, function(err, imgs) {
+				if (!err) { 
+					getJson(which, function(json) {
+						json = mobile ? json.mobile : json.desktop;
+						return callback(Utils.combineJson(dir, imgs, json, which));
+					});
+				} else {
+					return callback("Failed to read " + dir + 
+									" \n Most likely it doesn't exist.");
+				}
+			});
+		} else {
+			return callback("No files found");
+		}
+
+	},
+
+	getJson: function(baseDir, page, callback) {
 		fs.readFile(path.join(baseDir, "json", page + ".json"), {encoding: "utf8"}, 
 			function(err, contents) {
 				if (!err) { 
-					return cb(JSON.parse(contents));
+					return callback(JSON.parse(contents));
 				} else {
 					console.error(err);
 				}
 			});
-	};
+	},
 
-	switch (which) {
-		case STATE.ART.toLowerCase():
-		case STATE.CODE.toLowerCase():
-		case STATE.HOME.toLowerCase():
-		case STATE.LIFE.toLowerCase():
-		case STATE.PROJECTS.toLowerCase():
-			dir = path.join(baseDir, "images", which);
-			break;
+	sendJSON: function(res, data) {
+	  res.statusCode = 200;
+	  res.setHeader('content-type', 'application/json');
+	  res.end(data);
+	},
 
-		default:
-			dir = path.join(baseDir, "images");
-			break;
-	}
+	handleRequest: function(req, res) {
+		var which = req.params[0];
+		var ids = req.query.ids || false;
+		var details = req.query.details ? JSON.parse(decodeURIComponent(req.query.details)) : { mobile: false };
 
-	if (dir) {
-		fs.readdir(dir, function(err, imgs) {
-			if (!err) { 
-				getJson(which, function(json) {
-					json = global.details.mobile ? json.mobile : json.desktop;
-					return callback(Utils.combineJson(dir, imgs, json, which));
-				});
-			} else {
-				return callback("Failed to read " + dir + 
-								" \n Most likely it doesn't exist.");
-			}
-		});
-	} else {
-		return callback("No files found");
-	}
-
-};
-
-var sendJSON = function(res, data) {
-  res.statusCode = 200;
-  res.setHeader('content-type', 'application/json');
-  res.end(data);
-};
-
-var handleRequest = function(req, res) {
-	var which = req.params[0];
-	var ids = req.query.ids || false;
-
-	if (req.query["details"]) {
-		var details = JSON.parse(decodeURIComponent(req.query["details"]));
-		Utils.recordUserDetails(details);
-	}
-
-	findModelFor(which, ids, function(model) {
-		if (model && typeof model !== "string")	 {
-			sendJSON(res, JSON.stringify(model));
-		} else {
-			sendJSON(res, JSON.stringify({ error: model }));
+		if (details.dateString) {
+			Utils.recordUserDetails(details);
 		}
-	});
-};
 
-module.exports = {
-	handleRequest: handleRequest
+		this.findModelFor(which, ids, details.mobile, function(model) {
+			if (model && typeof model !== "string")	 {
+				this.sendJSON(res, JSON.stringify(model));
+			} else {
+				this.sendJSON(res, JSON.stringify({ error: model }));
+			}
+		}.bind(this));
+	}
 };
