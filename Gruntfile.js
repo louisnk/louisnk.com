@@ -6,8 +6,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON("package.json"),
     config: {
       app: "public",
-      dev: "dev",
-      views: "views"
+      node: "node_app",
+      test: "test"
     },
     concat: {
       options: {
@@ -22,45 +22,6 @@ module.exports = function(grunt) {
         dest: "<%= config.app %>/javascripts/app/lnk.js"
       }
     },
-    less: {
-      development: {
-        options: {
-          compress: true
-        },
-        files: {
-          "<%= config.app %>/public/stylesheets/lnk.css": "<%= config.app %>/stylesheets/**/*.less"
-        }
-      }
-    },
-    uglify: {
-      options: {
-        mangle: false
-      },
-      frontend: {
-        files: {
-          "<%= config.dev %>/public/js/LNK.js": "<%= config.dev %>/public/js/LNK.js"
-        }
-      }
-    },
-    jshint: {
-      files: [
-        "<%= config.app %>/javascripts/app/**/*.js",
-        "!<%= config.app %>/javascripts/app/lnk.js"
-      ],
-      options: {
-        curly: true,
-        undef: false,
-        trailing: true,
-        camelcase: true,
-        globals: {
-          jQuery: true,
-          console: true,
-          moduel: true,
-          document: true
-        }
-      },
-
-    },
     connect: {
         options: {
             port: 9500,
@@ -72,10 +33,71 @@ module.exports = function(grunt) {
             options: {
                 open: true,
                 base: [
-                    '<%= config.app %>/public/'
+                    '<%= config.app %>/views/'
                 ]
             }
         }
+    },
+    copy: {
+      main: {
+        files: [
+          { 
+            expand: true, 
+            src: [
+              "<%= config.app %>/index.html", 
+              "<%= config.app %>/**/*.html",
+              "<%= config.app %>/assets/"
+            ],
+            dest: "<%= config.app %>/copied"
+          }
+        ]
+      }
+    },
+    jshint: {
+      files: [
+        "<%= config.app %>/javascripts/app/**/*.js",
+        "<%= config.node %>/**/*.js",
+        "!<%= config.app %>/javascripts/app/lnk.js",
+        "!<%= config.app %>/javascripts/app/lnk.min.js"
+      ],
+      options: {
+        camelcase: true,
+        curly: true,
+        trailing: true,
+        shadow: true,
+        undef: false,
+        globals: {
+          jQuery: true,
+          console: true,
+          moduel: true,
+          document: true
+        }
+      }
+    },
+    less: {
+      development: {
+        options: {
+          compress: true
+        },
+        files: {
+          "<%= config.app %>/public/stylesheets/lnk.css": "<%= config.app %>/stylesheets/lnk.less"
+        }
+      }
+    },
+    shell: {
+      test: {
+        command: "exam tests"
+      }
+    },
+    uglify: {
+      options: {
+        mangle: false
+      },
+      frontend: {
+        files: {
+          "<%= config.app %>/javascripts/app/lnk.min.js": "<%= config.app %>/javascripts/app/lnk.js"
+        }
+      }
     },
     watch: {
       js_dev :{
@@ -93,21 +115,6 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         }
-      }
-    },
-    copy: {
-      main: {
-        files: [
-          { 
-            expand: true, 
-            src: [
-              "<%= config.app %>/index.html", 
-              "<%= config.app %>/**/*.html",
-              "<%= config.app %>/assets/"
-            ],
-            dest: "<%= config.dev %>"
-          }
-        ]
       }
     },
     wiredep: {
@@ -143,14 +150,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-wiredep");
+  grunt.loadNpmTasks("grunt-shell");
 
   grunt.registerTask("build", [
     "jshint",
-    "concat:js_frontend",
-    "uglify",
+    "shell:test",
+    "concat",
     "less",
-    "copy",
-    "wiredep"
+    "uglify"
   ]);
 
   grunt.registerTask("b", [ "build" ]);
