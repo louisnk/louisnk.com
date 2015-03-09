@@ -80,7 +80,7 @@ module.exports = function(grunt) {
           compress: true
         },
         files: {
-          "<%= config.app %>/public/stylesheets/lnk.css": "<%= config.app %>/stylesheets/lnk.less"
+          "<%= config.app %>/stylesheets/lnk.css": "<%= config.app %>/stylesheets/lnk.less"
         }
       }
     },
