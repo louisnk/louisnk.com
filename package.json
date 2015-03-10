@@ -4,10 +4,11 @@
   "description": "Mostly professional things about me",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "grunt test"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "^1.5.x"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,7 @@
     "exam": "^0.2.4",
     "express": "3.5.0",
     "flickrapi": "^0.3.28",
+    "grunt-contrib-jasmine": "^0.8.2",
     "hjs": "*",
     "less-middleware": "*",
     "lodash": "^2.4.1",

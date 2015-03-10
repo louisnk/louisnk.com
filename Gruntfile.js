@@ -7,13 +7,13 @@ module.exports = function(grunt) {
     config: {
       app: "public",
       node: "node_app",
-      test: "test"
+      test: "./tests"
     },
     concat: {
       options: {
         separator: "\n"
       },
-      js_frontend: {
+      js_app: {
         src: [
           "<%= config.app %>/javascripts/app/main.js", 
           "<%= config.app %>/javascripts/app/**/*.js",
@@ -51,6 +51,20 @@ module.exports = function(grunt) {
             dest: "<%= config.app %>/copied"
           }
         ]
+      }
+    },
+    jasmine: {
+      test: {
+        src: [ 
+          "<%= config.app %>/javascripts/app/main.js",
+          "<%= config.app %>/javascripts/app/**/*.js",
+          "<%= config.app %>/javascripts/app/test.js"
+        ],
+      },
+      options: {
+        specs: "<%= config.test %>/jasmine/*.js",
+        // host: "http://localhost:1337/#/",
+        vendor: "<%= config.app =>/javascripts/vendor/**/*.js"
       }
     },
     jshint: {
@@ -105,7 +119,7 @@ module.exports = function(grunt) {
           "<%= config.app %>/javascripts/**/*.js",
           "!<%= config.app %>/javascripts/app/lnk.js"
         ],
-        tasks: [ "jshint", "concat:js_frontend" ]
+        tasks: [ "jshint", "concat:js_app", "jasmine" ]
       },
       less: {
         files: [
@@ -143,14 +157,15 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks("grunt-shell");
   grunt.loadNpmTasks("grunt-contrib-concat");
+  grunt.loadNpmTasks("grunt-contrib-copy");
+  grunt.loadNpmTasks("grunt-contrib-jasmine");
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-contrib-less");
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-watch");
-  grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-wiredep");
-  grunt.loadNpmTasks("grunt-shell");
 
   grunt.registerTask("build", [
     "jshint",
@@ -160,21 +175,13 @@ module.exports = function(grunt) {
     "uglify"
   ]);
 
+  grunt.registerTask("dev", [ "watch:js_dev" ]);
+
   grunt.registerTask("b", [ "build" ]);
 
+  grunt.registerTask("test", [ "jshint", "shell:test", "jasmine" ]);
+
   grunt.registerTask("w", [ "wiredep" ]);
-
-  grunt.registerTask("serve", [ 
-    "build", 
-    "connect:livereload",
-    "watch" 
-  ]);
-
-  grunt.registerTask("js", [ 
-    "watch:js_dev"
-  ]);
-
-  grunt.registerTask("s", [ "serve" ]);
 
   grunt.registerTask("default", ["build"]);
 
