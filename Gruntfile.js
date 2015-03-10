@@ -74,31 +74,52 @@ module.exports = function(grunt) {
         }
       }
     },
-    karma: {
-      unit: {
-        files: [ 
-          { src: [ "<%= config.app %>/javascripts/app/main.js" ], served: true},
-          { src: [ "<%= config.app %>/javascripts/app/controllers/GodController.js" ], served: true }
+    jasmine: {
+      test: {
+        src: [ 
+          "<%= config.app %>/javascripts/app/main.js",
+          "<%= config.app %>/javascripts/app/**/*.js"
         ],
         options: {
-          browsers: ["Chrome", "Firefox"],
-          frameworks: ["jasmine"],
-          singleRun: true,
-          files: [
+          specs: "<%= config.test %>/jasmine/testSpec.js",
+          vendor: [
             "<%= config.app %>/javascripts/vendor/jasmine/lib/jasmine-2.2.0/jasmine.js",
             "<%= config.app %>/javascripts/vendor/angular/angular.js",
             "<%= config.app %>/javascripts/vendor/angular-ui-router/release/angular-ui-router.min.js",
             "<%= config.app %>/javascripts/vendor/angular-mocks/angular-mocks.js",
             "<%= config.test %>/jasmine/testSpec.js"
-          ],
-          plugins: [
-            "karma-chrome-launcher",
-            "karma-firefox-launcher",
-            "karma-jasmine"
           ]
         }
       },
     },
+    // karma: {
+    //   unit: {
+    //     files: [ 
+    //       { src: [ "<%= config.app %>/javascripts/app/lnk.js" ], served: true}
+    //     ],
+    //     options: {
+    //       urlRoot: '/__karma/',
+    //       proxies: {
+    //         '/' : 'http://localhost:1337/'
+    //       },
+    //       browsers: ["Chrome", "Firefox"],
+    //       frameworks: ["jasmine"],
+    //       singleRun: true,
+    //       files: [
+    //         "<%= config.app %>/javascripts/vendor/jasmine/lib/jasmine-2.2.0/jasmine.js",
+    //         "<%= config.app %>/javascripts/vendor/angular/angular.js",
+    //         "<%= config.app %>/javascripts/vendor/angular-ui-router/release/angular-ui-router.min.js",
+    //         "<%= config.app %>/javascripts/vendor/angular-mocks/angular-mocks.js",
+    //         "<%= config.test %>/jasmine/testSpec.js"
+    //       ],
+    //       plugins: [
+    //         "karma-chrome-launcher",
+    //         "karma-firefox-launcher",
+    //         "karma-jasmine"
+    //       ]
+    //     }
+    //   },
+    // },
     less: {
       development: {
         options: {
