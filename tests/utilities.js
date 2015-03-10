@@ -3,6 +3,7 @@ fs = require("fs");
 path = require("path");
 logFile = "mockLog.log";
 Promise = require("promise");
+_ = require("lodash");
 
 describe("Does utilitarian things", function() {
 	it("filters directory for given file", function() {
@@ -20,7 +21,7 @@ describe("Does utilitarian things", function() {
 	it("Records user details", function() {
 		var details = { test: true };
 		is(utils.recordUserDetails(details), true);
-		
+
 		fs.readFile(logFile, "utf8", function(err, data) {
 			if (!err) { is(JSON.parse(data).test, true); }
 		});
