@@ -77,8 +77,7 @@ module.exports = function(grunt) {
     jasmine: {
       test: {
         src: [ 
-          "<%= config.app %>/javascripts/app/main.js",
-          "<%= config.app %>/javascripts/app/**/*.js"
+          "<%= config.app %>/javascripts/app/lnk.js"
         ],
         options: {
           specs: "<%= config.test %>/jasmine/testSpec.js",
@@ -212,7 +211,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask("b", [ "build" ]);
 
-  grunt.registerTask("test", [ "jshint", "shell:test", "karma" ]);
+  grunt.registerTask("test", [ "jshint", "shell:test", "jasmine" ]);
 
   grunt.registerTask("w", [ "wiredep" ]);
 
