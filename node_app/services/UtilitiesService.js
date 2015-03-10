@@ -52,11 +52,10 @@ var UtilitiesService = module.exports = {
 	 *	@param	image 			[string] name of the image file
 	 */
 	makeImageObjects: function(base, image) {
-		
 		if (base && image) {
 			return { url: 
 				path.join(base, image).split("public")[1], 
-				alt: image.split(".")[0] 
+				alt: image.split(".")[0]
 			};
 		} else {
 			return false;
@@ -68,20 +67,20 @@ var UtilitiesService = module.exports = {
 	 *	
 	 *	@param 	details 				[object] details object to be written to log
 	 */
-
 	writeLogFile: function(details) {
 		return new Promise(function(resolve, reject) { 
-			return new Promise(function(res, rej) {
-				fs.readFile(logFile, "utf8", function(err, data) { 
-					if (err) { rej(err); }
-					else { res(data); }
-				});
-			}).then(function(file) {
-				fs.writeFile(logFile, JSON.stringify(details), file.length, function(err, success) { 
+			var d = fs.readFileSync(logFile, "utf8");
+			if (d.length > 0) {
+				fs.appendFile(logFile, "\n" + JSON.stringify(details), {encoding: "utf8"}, function(err, done) { 
 					if (err) { reject(err); }
-					else { resolve(success); }
+					else { resolve(done); }
 				});
-			});
+			} else {
+				fs.writeFile(logFile, JSON.stringify(details), {encoding: "utf8"}, function(err, done) {
+					if (err) { reject(err); }
+					else { resolve(done); }
+				});
+			}
 		});
 	},
 
@@ -96,15 +95,14 @@ var UtilitiesService = module.exports = {
 				Object.keys(details).length) {
 			// TODO: set up DB connection to log these things - or use GA
 			details.dateString = (new Date()).toString();
+			
 			var logged = this.writeLogFile(details)
 				.done(function(datas) {
 					return "saved";
 				});
-			console.log(logged);
 		} else {
 			console.log(details);
 		}
-
 		return true;
 	},
 
@@ -141,7 +139,6 @@ var UtilitiesService = module.exports = {
 	  }
 
 	  json.heroImageUrl = origin + which.toLowerCase() + mobile + ".jpg";
-
 	  return json;
 	}
 };

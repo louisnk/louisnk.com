@@ -138,7 +138,7 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "Utilities
 		DataService.get(fromWhere, callback);
 		// Do other stuff, if needed?
 	};
-	
+
 }]);
 
 LnkAPP.controller("HomeController", ["$scope", "$stateParams", "UtilitiesService", "Constants",

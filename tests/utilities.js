@@ -5,6 +5,15 @@ logFile = "mockLog.log";
 Promise = require("promise");
 _ = require("lodash");
 
+var readLogFile = function() {
+	return new Promise(function(win,lose) {
+		fs.readFile(logFile, "utf8", function(err, data) {
+			if (!err) { win(data); }
+			else lose(err);
+		});
+	})
+};
+
 describe("Does utilitarian things", function() {
 	it("filters directory for given file", function() {
 		var mockDir = ["abc", "def.ghi", "jkl.mno"];
@@ -20,10 +29,16 @@ describe("Does utilitarian things", function() {
 
 	it("Records user details", function() {
 		var details = { test: true };
-		is(utils.recordUserDetails(details), true);
+		var originalLength = 0;
 
-		fs.readFile(logFile, "utf8", function(err, data) {
-			if (!err) { is(JSON.parse(data).test, true); }
+		readLogFile().then(function(data) {
+			is(!!data, true);
+			originalLength = data.length;
+			is(utils.recordUserDetails(details), true);
+		});
+
+		readLogFile().then(function(newData) {
+			is(newData.length > originalLength, true);
 		});
 	});
 
