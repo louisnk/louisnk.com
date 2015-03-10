@@ -53,20 +53,6 @@ module.exports = function(grunt) {
         ]
       }
     },
-    jasmine: {
-      test: {
-        src: [ 
-          "<%= config.app %>/javascripts/app/main.js",
-          "<%= config.app %>/javascripts/app/**/*.js",
-          "<%= config.app %>/javascripts/app/test.js"
-        ],
-      },
-      options: {
-        specs: "<%= config.test %>/jasmine/*.js",
-        // host: "http://localhost:1337/#/",
-        vendor: "<%= config.app =>/javascripts/vendor/**/*.js"
-      }
-    },
     jshint: {
       files: [
         "<%= config.app %>/javascripts/app/**/*.js",
@@ -87,6 +73,31 @@ module.exports = function(grunt) {
           document: true
         }
       }
+    },
+    karma: {
+      unit: {
+        files: [ 
+          { src: [ "<%= config.app %>/javascripts/app/main.js" ], served: true},
+          { src: [ "<%= config.app %>/javascripts/app/controllers/GodController.js" ], served: true }
+        ],
+        options: {
+          browsers: ["Chrome", "Firefox"],
+          frameworks: ["jasmine"],
+          singleRun: true,
+          files: [
+            "<%= config.app %>/javascripts/vendor/angular/angular.js",
+            "<%= config.app %>/javascripts/vendor/angular-ui-router/release/angular-ui-router.min.js",
+            "<%= config.app %>/javascripts/vendor/angular-mocks/angular-mocks.js",
+            "<%= config.app %>/javascripts/vendor/jasmine/jasmine-standalone-2.2.0/lib/jasmine-2.2.0/jasmine.js",
+            "<%= config.test %>/jasmine/testSpec.js"
+          ],
+          plugins: [
+            "karma-chrome-launcher",
+            "karma-firefox-launcher",
+            "karma-jasmine"
+          ]
+        }
+      },
     },
     less: {
       development: {
@@ -157,7 +168,9 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks("grunt-karma");
   grunt.loadNpmTasks("grunt-shell");
+  grunt.loadNpmTasks("grunt-wiredep");
   grunt.loadNpmTasks("grunt-contrib-concat");
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-jasmine");
@@ -165,7 +178,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-less");
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-watch");
-  grunt.loadNpmTasks("grunt-wiredep");
 
   grunt.registerTask("build", [
     "jshint",
@@ -179,7 +191,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask("b", [ "build" ]);
 
-  grunt.registerTask("test", [ "jshint", "shell:test", "jasmine" ]);
+  grunt.registerTask("test", [ "jshint", "shell:test", "karma" ]);
 
   grunt.registerTask("w", [ "wiredep" ]);
 
