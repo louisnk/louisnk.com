@@ -85,10 +85,10 @@ module.exports = function(grunt) {
           frameworks: ["jasmine"],
           singleRun: true,
           files: [
+            "<%= config.app %>/javascripts/vendor/jasmine/lib/jasmine-2.2.0/jasmine.js",
             "<%= config.app %>/javascripts/vendor/angular/angular.js",
             "<%= config.app %>/javascripts/vendor/angular-ui-router/release/angular-ui-router.min.js",
             "<%= config.app %>/javascripts/vendor/angular-mocks/angular-mocks.js",
-            "<%= config.app %>/javascripts/vendor/jasmine/jasmine-standalone-2.2.0/lib/jasmine-2.2.0/jasmine.js",
             "<%= config.test %>/jasmine/testSpec.js"
           ],
           plugins: [
