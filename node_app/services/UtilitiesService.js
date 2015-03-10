@@ -5,7 +5,7 @@ var UtilitiesService = module.exports = {
 	 *	Like _'s, but probably not as fast.
 	 */
 	filterFor: function(dir, what) {
-		return dir.filter(function(file, i) {
+		return _.filter(dir, function(file, i) {
 			return file.indexOf(what) !== -1;
 		});
 	},

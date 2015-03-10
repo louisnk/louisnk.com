@@ -7,6 +7,7 @@ constants = require("./node_app/constants");
 fs = require("fs");
 path = require("path");
 Promise = require("promise");
+_ = require("lodash");
 
 var Log = require("log");
 var logFile = path.join(__dirname, "logs", "lnk.log");
