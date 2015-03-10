@@ -37,5 +37,4 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "Utilities
 		// Do other stuff, if needed?
 	};
 
-
 }]);

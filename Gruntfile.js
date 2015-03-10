@@ -38,21 +38,6 @@ module.exports = function(grunt) {
             }
         }
     },
-    copy: {
-      main: {
-        files: [
-          { 
-            expand: true, 
-            src: [
-              "<%= config.app %>/index.html", 
-              "<%= config.app %>/**/*.html",
-              "<%= config.app %>/assets/"
-            ],
-            dest: "<%= config.app %>/copied"
-          }
-        ]
-      }
-    },
     jshint: {
       files: [
         "<%= config.app %>/javascripts/app/**/*.js",
@@ -91,34 +76,30 @@ module.exports = function(grunt) {
         }
       },
     },
-    // karma: {
-    //   unit: {
-    //     files: [ 
-    //       { src: [ "<%= config.app %>/javascripts/app/lnk.js" ], served: true}
-    //     ],
-    //     options: {
-    //       urlRoot: '/__karma/',
-    //       proxies: {
-    //         '/' : 'http://localhost:1337/'
-    //       },
-    //       browsers: ["Chrome", "Firefox"],
-    //       frameworks: ["jasmine"],
-    //       singleRun: true,
-    //       files: [
-    //         "<%= config.app %>/javascripts/vendor/jasmine/lib/jasmine-2.2.0/jasmine.js",
-    //         "<%= config.app %>/javascripts/vendor/angular/angular.js",
-    //         "<%= config.app %>/javascripts/vendor/angular-ui-router/release/angular-ui-router.min.js",
-    //         "<%= config.app %>/javascripts/vendor/angular-mocks/angular-mocks.js",
-    //         "<%= config.test %>/jasmine/testSpec.js"
-    //       ],
-    //       plugins: [
-    //         "karma-chrome-launcher",
-    //         "karma-firefox-launcher",
-    //         "karma-jasmine"
-    //       ]
-    //     }
-    //   },
-    // },
+    karma: {
+      unit: {
+        files: [ 
+          { src: [ "<%= config.app %>/javascripts/app/lnk.js" ], served: true}
+        ],
+        options: {
+          browsers: ["Chrome", "Firefox"],
+          frameworks: ["jasmine"],
+          singleRun: true,
+          files: [
+            "<%= config.app %>/javascripts/vendor/jasmine/lib/jasmine-2.2.0/jasmine.js",
+            "<%= config.app %>/javascripts/vendor/angular/angular.js",
+            "<%= config.app %>/javascripts/vendor/angular-ui-router/release/angular-ui-router.min.js",
+            "<%= config.app %>/javascripts/vendor/angular-mocks/angular-mocks.js",
+            "<%= config.test %>/jasmine/testSpec.js"
+          ],
+          plugins: [
+            "karma-chrome-launcher",
+            "karma-firefox-launcher",
+            "karma-jasmine"
+          ]
+        }
+      },
+    },
     less: {
       development: {
         options: {
@@ -161,38 +142,12 @@ module.exports = function(grunt) {
           livereload: true
         }
       }
-    },
-    wiredep: {
-      task: {
-        src: ["<%= config.views %>/index.hjs"],
-        options: {
-          fileTypes: {
-            html: {
-              block: /(([\s\t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
-              detect: {
-                js: /<script.*src=['"](.+)['"]>/gi,
-                css: /<link.*href=['"](.+)['"]/gi
-              },
-              replace: {
-                js: '<script src="{{filePath}}"></script>',
-                css: '<link rel="stylesheet" href="{{filePath}}" />'
-              }
-            }
-          }
-        },
-        ignorePath: [ '_old' ]
-      },
-      options: {
-        directory: "<% config.app %>/javascripts/app"
-      }
     }
   });
 
   grunt.loadNpmTasks("grunt-karma");
   grunt.loadNpmTasks("grunt-shell");
-  grunt.loadNpmTasks("grunt-wiredep");
   grunt.loadNpmTasks("grunt-contrib-concat");
-  grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-jasmine");
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-contrib-less");
@@ -201,8 +156,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask("build", [
     "jshint",
-    "shell:test",
     "concat",
+    "test",
     "less",
     "uglify"
   ]);
@@ -211,9 +166,11 @@ module.exports = function(grunt) {
 
   grunt.registerTask("b", [ "build" ]);
 
+  grunt.registerTask("j", [ "jasmine" ]);
+
   grunt.registerTask("test", [ "jshint", "shell:test", "jasmine" ]);
 
-  grunt.registerTask("w", [ "wiredep" ]);
+  grunt.registerTask("testb", [ "jshint", "shell:test", "karma" ]);
 
   grunt.registerTask("default", ["build"]);
 
