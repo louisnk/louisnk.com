@@ -14,7 +14,6 @@ LnkAPP.factory("NavigationService",
 
       if (event.name === currentState) { 
         return false;
-        // do nothing, stop cilcking the same thing 
       }
 
       switch (event.name) { 

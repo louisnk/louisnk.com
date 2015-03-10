@@ -12,7 +12,6 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
    *  @param   search    [object || string] an object with the properties
    *                      or string to search for in the given array
    */
-
   var findWhere = function(array, search) {
     var index = false;
     var data = false;
@@ -107,7 +106,6 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
         section[key] = CONSTANT;
       }
     }
-
     return section;
   };
 

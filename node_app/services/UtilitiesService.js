@@ -41,7 +41,7 @@ var UtilitiesService = module.exports = {
 		} else {
 			log.error("failed to receive json for " + base);
 		}
-
+		
 		return json;
 	},
 
@@ -71,9 +71,16 @@ var UtilitiesService = module.exports = {
 
 	writeLogFile: function(details) {
 		return new Promise(function(resolve, reject) { 
-			fs.writeFile(logFile, JSON.stringify(details), function(err, success) { 
-				if (err) { reject(err); }
-				else { resolve(success); }
+			return new Promise(function(res, rej) {
+				fs.readFile(logFile, "utf8", function(err, data) { 
+					if (err) { rej(err); }
+					else { res(data); }
+				});
+			}).then(function(file) {
+				fs.writeFile(logFile, JSON.stringify(details), file.length, function(err, success) { 
+					if (err) { reject(err); }
+					else { resolve(success); }
+				});
 			});
 		});
 	},
@@ -110,11 +117,11 @@ var UtilitiesService = module.exports = {
 	setHeroes: function(json, state) {
 
 		var STATE = constants.STATE,
-				mobile = false ? "_mobile" : "",
+				mobile = false ? "_mobile" : "", // TODO: set this correctly - cookies?
 	  		origin, which,
 	  		json = json || {};
 
-	  origin = true ?  
+	  origin = true ?  // TODO: get this set right!!!!!!
 	           "../images/hero/" : 
 	           "https://s3-us-west-2.amazonaws.com/louisnk/";
 

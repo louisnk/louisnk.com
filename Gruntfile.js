@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON("package.json"),
     config: {
       app: "public",
-      node: "node_app",
+      node: "./node_app",
       test: "./tests"
     },
     concat: {
@@ -39,12 +39,19 @@ module.exports = function(grunt) {
         }
     },
     jshint: {
-      files: [
-        "<%= config.app %>/javascripts/app/**/*.js",
-        "<%= config.node %>/**/*.js",
-        "!<%= config.app %>/javascripts/app/lnk.js",
-        "!<%= config.app %>/javascripts/app/lnk.min.js"
-      ],
+      fe: {
+        files: [
+          { src: [ 
+              "<%= config.app %>/javascripts/app/**/*.js",
+              "!<%= config.app %>/javascripts/app/lnk.js",
+              "!<%= config.app %>/javascripts/app/lnk.min.js"
+            ]
+          }
+        ]
+      },
+      node: {
+        files: { src: [ "<%= config.node %>/**/*.js" ]}
+      },
       options: {
         camelcase: true,
         curly: true,
@@ -131,7 +138,13 @@ module.exports = function(grunt) {
           "<%= config.app %>/javascripts/**/*.js",
           "!<%= config.app %>/javascripts/app/lnk.js"
         ],
-        tasks: [ "jshint", "concat:js_app", "jasmine" ]
+        tasks: [ "jshint:fe", "concat:js_app", "jasmine" ]
+      },
+      node: {
+        files: [
+          "<%= config.node %>/**/*.js"
+        ],
+        tasks: [ "jshint:node", "shell:test" ]
       },
       less: {
         files: [
@@ -162,7 +175,7 @@ module.exports = function(grunt) {
     "uglify"
   ]);
 
-  grunt.registerTask("dev", [ "watch:js_dev" ]);
+  grunt.registerTask("dev", [ "watch" ]);
 
   grunt.registerTask("b", [ "build" ]);
 

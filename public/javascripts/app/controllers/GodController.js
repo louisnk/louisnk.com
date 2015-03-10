@@ -36,5 +36,5 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "Utilities
 		DataService.get(fromWhere, callback);
 		// Do other stuff, if needed?
 	};
-
+	
 }]);
