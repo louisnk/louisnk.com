@@ -1,4 +1,6 @@
 var utils = require("../node_app/services/UtilitiesService");
+var dataService = require("../node_app/services/DataService");
+
 fs = require("fs");
 path = require("path");
 logFile = "mockLog.log";
@@ -43,3 +45,10 @@ describe("Does utilitarian things", function() {
 	});
 
 });
+
+
+describe("Does data things", function() {
+	it("is true", function() {
+		is(true, true);
+	});
+});	

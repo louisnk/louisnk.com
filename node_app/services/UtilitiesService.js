@@ -67,7 +67,7 @@ var UtilitiesService = module.exports = {
 	 *	
 	 *	@param 	details 				[object] details object to be written to log
 	 */
-	writeLogFile: function(details) {
+	updateLogFile: function(details) {
 		return new Promise(function(resolve, reject) { 
 			var d = fs.readFileSync(logFile, "utf8");
 			if (d.length > 0) {
@@ -96,7 +96,7 @@ var UtilitiesService = module.exports = {
 			// TODO: set up DB connection to log these things - or use GA
 			details.dateString = (new Date()).toString();
 			
-			var logged = this.writeLogFile(details)
+			var logged = this.updateLogFile(details)
 				.done(function(datas) {
 					return "saved";
 				});

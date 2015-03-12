@@ -2,12 +2,36 @@ var Utils = require("./UtilitiesService");
 var STATE = global.constants.STATE;
 
 module.exports = {
-	findModelFor: function(which, ids, mobile, callback) {
+	findModelFor: function(which, ids, mobile) {
 		mobile = mobile || false;
 
-		var baseDir = path.join(__dirname, "..", "..", "public"),
-				getJson = this.getJson.bind(this, baseDir),
-				dir;
+		var readDirectory = function(dir) {
+			return new Promise(function(success, fail) {
+
+				fs.readdir(dir, function(err, imgs) {
+					if(!err) { return success(imgs); }
+					else { return fail(err, dir, imgs); }
+				});
+
+			});
+		},	
+
+		getJson = function(baseDir, page, callback) {
+
+			fs.readFile(path.join(baseDir, "json", page + ".json"), {encoding: "utf8"}, 
+				function(err, contents) {
+					if (!err) { 
+						return callback(JSON.parse(contents));
+					} else {
+						console.error(err);
+					}
+				});
+		},
+
+		// TODO: break this out into a config file
+		baseDir = path.join(__dirname, "..", "..", "public"),
+		getJson = getJson.bind(this, baseDir),
+		dir;
 
 		switch (which) {
 			case STATE.ART.toLowerCase():
@@ -23,33 +47,18 @@ module.exports = {
 				break;
 		}
 
-		if (dir) {
-			fs.readdir(dir, function(err, imgs) {
-				if (!err) { 
-					getJson(which, function(json) {
-						json = mobile ? json.mobile : json.desktop;
-						return callback(Utils.combineJson(dir, imgs, json, which));
-					});
-				} else {
-					return callback("Failed to read " + dir + 
-									" \n Most likely it doesn't exist.");
-				}
-			});
-		} else {
-			return callback("No files found");
-		}
-
-	},
-
-	getJson: function(baseDir, page, callback) {
-		fs.readFile(path.join(baseDir, "json", page + ".json"), {encoding: "utf8"}, 
-			function(err, contents) {
-				if (!err) { 
-					return callback(JSON.parse(contents));
-				} else {
-					console.error(err);
-				}
-			});
+		return new Promise(function(success, fail) {
+			if (dir) {
+				readDirectory(dir).then(getJson(which, function(json) {
+					json = mobile ? json.mobile : json.desktop;
+					return success(Utils.combineJson(dir, json, which));
+				})).fail(function(err) {
+					return fail(err);
+				});
+			} else {
+				return fail("No files found");
+			}
+		});
 	},
 
 	sendJSON: function(res, data) {
@@ -67,12 +76,12 @@ module.exports = {
 			Utils.recordUserDetails(details);
 		}
 
-		this.findModelFor(which, ids, details.mobile, function(model) {
-			if (model && typeof model !== "string")	 {
-				this.sendJSON(res, JSON.stringify(model));
-			} else {
-				this.sendJSON(res, JSON.stringify({ error: model }));
-			}
-		}.bind(this));
+		this.findModelFor(which, ids, details.mobile).then(function(model) {
+			this.sendJSON(res, JSON.stringify(model));
+		}).fail(function(model) {
+			this.sendJSON(res, JSON.stringify({ error: model }));
+			
+		});
 	}
+
 };
