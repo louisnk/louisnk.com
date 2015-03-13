@@ -40,7 +40,7 @@ if ("development" == app.get("env")) {
 
 app.get("/", routes.index);
 
-app.get("/DataService/*", function(req, res) {
+app.get("/models/*", function(req, res) {
 	dataService.handleRequest(req, res);
 });
 
