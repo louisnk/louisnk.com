@@ -5,6 +5,7 @@ fs = require("fs");
 path = require("path");
 logFile = "mockLog.log";
 Promise = require("promise");
+constants = require("../node_app/constants")
 _ = require("lodash");
 
 var readLogFile = function() {
@@ -48,7 +49,17 @@ describe("Does utilitarian things", function() {
 
 
 describe("Does data things", function() {
-	it("is true", function() {
-		is(true, true);
+	var reqStub = { 
+				params: [ "home" ]
+			};
+
+	it("reads a directory for images, returns a promise", function() {
+		var base = path.join("..", "public", "json");
+		var imgsDir = path.join(base, "images", reqStub.params[0]);
+		console.log("hello");
+		dataService.readDirectory(imgsDir).done(function(json) {
+			console.log(json);
+			is(typeof json, "object");
+		})
 	});
 });	

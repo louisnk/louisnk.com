@@ -1,3 +1,4 @@
+var path = require("path");
 // Utilities Service for Louisnk.com
 
 var UtilitiesService = module.exports = {
@@ -14,7 +15,7 @@ var UtilitiesService = module.exports = {
 	 *	Parent function for setting images dynamically in a page's data model
 	 */
 	combineJson: function(base, imgs, json, which) {
-		return setHeroes(combineJsonAndImages(base, imgs, json), which);
+		return this.setHeroes(combineJsonAndImages(base, imgs, json), which);
 	},
 
 	/**
