@@ -1,4 +1,4 @@
-var utils = require("../node_app/services/UtilitiesService");
+var Utils = require("../node_app/services/UtilitiesService");
 var dataService = require("../node_app/services/DataService");
 
 fs = require("fs");
@@ -11,15 +11,15 @@ _ = require("lodash");
 
 // Easier to have all of them defined in one place
 var publicPath = path.join(process.cwd(), "public"),
-		images = path.join(publicPath, "images"),
+		imagesDir = path.join(publicPath, "images"),
 		imageName = "some_image.png",
 		home = constants.STATE.HOME,
 		details = { test: true },
-		mockDir = ["abc", "def.ghi", "jkl.mno"],
+		mockDir = ["abc", "def.ghi", "jkl.mno", "home.jpg", "code.jpg", "other.jpg", "def.jpg"],
 		mockPage = {
 			sections: [ { imgTag: "def" } ],
 		},
-		homeImages = path.join(images, home),
+		homeImages = path.join(imagesDir, home),
 
 		readLogFile = function() {
 			return new Promise(function(win,lose) {
@@ -40,7 +40,7 @@ describe("Utilities service", function() {
 		readLogFile().then(function(data) {
 			is(!!data, true);
 			originalLength = data.length;
-			is(utils.recordUserDetails(details), true);
+			is(Utils.recordUserDetails(details), true);
 		}, function(err) {
 			console.log(err);
 		});
@@ -55,18 +55,18 @@ describe("Utilities service", function() {
 	it("Sets hero images", function() {
 		var mockObj = { heroImageUrl: "" };
 
-		var heroedJson = utils.setHeroes(mockObj, home);
+		var heroedJson = Utils.setHeroes(mockObj, home);
 		is(Object.keys(heroedJson).length == 1, true);
 		is(heroedJson.heroImageUrl.length > 0, true);
 		is(heroedJson.heroImageUrl.slice(-4) === ".jpg", true);
 	});
 
 	it("Filters directory for a given file", function() {
-		is(Array.isArray(utils.filterFor(mockDir, "def.ghi")), true);
+		is(Array.isArray(Utils.filterFor(mockDir, "def.ghi")), true);
 	});
 
 	it("Makes image objects with good url", function() {
-		var imgObject = utils.makeImageObjects(images,imageName);
+		var imgObject = Utils.makeImageObjects(imagesDir,imageName);
 
 		is(typeof imgObject, "object");
 		is(imgObject.url && typeof imgObject.url === "string", true);
@@ -74,7 +74,7 @@ describe("Utilities service", function() {
 	});
 
 	it("Joins image objects with a page's data model", function() {
-		var combinedJson = utils.combineJsonAndImages(images, mockDir, mockPage);
+		var combinedJson = Utils.combineJsonAndImages(imagesDir, mockDir, mockPage);
 
 		is(typeof combinedJson, "object");
 		is(combinedJson.sections.length, 1);
@@ -83,11 +83,10 @@ describe("Utilities service", function() {
 
 	it("Combines all the things into a beautiful package", function() {
 		// TODO: test to make sure that the product of previously tested functions is as expected (how could it not be?)
-		// test utils.combineJson(......);
+		// test Utils.combineJson(......);
+		var masterModel = Utils.combineJson(imagesDir, mockDir, mockPage, home);
 	});
 });
-
-
 
 
 
@@ -100,6 +99,7 @@ describe("Data things", function() {
 			is(json.desktop && Object.keys(json.desktop).length > 1, true);
 		}, function(err) {
 			console.log(err);
+			is(false, true);
 		});
 	});
 
@@ -109,6 +109,19 @@ describe("Data things", function() {
 			is(images.length > 0, true);
 		}, function(err) {
 			console.log(err);
+			is(false, true);
 		});
 	});
+
+	it("Manages the retrieval and construction of appropriate data model", function() {
+		console.log("manage some things?");
+		dataService.buildModelFor(home, [], true).then(function(model) {
+			console.log(model);
+			is(model && typeof model === "object", true);
+		}).catch(function(err) {
+			console.log("who dunnit?", err);
+		});
+	});
+
+
 });	

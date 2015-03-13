@@ -14,8 +14,8 @@ var UtilitiesService = module.exports = {
 	/**
 	 *	Parent function for setting images dynamically in a page's data model
 	 */
-	combineJson: function(base, imgs, json, which) {
-		return this.setHeroes(this.combineJsonAndImages(base, imgs, json), which);
+	combineJson: function(baseDir, imgs, json, which) {
+		return this.setHeroes(this.combineJsonAndImages(baseDir, imgs, json), which);
 	},
 
 	/**
@@ -42,7 +42,6 @@ var UtilitiesService = module.exports = {
 		} else {
 			log.error("failed to receive json for " + base);
 		}
-		
 		return json;
 	},
 
@@ -71,6 +70,7 @@ var UtilitiesService = module.exports = {
 	updateLogFile: function(details) {
 		return new Promise(function(resolve, reject) { 
 			var d = fs.readFileSync(logFile, "utf8");
+
 			if (d.length > 0) {
 				fs.appendFile(logFile, "\n" + JSON.stringify(details), {encoding: "utf8"}, function(err, done) { 
 					if (err) { reject(err); }
@@ -98,9 +98,13 @@ var UtilitiesService = module.exports = {
 			details.dateString = (new Date()).toString();
 			
 			var logged = this.updateLogFile(details)
-				.done(function(datas) {
+				.then(function(datas) {
 					return "saved";
+				}, function(err) {
+					console.log(err);
 				});
+
+			console.log(logged.resolved(function(datas) { console.log(datas); }));
 		} else {
 			console.log(details);
 		}
