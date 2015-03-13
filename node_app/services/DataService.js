@@ -87,14 +87,13 @@ module.exports = {
 			Utils.recordUserDetails(details);
 		}
 
-		try {
-			this.findModelFor(which, ids, details.mobile).then(function(model) {
-				console.log(model);
-				this.sendJSON(res, JSON.stringify(model));
-			}.bind(this));
-		} catch (e) {
-			console.error(e);
-		}
+		this.findModelFor(which, ids, details.mobile).then(function(model) {
+			console.log(model);
+			this.sendJSON(res, JSON.stringify(model));
+		}.bind(this), function(err) {
+			console.log(err);
+		});
+
 	}
 
 };

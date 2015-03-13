@@ -3,7 +3,7 @@ var path = require("path");
 
 var UtilitiesService = module.exports = {
 	/**
-	 *	Like _'s, but probably not as fast.
+	 *	A wrapper on _'s filter function.
 	 */
 	filterFor: function(dir, what) {
 		return _.filter(dir, function(file, i) {
