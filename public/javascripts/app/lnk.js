@@ -349,8 +349,8 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 		if (!existingData) {
 			$http.get(requestUrl, { params: params, cache: Cache })
 				.success(function(data, status, headers, config) {
-				 	Cache.put(what, JSON.parse(data));
-				 	callback(JSON.parse(data));
+				 	Cache.put(what, data); 
+				 	callback(data);
 				})
 				.error(function(data, status, headers, config) {
 				 		new Error(data, status);

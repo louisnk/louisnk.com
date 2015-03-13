@@ -29,7 +29,7 @@ var UtilitiesService = module.exports = {
 
 		if (json && json.sections) {
 			for (var i = json.sections.length - 1; i >= 0; i--) {
-				var section = json.sections[i];
+				var section = json.sections[i] || json.skills[i];
 				var images = this.filterFor(imgs, section.imgTag);
 
 				section.images = [];
@@ -40,7 +40,8 @@ var UtilitiesService = module.exports = {
 				}
 			}
 		} else {
-			log.error("failed to receive json for " + base);
+			console.error("failed to receive json for " + base, imgs, "\n", json);
+			// console.log("failed to combine ", base);
 		}
 		return json;
 	},
@@ -54,7 +55,7 @@ var UtilitiesService = module.exports = {
 	makeImageObjects: function(base, image) {
 		if (base && image) {
 			return { url: 
-				path.join(base, image).split("public")[1], 
+				path.join(base, image).split("public")[1],
 				alt: image.split(".")[0]
 			};
 		} else {
@@ -94,7 +95,7 @@ var UtilitiesService = module.exports = {
 		if (typeof details === "object" && 
 				Object.keys(details) && 
 				Object.keys(details).length) {
-			// TODO: set up DB connection to log these things - or use GA
+			// TODO: set up DB connection to log these things - or use GA?
 			details.dateString = (new Date()).toString();
 			
 			var logged = this.updateLogFile(details)
@@ -103,8 +104,6 @@ var UtilitiesService = module.exports = {
 				}, function(err) {
 					console.log(err);
 				});
-
-			console.log(logged.resolved(function(datas) { console.log(datas); }));
 		} else {
 			console.log(details);
 		}

@@ -13,13 +13,13 @@ _ = require("lodash");
 var publicPath = path.join(process.cwd(), "public"),
 		imagesDir = path.join(publicPath, "images"),
 		imageName = "some_image.png",
-		home = constants.STATE.HOME,
+		code = constants.STATE.CODE,
 		details = { test: true },
 		mockDir = ["abc", "def.ghi", "jkl.mno", "home.jpg", "code.jpg", "other.jpg", "def.jpg"],
 		mockPage = {
 			sections: [ { imgTag: "def" } ],
 		},
-		homeImages = path.join(imagesDir, home),
+		homeImages = path.join(imagesDir, code),
 
 		readLogFile = function() {
 			return new Promise(function(win,lose) {
@@ -41,21 +41,17 @@ describe("Utilities service", function() {
 			is(!!data, true);
 			originalLength = data.length;
 			is(Utils.recordUserDetails(details), true);
-		}, function(err) {
-			console.log(err);
 		});
 
 		readLogFile().then(function(newData) {
 			is(newData.length > originalLength, true);
-		}, function(err) {
-			console.log(err);
 		});
 	});
 
 	it("Sets hero images", function() {
 		var mockObj = { heroImageUrl: "" };
 
-		var heroedJson = Utils.setHeroes(mockObj, home);
+		var heroedJson = Utils.setHeroes(mockObj, code);
 		is(Object.keys(heroedJson).length == 1, true);
 		is(heroedJson.heroImageUrl.length > 0, true);
 		is(heroedJson.heroImageUrl.slice(-4) === ".jpg", true);
@@ -82,9 +78,11 @@ describe("Utilities service", function() {
 	});
 
 	it("Combines all the things into a beautiful package", function() {
-		// TODO: test to make sure that the product of previously tested functions is as expected (how could it not be?)
-		// test Utils.combineJson(......);
-		var masterModel = Utils.combineJson(imagesDir, mockDir, mockPage, home);
+		var masterModel = Utils.combineJson(imagesDir, mockDir, mockPage, code);
+
+		is(masterModel.sections && masterModel.sections.length > 0, true);
+		is(masterModel.sections[0].imgTag === "def", true);
+		is(masterModel.sections[0].images.length, 2);
 	});
 });
 
@@ -93,13 +91,10 @@ describe("Utilities service", function() {
 describe("Data things", function() {
 
 	it("reads a directory for a page's model, returns a promise", function() {
-		dataService.getJson(home).then(function(json) {
+		dataService.getJson(code).then(function(json) {
 			is(typeof json, "object");
 			is(json.mobile && Object.keys(json.mobile).length > 1, true);
 			is(json.desktop && Object.keys(json.desktop).length > 1, true);
-		}, function(err) {
-			console.log(err);
-			is(false, true);
 		});
 	});
 
@@ -107,21 +102,18 @@ describe("Data things", function() {
 		dataService.readDirectory(homeImages).then(function(images) {
 			is(Array.isArray(images), true);
 			is(images.length > 0, true);
-		}, function(err) {
-			console.log(err);
-			is(false, true);
 		});
 	});
 
 	it("Manages the retrieval and construction of appropriate data model", function() {
-		console.log("manage some things?");
-		dataService.buildModelFor(home, [], true).then(function(model) {
-			console.log(model);
+		dataService.buildModelFor(code, [], false).then(function(model) {
 			is(model && typeof model === "object", true);
+			is(true, false);
 		}).catch(function(err) {
+			// TODO: not let this error happen
 			console.log("who dunnit?", err);
+			is(false, true);
 		});
 	});
-
 
 });	

@@ -24,8 +24,11 @@ module.exports = {
 				tmpModel = model;
 				return self.readDirectory(self.imagesDirPath(which));
 			}).then(function(images) {
-				return resolve(Utils.combineJson(baseDir, images, tmpModel, which));
+				return Utils.combineJson(baseDir, images, tmpModel, which);
+			}).then(function(comb) {
+				return resolve(comb);
 			}).catch(function(err) {
+				console.log("failure is not an option");
 				return reject(new Error(err));
 			});
 		});
@@ -40,13 +43,14 @@ module.exports = {
 	 */
 	findModelFor: function(which, ids, mobile) {
 		mobile = mobile || false;
+		var self = this;
 
 		if (ids && ids) {
 			// TODO: handle ID based searches
 		}
 
 		return new Promise(function(resolve, reject) {
-			this.getJson(which).then(function(json) {
+			self.getJson(which).then(function(json) {
 				json = mobile ? json.mobile : json.desktop;
 				return resolve(json);
 			}, function(err) {
@@ -76,12 +80,12 @@ module.exports = {
 	 *	A simple switch (probably not the best choice) to build the right path, returns a string
 	 */
 	imagesDirPath: function(which) {
-		switch (which) {
+		switch (which.toLowerCase()) {
 			case STATE.ART.toLowerCase():
 			case STATE.CODE.toLowerCase():
 			case STATE.HOME.toLowerCase():
 			case STATE.LIFE.toLowerCase():
-			case STATE.PROJECTS.toLowerCase():
+			case STATE.PROJECT.toLowerCase():
 				return path.join(baseDir, "images", which);
 				break;
 
@@ -134,7 +138,6 @@ module.exports = {
 		}
 
 		this.buildModelFor(which, ids, details.mobile).then(function(model) {
-			console.log("in the final countdown!!", model);
 			this.sendJSON(res, JSON.stringify(model));
 		}.bind(this), function(err) {
 			console.log(err);
