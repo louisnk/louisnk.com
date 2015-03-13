@@ -26,7 +26,7 @@ module.exports = {
 			}).then(function(images) {
 				return resolve(Utils.combineJson(baseDir, images, tmpModel, which));
 			}).catch(function(err) {
-				return reject(err);
+				return reject(new Error(err));
 			});
 		});
 	},
