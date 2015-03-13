@@ -28,30 +28,38 @@ module.exports = {
 				imgsDir = path.join(baseDir, "images");
 				break;
 		}
-		console.log(which, imgsDir);
+
 		return new Promise(function(success, fail) {
 			if (imgsDir) {
 				return self.getJson(which).then(self.readDirectory(imgsDir)).then(function(json) {
 					json = mobile ? json.mobile : json.desktop;
 					return success(Utils.combineJson(imgsDir, json, which));
+				}, function(err) {
+					return fail(err);
 				});
 			} else {
-				return fail("No files found");
+				return fail("No directory created");
 			}
 		});
 	},
 
-	readDirectory: function(imgsDir) {
+	/**
+		*	Just a wrapper around fs.readdir. Does not return files that start with "."
+		*/
+	readDirectory: function(dir) {
 		return new Promise(function(success, fail) {
-			fs.readdir(imgsDir, function(err, imgs) {
-				if(!err) { return success(imgs); }
-				else { return fail(err, imgsDir, imgs); }
+			fs.readdir(dir, function(err, files) {
+				if(!err) { 
+					return success(files.filter(function(file) {
+						return !file.match(/^\..+/);
+					})); 
+				} 
+				else { return fail(err, dir); }
 			});
-			
 		});
 	},	
 
-	getJson: function(page, callback) {
+	getJson: function(page) {
 		return new Promise(function(success, fail) {
 			fs.readFile(path.join(baseDir, "json", page + ".json"), {encoding: "utf8"},  function(err, contents) {
 					if (!err) { 
@@ -60,6 +68,7 @@ module.exports = {
 						return fail(err);
 					}
 				});
+
 		});
 	},
 

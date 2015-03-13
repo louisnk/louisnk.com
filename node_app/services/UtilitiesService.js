@@ -15,7 +15,7 @@ var UtilitiesService = module.exports = {
 	 *	Parent function for setting images dynamically in a page's data model
 	 */
 	combineJson: function(base, imgs, json, which) {
-		return this.setHeroes(combineJsonAndImages(base, imgs, json), which);
+		return this.setHeroes(this.combineJsonAndImages(base, imgs, json), which);
 	},
 
 	/**
@@ -30,12 +30,12 @@ var UtilitiesService = module.exports = {
 		if (json && json.sections) {
 			for (var i = json.sections.length - 1; i >= 0; i--) {
 				var section = json.sections[i];
-				var images = filterFor(imgs, section.imgTag);
+				var images = this.filterFor(imgs, section.imgTag);
 
 				section.images = [];
 				if (images && images.length > 0) {
 					for (var j = 0; j < images.length; j++) {
-						section.images.push(makeImageObjects(base, images[j]));
+						section.images.push(this.makeImageObjects(base, images[j]));
 					}				
 				}
 			}
@@ -112,6 +112,7 @@ var UtilitiesService = module.exports = {
 	 * 	modifies and returns the original json structure
 	 *
 	 *	@param json 				[object] the data model for a page
+	 *	@param state 				[string | Constant] the constant representing the requested state
 	 */
 	setHeroes: function(json, state) {
 
