@@ -47,3 +47,9 @@ app.get("/models/*", function(req, res) {
 http.createServer(app).listen(app.get("port"), function(){
   console.log("Ready to roll on port " + app.get("port"));
 });
+
+
+
+
+
+EE = require("events").EventEmitter;

@@ -25,8 +25,8 @@ module.exports = {
 				return self.readDirectory(self.imagesDirPath(which));
 			}).then(function(images) {
 				return Utils.combineJson(baseDir, images, tmpModel, which);
-			}).then(function(comb) {
-				return resolve(comb);
+			}).then(function(combo) {
+				return resolve(combo);
 			}).catch(function(err) {
 				console.log("failure is not an option");
 				return reject(new Error(err));
@@ -80,21 +80,23 @@ module.exports = {
 	 *	A simple switch (probably not the best choice) to build the right path, returns a string
 	 */
 	imagesDirPath: function(which) {
+		var imagePath = "";
+
 		switch (which.toLowerCase()) {
 			case STATE.ART.toLowerCase():
 			case STATE.CODE.toLowerCase():
 			case STATE.HOME.toLowerCase():
 			case STATE.LIFE.toLowerCase():
 			case STATE.PROJECT.toLowerCase():
-				return path.join(baseDir, "images", which);
+				imagePath = path.join(baseDir, "images", which);
 				break;
 
 			default:
-				return path.join(baseDir, "images");
+				imagePath = path.join(baseDir, "images");
 				break;
 		}
+		return imagePath;
 	},
-
 
 	/**
 	 *	Reads the json file for the requested page, and returns a promise with its contents
