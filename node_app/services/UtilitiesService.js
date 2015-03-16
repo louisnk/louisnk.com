@@ -9,6 +9,7 @@ var UtilitiesService = module.exports = {
 		return _.filter(dir, function(file, i) {
 			return file.indexOf(what) !== -1;
 		});
+		
 	},
 
 	/**

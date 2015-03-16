@@ -2,12 +2,17 @@ var Utils = require("./UtilitiesService");
 var path = require("path");
 var constants = require("../constants");
 var STATE = constants.STATE;
+var EE = require("events").EventEmitter;
+var emitter = new EE();
 
 // // TODO: break this out into a config file
 var baseDir = path.join(__dirname, "..", "..", "public");
 
-module.exports = {
-
+var DataService = module.exports = {
+	tellMe: function(eventData) {
+		console.log("an event was fired! woo!!", eventData);
+		return this;
+	},
 	/**
 	 *	retrieves, builds, and returns a promised data model, for the requested page
 	 *	
@@ -25,8 +30,8 @@ module.exports = {
 				return self.readDirectory(self.imagesDirPath(which));
 			}).then(function(images) {
 				return Utils.combineJson(baseDir, images, tmpModel, which);
-			}).then(function(combo) {
-				return resolve(combo);
+			}).then(function(combinedJson) {
+				return resolve(combinedJson);
 			}).catch(function(err) {
 				console.log("failure is not an option");
 				return reject(new Error(err));
@@ -134,6 +139,7 @@ module.exports = {
 		var which = req.params[0];
 		var ids = req.query.ids || false;
 		var details = req.query.details ? JSON.parse(decodeURIComponent(req.query.details)) : { mobile: false };
+		emitter.emit(constants.EVENT.HTTP.REQUEST_MADE, req.params);
 
 		if (details.dateString) {
 			Utils.recordUserDetails(details);
@@ -148,3 +154,6 @@ module.exports = {
 	}
 
 };
+
+emitter.on(constants.EVENT.HTTP.REQUEST_MADE, DataService.tellMe);
+console.log(emitter);

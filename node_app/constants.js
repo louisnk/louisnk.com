@@ -14,6 +14,9 @@ module.exports = Object.freeze({
     },
     ANIMATION: {
       SCROLL_TO_CONTENT:      "SCROLL_TO_CONTENT" 
+    },
+    HTTP: {
+      REQUEST_MADE:           "REQUEST_MADE"
     }
   },
   

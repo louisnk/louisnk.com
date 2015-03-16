@@ -8,6 +8,8 @@ global.fs = require("fs");
 global.path = require("path");
 global.Promise = require("promise");
 global._ = require("lodash");
+var EE = require("events").EventEmitter;
+global.events = new EE();
 
 var Log = require("log");
 var logFile = path.join(__dirname, "logs", "lnk.log");
@@ -47,9 +49,3 @@ app.get("/models/*", function(req, res) {
 http.createServer(app).listen(app.get("port"), function(){
   console.log("Ready to roll on port " + app.get("port"));
 });
-
-
-
-
-
-EE = require("events").EventEmitter;
