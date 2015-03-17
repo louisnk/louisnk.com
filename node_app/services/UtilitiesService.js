@@ -9,7 +9,6 @@ var UtilitiesService = module.exports = {
 		return _.filter(dir, function(file, i) {
 			return file.indexOf(what) !== -1;
 		});
-		
 	},
 
 	/**
@@ -27,19 +26,48 @@ var UtilitiesService = module.exports = {
 	 *	@param	json 				[Object] the data model for the page
 	 */
 	combineJsonAndImages: function(base, imgs, json) {
+		var self = this;
+		var imgsArray;
 
 		if (json && json.sections) {
-			for (var i = json.sections.length - 1; i >= 0; i--) {
-				var section = json.sections[i] || json.skills[i];
-				var images = this.filterFor(imgs, section.imgTag);
-
-				section.images = [];
-				if (images && images.length > 0) {
-					for (var j = 0; j < images.length; j++) {
-						section.images.push(this.makeImageObjects(base, images[j]));
-					}				
+			imgsArray = _.map(json.sections, function(section) {
+				return self.filterFor(imgs, section.imgTag);
+			}).reduce(function(previous, current, memo, list) {
+				var next = {
+					fail: previous.fail,
+					list: previous.list
+				};
+				console.log(memo);
+				if (!next.fail) {
+					if (current.length > 0){
+						next.list = list.concat(current);
+					} else {
+						next.fail = true;
+					}
 				}
-			}
+
+				return next;
+
+			}).reduce(function(p, c, m, l) {
+				// console.log(p);
+				
+				// console.log(c);
+				// console.log(m);
+				// console.log(l);
+			});
+
+			// console.log(imgsArray);
+			// for (var i = json.sections.length - 1; i >= 0; i--) {
+			// 	var section = json.sections[i] || json.skills[i];
+			// 	var images = this.filterFor(imgs, section.imgTag);
+
+			// 	section.images = [];
+			// 	if (images && images.length > 0) {
+			// 		for (var j = 0; j < images.length; j++) {
+			// 			section.images.push(this.makeImageObjects(base, images[j]));
+			// 		}				
+			// 	}
+			// }
 		} else {
 			console.error("failed to receive json for " + base, imgs, "\n", json);
 			// console.log("failed to combine ", base);

@@ -156,4 +156,3 @@ var DataService = module.exports = {
 };
 
 emitter.on(constants.EVENT.HTTP.REQUEST_MADE, DataService.tellMe);
-console.log(emitter);
