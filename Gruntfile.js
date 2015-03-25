@@ -7,7 +7,8 @@ module.exports = function(grunt) {
     config: {
       app: "public",
       node: "./node_app",
-      test: "./tests"
+      test: "./tests",
+      build: "dist"
     },
     concat: {
       options: {
@@ -19,7 +20,12 @@ module.exports = function(grunt) {
           "<%= config.app %>/javascripts/app/**/*.js",
           "!<%= config.app %>/javascripts/app/lnk.js"
         ],
-        dest: "<%= config.app %>/javascripts/app/lnk.js"
+        dest: "<%= config.build %>/javascripts/app/lnk.js"
+      }
+    },
+    concurrent: {
+      dev: {
+        tasks: ["nodemon:dev", "watch"]
       }
     },
     connect: {
@@ -38,13 +44,28 @@ module.exports = function(grunt) {
             }
         }
     },
+    jasmine: {
+      test: {
+        src: [ 
+          "<%= config.build %>/javascripts/app/lnk.js"
+        ],
+        options: {
+          specs: "<%= config.test %>/jasmine/testSpec.js",
+          vendor: [
+            "<%= config.app %>/javascripts/vendor/jasmine/lib/jasmine-2.2.0/jasmine.js",
+            "<%= config.app %>/javascripts/vendor/angular/angular.js",
+            "<%= config.app %>/javascripts/vendor/angular-ui-router/release/angular-ui-router.min.js",
+            "<%= config.app %>/javascripts/vendor/angular-mocks/angular-mocks.js",
+            "<%= config.test %>/jasmine/testSpec.js"
+          ]
+        }
+      },
+    },
     jshint: {
       fe: {
         files: [
           { src: [ 
-              "<%= config.app %>/javascripts/app/**/*.js",
-              "!<%= config.app %>/javascripts/app/lnk.js",
-              "!<%= config.app %>/javascripts/app/lnk.min.js"
+              "<%= config.app %>/javascripts/app/**/*.js"
             ]
           }
         ]
@@ -66,27 +87,10 @@ module.exports = function(grunt) {
         }
       }
     },
-    jasmine: {
-      test: {
-        src: [ 
-          "<%= config.app %>/javascripts/app/lnk.js"
-        ],
-        options: {
-          specs: "<%= config.test %>/jasmine/testSpec.js",
-          vendor: [
-            "<%= config.app %>/javascripts/vendor/jasmine/lib/jasmine-2.2.0/jasmine.js",
-            "<%= config.app %>/javascripts/vendor/angular/angular.js",
-            "<%= config.app %>/javascripts/vendor/angular-ui-router/release/angular-ui-router.min.js",
-            "<%= config.app %>/javascripts/vendor/angular-mocks/angular-mocks.js",
-            "<%= config.test %>/jasmine/testSpec.js"
-          ]
-        }
-      },
-    },
     karma: {
       unit: {
         files: [ 
-          { src: [ "<%= config.app %>/javascripts/app/lnk.js" ], served: true}
+          { src: [ "<%= config.build %>/javascripts/app/lnk.js" ], served: true}
         ],
         options: {
           browsers: ["Chrome", "Firefox"],
@@ -113,8 +117,13 @@ module.exports = function(grunt) {
           compress: true
         },
         files: {
-          "<%= config.app %>/stylesheets/lnk.css": "<%= config.app %>/stylesheets/lnk.less"
+          "<%= config.build %>/stylesheets/lnk.css": "<%= config.app %>/stylesheets/lnk.less"
         }
+      }
+    },
+    nodemon: {
+      dev: {
+        script: "app.js"
       }
     },
     shell: {
@@ -128,15 +137,20 @@ module.exports = function(grunt) {
       },
       frontend: {
         files: {
-          "<%= config.app %>/javascripts/app/lnk.min.js": "<%= config.app %>/javascripts/app/lnk.js"
+          "<%= config.build %>/javascripts/app/lnk.min.js": "<%= config.build %>/javascripts/app/lnk.js"
         }
       }
     },
     watch: {
+      // livereload: {
+      //   options: {
+      //     livereload: true
+      //   },
+      //   files: {}
+      // }
       js_dev :{
         files: [
-          "<%= config.app %>/javascripts/**/*.js",
-          "!<%= config.app %>/javascripts/app/lnk.js"
+          "<%= config.app %>/javascripts/**/*.js"
         ],
         tasks: [ "jshint:fe", "concat:js_app", "jasmine" ]
       },
@@ -158,6 +172,8 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks("grunt-concurrent");
+  grunt.loadNpmTasks("grunt-nodemon");
   grunt.loadNpmTasks("grunt-karma");
   grunt.loadNpmTasks("grunt-shell");
   grunt.loadNpmTasks("grunt-contrib-concat");
@@ -167,6 +183,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-contrib-watch");
 
+
   grunt.registerTask("build", [
     "jshint",
     "concat",
@@ -175,7 +192,7 @@ module.exports = function(grunt) {
     "uglify"
   ]);
 
-  grunt.registerTask("dev", [ "watch" ]);
+  grunt.registerTask("dev", [ "concurrent" ]);
 
   grunt.registerTask("b", [ "build" ]);
 

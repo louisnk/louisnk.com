@@ -29,18 +29,18 @@ var UtilitiesService = module.exports = {
 		var self = this;
 		var imgsArray;
 
-		if (json && json.sections) {
+		if (json && json.sections && json.sections.length > 0) {
 			imgsArray = _.map(json.sections, function(section) {
 				return self.filterFor(imgs, section.imgTag);
-			}).reduce(function(previous, current, memo, list) {
-				var next = {
-					fail: previous.fail,
-					list: previous.list
+			}).reduce(function(next, current, memo, list) {
+				next = {
+					fail: current.fail,
+					list: current.list || []
 				};
-				console.log(memo);
+
 				if (!next.fail) {
 					if (current.length > 0){
-						next.list = list.concat(current);
+						next.list = next.list.concat(current);
 					} else {
 						next.fail = true;
 					}
@@ -48,15 +48,8 @@ var UtilitiesService = module.exports = {
 
 				return next;
 
-			}).reduce(function(p, c, m, l) {
-				// console.log(p);
-				
-				// console.log(c);
-				// console.log(m);
-				// console.log(l);
-			});
+			}, {});
 
-			// console.log(imgsArray);
 			// for (var i = json.sections.length - 1; i >= 0; i--) {
 			// 	var section = json.sections[i] || json.skills[i];
 			// 	var images = this.filterFor(imgs, section.imgTag);
@@ -69,7 +62,7 @@ var UtilitiesService = module.exports = {
 			// 	}
 			// }
 		} else {
-			console.error("failed to receive json for " + base, imgs, "\n", json);
+			// console.error("failed to receive json for " + base, imgs, "\n", json);
 			// console.log("failed to combine ", base);
 		}
 		return json;

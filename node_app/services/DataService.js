@@ -139,7 +139,6 @@ var DataService = module.exports = {
 		var which = req.params[0];
 		var ids = req.query.ids || false;
 		var details = req.query.details ? JSON.parse(decodeURIComponent(req.query.details)) : { mobile: false };
-		emitter.emit(constants.EVENT.HTTP.REQUEST_MADE, req.params);
 
 		if (details.dateString) {
 			Utils.recordUserDetails(details);
@@ -154,5 +153,3 @@ var DataService = module.exports = {
 	}
 
 };
-
-emitter.on(constants.EVENT.HTTP.REQUEST_MADE, DataService.tellMe);

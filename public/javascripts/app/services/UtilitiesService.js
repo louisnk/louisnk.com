@@ -47,7 +47,7 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     else if (typeof search === "string") {
       // TODO: handle silly string searches
     }
-
+    
   };
 
   /**
