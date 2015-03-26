@@ -8,7 +8,7 @@ module.exports = function(grunt) {
       app: "public",
       node: "./node_app",
       test: "./tests",
-      build: "dist"
+      build: "build"
     },
     concat: {
       options: {
@@ -18,9 +18,10 @@ module.exports = function(grunt) {
         src: [
           "<%= config.app %>/javascripts/app/main.js", 
           "<%= config.app %>/javascripts/app/**/*.js",
-          "!<%= config.app %>/javascripts/app/lnk.js"
+          "!<%= config.app %>/javascripts/app/lnk.js",
+          "!<%= config.app %>/javascripts/app/lnk.min.js"
         ],
-        dest: "<%= config.build %>/javascripts/app/lnk.js"
+        dest: "<%= config.build %>/js/lnk.js"
       }
     },
     concurrent: {
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
     jasmine: {
       test: {
         src: [ 
-          "<%= config.build %>/javascripts/app/lnk.js"
+          "<%= config.build %>/js/lnk.js"
         ],
         options: {
           specs: "<%= config.test %>/jasmine/testSpec.js",
@@ -65,7 +66,9 @@ module.exports = function(grunt) {
       fe: {
         files: [
           { src: [ 
-              "<%= config.app %>/javascripts/app/**/*.js"
+              "<%= config.app %>/javascripts/app/**/*.js",
+              "!<%= config.app %>/javascripts/app/lnk.js",
+              "!<%= config.app %>/javascripts/app/lnk.min.js"
             ]
           }
         ]
@@ -90,7 +93,7 @@ module.exports = function(grunt) {
     karma: {
       unit: {
         files: [ 
-          { src: [ "<%= config.build %>/javascripts/app/lnk.js" ], served: true}
+          { src: [ "<%= config.build %>/js/lnk.js" ], served: true}
         ],
         options: {
           browsers: ["Chrome", "Firefox"],
@@ -114,10 +117,11 @@ module.exports = function(grunt) {
     less: {
       development: {
         options: {
-          compress: true
+          compress: true,
+          sourceMap: true
         },
         files: {
-          "<%= config.build %>/stylesheets/lnk.css": "<%= config.app %>/stylesheets/lnk.less"
+          "<%= config.build %>/css/lnk.min.css": "<%= config.app %>/stylesheets/lnk.less"
         }
       }
     },
@@ -137,7 +141,7 @@ module.exports = function(grunt) {
       },
       frontend: {
         files: {
-          "<%= config.build %>/javascripts/app/lnk.min.js": "<%= config.build %>/javascripts/app/lnk.js"
+          "<%= config.build %>/js/lnk.min.js": "<%= config.build %>/js/lnk.js"
         }
       }
     },
@@ -192,7 +196,7 @@ module.exports = function(grunt) {
     "uglify"
   ]);
 
-  grunt.registerTask("dev", [ "concurrent" ]);
+  grunt.registerTask("dev", [ "watch" ]);
 
   grunt.registerTask("b", [ "build" ]);
 
