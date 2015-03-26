@@ -5,20 +5,20 @@
   z-index: -10;
   width: 110%;
   min-height: 450px;
-  background-size: 100%;
+  background-size: cover;
   background-position: -100px 0px;
-  box-shadow: 0em 0.5em 3.5em 0.5em @colorBlack;
+  box-shadow: 0rem 0.5rem 3.5rem 0.5rem @colorBlack;
 
-  .triangle-down {
-    display: none !important;
-    position: absolute;
-    bottom: -2.5em;
-    left: 49%;
-    border-style: solid;
-    border-width: 2em 1.5em 0em 1.5em;
-    border-color: @colorBlack transparent;
-    cursor: pointer;
-  }
+  // .triangle-down {
+  //   display: none !important;
+  //   position: absolute;
+  //   bottom: -2.5rem;
+  //   left: 49%;
+  //   border-style: solid;
+  //   border-width: 2rem 1.5rem 0rem 1.5rem;
+  //   border-color: @colorBlack transparent;
+  //   cursor: pointer;
+  // }
 }
 
 @media only screen and (max-width: 992px) {
@@ -29,7 +29,7 @@
     width: 125%;
     height: 115%;
     color: @colorWhite;
-    background-size: 100%;
+    background-size: cover;
     box-shadow: none;
 
     .photo-loc {
@@ -43,11 +43,18 @@
 
 @media only screen and (min-width: 1400px) {
   .hero-image {
-    min-height: 44em;
+    min-height: 30rem;
   }
 }
 @media only screen and (min-width: 1599px) {
   .hero-image {
-    min-height: 55em;
+    min-height: 37.5rem;
+  }
+}
+
+
+@media only screen and (orientation: landscape) {
+  .hero-image {
+    background-size: cover;
   }
 }
