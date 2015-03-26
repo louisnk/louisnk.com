@@ -2,17 +2,13 @@ var Utils = require("./UtilitiesService");
 var path = require("path");
 var constants = require("../constants");
 var STATE = constants.STATE;
-var EE = require("events").EventEmitter;
-var emitter = new EE();
+var emitter = new require("events").EventEmitter();
 
 // // TODO: break this out into a config file
 var baseDir = path.join(__dirname, "..", "..", "public");
 
 var DataService = module.exports = {
-	tellMe: function(eventData) {
-		console.log("an event was fired! woo!!", eventData);
-		return this;
-	},
+
 	/**
 	 *	retrieves, builds, and returns a promised data model, for the requested page
 	 *	
@@ -22,18 +18,19 @@ var DataService = module.exports = {
 	 */
 	buildModelFor: function(which, ids, mobile) {
 		var self = this,
-				tmpModel = {};
+				tmpModel = {},
+				combineJson = Utils.combineJson.bind(Utils, mobile, baseDir, which);
 
 		return new Promise(function(resolve, reject) {
 			self.findModelFor(which, ids, mobile).then(function(model) {
 				tmpModel = model;
 				return self.readDirectory(self.imagesDirPath(which));
 			}).then(function(images) {
-				return Utils.combineJson(baseDir, images, tmpModel, which);
+				return combineJson(images, tmpModel);
 			}).then(function(combinedJson) {
 				return resolve(combinedJson);
 			}).catch(function(err) {
-				console.log("failure is not an option");
+				console.log("failed to resolve all promises to create the data model - DataService:36");
 				return reject(new Error(err));
 			});
 		});
@@ -125,6 +122,10 @@ var DataService = module.exports = {
 	 * 	@param data 						[object] 	the JSON object you want to send
 	 */
 	sendJSON: function(res, data) {
+		if (typeof data !== "string") {
+			data = JSON.stringify(data);
+		}
+
 	  res.statusCode = 200;
 	  res.setHeader('content-type', 'application/json');
 	  res.end(data);
@@ -139,17 +140,16 @@ var DataService = module.exports = {
 		var which = req.params[0];
 		var ids = req.query.ids || false;
 		var details = req.query.details ? JSON.parse(decodeURIComponent(req.query.details)) : { mobile: false };
+		var sendJson = this.sendJSON.bind(this, res);
 
-		if (details.dateString) {
+		if (details.dev) {
 			Utils.recordUserDetails(details);
 		}
 
-		this.buildModelFor(which, ids, details.mobile).then(function(model) {
-			this.sendJSON(res, JSON.stringify(model));
-		}.bind(this), function(err) {
-			console.log(err);
-		});
-
+		this.buildModelFor(which, ids, details.mobile)
+				.then(sendJson, function(err) {
+					console.log(err);
+				});
 	}
 
 };

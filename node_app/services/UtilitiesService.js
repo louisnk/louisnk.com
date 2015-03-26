@@ -1,4 +1,5 @@
 var path = require("path");
+var logFile = path.join(process.cwd(), "logs", "log.txt");
 // Utilities Service for Louisnk.com
 
 var UtilitiesService = module.exports = {
@@ -14,8 +15,8 @@ var UtilitiesService = module.exports = {
 	/**
 	 *	Parent function for setting images dynamically in a page's data model
 	 */
-	combineJson: function(baseDir, imgs, json, which) {
-		return this.setHeroes(this.combineJsonAndImages(baseDir, imgs, json), which);
+	combineJson: function(mobile, baseDir, which, imgs, json) {
+		return this.setHeroes(mobile, this.combineJsonAndImages(baseDir, imgs, json), which);
 	},
 
 	/**
@@ -95,7 +96,7 @@ var UtilitiesService = module.exports = {
 			var d = fs.readFileSync(logFile, "utf8");
 
 			if (d.length > 0) {
-				fs.appendFile(logFile, "\n" + JSON.stringify(details), {encoding: "utf8"}, function(err, done) { 
+				fs.appendFile(logFile, "\n\r" + JSON.stringify(details), {encoding: "utf8"}, function(err, done) { 
 					if (err) { reject(err); }
 					else { resolve(done); }
 				});
@@ -113,7 +114,7 @@ var UtilitiesService = module.exports = {
 	 *	setting up some custom analytics if I want
 	 */
 	recordUserDetails: function(details) {
-
+		console.log(details);
 		if (typeof details === "object" && 
 				Object.keys(details) && 
 				Object.keys(details).length) {
@@ -139,10 +140,10 @@ var UtilitiesService = module.exports = {
 	 *	@param json 				[object] the data model for a page
 	 *	@param state 				[string | Constant] the constant representing the requested state
 	 */
-	setHeroes: function(json, state) {
+	setHeroes: function(mobile, json, state) {
 
 		var STATE = constants.STATE,
-				mobile = false ? "_mobile" : "", // TODO: set this correctly - cookies?
+				mobile = mobile ? "_mobile" : "", // TODO: set this correctly - cookies?
 	  		origin, which,
 	  		json = json || {};
 

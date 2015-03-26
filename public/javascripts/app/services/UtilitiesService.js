@@ -47,7 +47,6 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
     else if (typeof search === "string") {
       // TODO: handle silly string searches
     }
-    
   };
 
   /**
@@ -59,7 +58,10 @@ LnkAPP.factory("UtilitiesService", ["$rootScope", "Constants", function($rootSco
       w: window.innerWidth,
       h: window.innerHeight,
       dev: dev,
-      mobile: isMobile()
+      m: {
+        mobile: isMobile(),
+        orientation: window.innerHeight > window.innerWidth
+      }
       // What else do I want to get?
     };
   };
