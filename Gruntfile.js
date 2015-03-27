@@ -125,6 +125,9 @@ module.exports = function(grunt) {
         }
       }
     },
+    lesslint: {
+      src: [ "<% config.app %>/stylesheets/**/*.less" ]
+    },
     nodemon: {
       dev: {
         script: "app.js"
@@ -168,7 +171,7 @@ module.exports = function(grunt) {
         files: [
           "<%= config.app %>/stylesheets/**/*.less"
         ],
-        tasks: [ "less" ],
+        tasks: [ "lesslint", "less" ],
         options: {
           livereload: true
         }
@@ -179,6 +182,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-concurrent");
   grunt.loadNpmTasks("grunt-nodemon");
   grunt.loadNpmTasks("grunt-karma");
+  grunt.loadNpmTasks("grunt-lesslint");
   grunt.loadNpmTasks("grunt-shell");
   grunt.loadNpmTasks("grunt-contrib-concat");
   grunt.loadNpmTasks("grunt-contrib-jasmine");
