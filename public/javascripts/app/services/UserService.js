@@ -2,29 +2,34 @@ LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constan
 	function($rootScope, $cookies, DataService, Constants) {
 
 		function User(info) {
-			firstName: info.firstName || "",
-			github: info.github || "",
-			twitter: info.twitter || "",
-			access: false,
-			logOut: function() {
-				$rootScope.broadcast(Constants.REQUESTS.USER.LOG_OUT, true);
-			}
-		};
+			info = info || {};
+			return {
+				firstName: info.firstName || "",
+				github: info.github || "",
+				twitter: info.twitter || "",
+				access: false,
+				logOut: function() {
+					$rootScope.broadcast(Constants.REQUESTS.USER.LOG_OUT, true);
+				}
+			};
+		}
+
 
 		var init = function() {
 			var user = getUser();
 			listenForUserChanges();
-
-			if (user && user.firstName) {
-				return $rootScope.broadcast(Constants.EVENT.USER.FOUND, user);
-			} else {
-				return $rootScope.broadcast(Constants.EVENT.USER.NEW, new User());
-			};
+			console.log("running user service");
+			// if (user && user.firstName) {
+			// 	return $rootScope.broadcast(Constants.EVENT.USER.FOUND, user);
+			// } else {
+			// 	return $rootScope.broadcast(Constants.EVENT.USER.NEW, new User());
+			// }
 
 		};
 
 		var listenForUserChanges = function() {
-			$rootScope.on(Constants.EVENT.USER.CHANGED, updateUser);
+			// $rootScope.on(Constants.EVENT.USER.CHANGED, updateUser);
+			console.log($rootScope, $rootScope.on);
 		};
 
 		var checkUser = function() {
@@ -106,5 +111,6 @@ LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constan
 
 		return {
 			init: init
-		}
+		};
+
 }]);

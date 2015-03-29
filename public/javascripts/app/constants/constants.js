@@ -17,6 +17,12 @@ LnkAPP.constant("Constants", {
       CLICK_EXPLORE:          "CLICK_EXPLORE",
       CLICK_LIFE:             "CLICK_LIFE",
       SHOW_MENU:              "SHOW_MENU"
+    },
+    USER: {
+      CHANGED:                "CHANGED",
+      FOUND:                  "FOUND",
+      LOG_OUT:                "LOG_OUT",
+      NEW:                    "NEW"
     }
   },
   
