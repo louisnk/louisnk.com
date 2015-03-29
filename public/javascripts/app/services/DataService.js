@@ -70,8 +70,7 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 
 	return {
 		get: get,
-		post: post,
-		setUser: setUser
+		post: post
 	};
 
 }]);
