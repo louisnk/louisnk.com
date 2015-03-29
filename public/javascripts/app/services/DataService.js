@@ -10,7 +10,7 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 			params = {};
 		}
 
-		var requestUrl = "./models";
+		var requestUrl = "/models";
 
 
 		params.details = UtilitiesService.getUserDetails();
@@ -45,14 +45,33 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 		}
 	};
 
-	var post = function(what, data) {
+	/**
+	 *	Posts some datas and returns a promise which should be true for success
+	 *	@param 		where 				[string] 	the path to post to
+	 *	@param 		what 					[any]			the data to post
+	 */
+	var post = function(where, what) {
 		// TODO: Do I need to post anything?
-		console.log(what, data);
+		try {
+			return new Promise(function(resolve, reject) {
+				$http.post(where, what)
+						 .success(function(data, status, headers, config) {
+						 		console.log(arguments);
+						 		return resolve(data);
+						 })
+						 .error(function(data, status, headers, config) {
+					 			return reject(new Error(data, status));
+						 });
+			});
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	return {
 		get: get,
-		post: post
+		post: post,
+		setUser: setUser
 	};
 
 }]);
