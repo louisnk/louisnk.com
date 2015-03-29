@@ -1,4 +1,4 @@
-var LnkAPP = angular.module("LnkAPP", [ "ui.router" ]);
+var LnkAPP = angular.module("LnkAPP", [ "ui.router", "angular-cookies" ]);
 
 LnkAPP.config(["$stateProvider", "$urlRouterProvider", "Constants",
   function($stateProvider, $urlRouterProvider, Constants) {
@@ -39,10 +39,11 @@ LnkAPP.config(["$stateProvider", "$urlRouterProvider", "Constants",
       url: "/life/resume",
       templateUrl: "views/partials/resume.html"
     });
-}]).run(["NavigationService", "AnimationService", "DataService", 
-  function(NavigationService, AnimationService, DataService) {
+}]).run(["NavigationService", "AnimationService", "UserService", 
+  function(NavigationService, AnimationService, UserService) {
 
     NavigationService.init();
     AnimationService.init();
+    UserService.init();
     
 }]);
