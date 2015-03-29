@@ -47,6 +47,8 @@ app.get("/models/*", function(req, res) {
 	dataService.handleRequest(req, res);
 });
 
+app.get("/users*", dataService.handleRequest);
+
 http.createServer(app).listen(app.get("port"), function(){
   console.log("Ready to roll on port " + app.get("port"));
 });
