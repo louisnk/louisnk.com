@@ -1,4 +1,4 @@
-var LnkAPP = angular.module("LnkAPP", [ "ui.router", "angular-cookies" ]);
+var LnkAPP = angular.module("LnkAPP", [ "ui.router", "ngCookies" ]);
 
 LnkAPP.config(["$stateProvider", "$urlRouterProvider", "Constants",
   function($stateProvider, $urlRouterProvider, Constants) {
