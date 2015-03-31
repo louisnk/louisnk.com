@@ -1,7 +1,8 @@
-LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constants", 
-	function($rootScope, $cookies, DataService, Constants) {
+LnkAPP.factory("UserService", ["$rootScope", "$cookies", "$q", "DataService", "Constants", 
+	function($rootScope, $cookies, $q, DataService, Constants) {
+	
 
-		function User(info) {
+		var User = function(info) {
 			info = info || {};
 			return {
 				firstName: info.firstName || "",
@@ -12,31 +13,37 @@ LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constan
 					$rootScope.$broadcast(Constants.REQUESTS.USER.LOG_OUT, true);
 				}
 			};
-		}
+		};
 
+		var _currentUser = {};
 
 		var init = function() {
 			var user = getUser();
 			listenForUserChanges();
 
 			if (user && user.firstName) {
-				return $rootScope.$broadcast(Constants.EVENT.USER.FOUND, user);
+				_currentUser = user;
+				// return $rootScope.$broadcast(Constants.EVENT.USER.FOUND, user);
 			} else {
-				return $rootScope.$broadcast(Constants.EVENT.USER.NEW, new User());
+				_currentUser = setUser(new User());
+				// return $rootScope.$broadcast(Constants.EVENT.USER.NEW, new User());
 			}
-
 		};
 
 		var listenForUserChanges = function() {
 			$rootScope.$on(Constants.EVENT.USER.CHANGED, updateUser);
 		};
 
-		var checkUser = function() {
-			return user.firstName &&
-						 user.github &&
-						 user.twitter &&
-						 user.hasOwnProperty(access) &&
-						 user.hasOwnProperty(logOut);
+		var currentUser = (function() {
+			return _currentUser;
+		})();
+
+		var checkUser = function(user) {
+			return user.hasOwnProperty("firstName") &&
+						 user.hasOwnProperty("github") &&
+						 user.hasOwnProperty("twitter") &&
+						 user.hasOwnProperty("access") &&
+						 user.hasOwnProperty("logOut");
 		};
 
 		var getUser = function() {
@@ -69,8 +76,8 @@ LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constan
 						$cookies.putObject("LnkUser", user);
 					}
 					
-					var savedUser = new Promise(function(resolve, reject) {	
-						var requestUrl = "/users";
+					var savedUser = $q(function(resolve, reject) {	
+						var requestUrl = "/users/save";
 						
 						DataService.post(requestUrl, user).then(function(success) {
 							return resolve(true);
@@ -108,8 +115,10 @@ LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constan
 			}
 		};
 
+
 		return {
-			init: init
+			init: init,
+			currentUser: currentUser
 		};
 
 }]);

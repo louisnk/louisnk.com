@@ -1,5 +1,5 @@
-LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Constants", 
-	function($http, $cacheFactory, UtilitiesService, Constants) {
+LnkAPP.factory("DataService", ["$http", "$cacheFactory", "$q", "UtilitiesService", "Constants", 
+	function($http, $cacheFactory, $q, UtilitiesService, Constants) {
 
 	var STATE = Constants.STATE;
 	var Cache = $cacheFactory("LnkCache");
@@ -53,7 +53,7 @@ LnkAPP.factory("DataService", ["$http", "$cacheFactory", "UtilitiesService", "Co
 	var post = function(where, what) {
 		// TODO: Do I need to post anything?
 		try {
-			return new Promise(function(resolve, reject) {
+			return $q(function(resolve, reject) {
 				$http.post(where, what)
 						 .success(function(data, status, headers, config) {
 						 		console.log(arguments);
