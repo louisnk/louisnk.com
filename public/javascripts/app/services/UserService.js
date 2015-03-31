@@ -18,7 +18,7 @@ LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constan
 		var init = function() {
 			var user = getUser();
 			listenForUserChanges();
-			console.log("running user service");
+
 			if (user && user.firstName) {
 				return $rootScope.$broadcast(Constants.EVENT.USER.FOUND, user);
 			} else {

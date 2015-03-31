@@ -1,7 +1,7 @@
-LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "UtilitiesService", "DataService", "Constants", 
-	function ($rootScope, $scope, $state, UtilitiesService, DataService, Constants) {
+LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "UserService", "UtilitiesService", "DataService", "Constants", 
+	function ($rootScope, $scope, $state, UserService, UtilitiesService, DataService, Constants) {
 	var EVENT = Constants.EVENT;
-
+	
 	$scope.page = {};
 
 	$scope.menu = [
@@ -37,4 +37,9 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "Utilities
 		// Do other stuff, if needed?
 	};
 
+	$scope.$on(Constants.EVENT.USER.NEW, function(e, data) {
+		$scope.user = data;
+	});
+
+	UserService.init();
 }]);
