@@ -59,6 +59,7 @@
     "lodash": "^2.4.1",
     "log": "^1.4.0",
     "promise": "^6.1.0",
-    "recursive-readdir": "^1.2.1"
+    "recursive-readdir": "^1.2.1",
+    "twitter": "^1.2.5"
   }
 }
