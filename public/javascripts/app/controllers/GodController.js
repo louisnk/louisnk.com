@@ -37,9 +37,6 @@ LnkAPP.controller("GodController", ["$rootScope", "$scope", "$state", "UserServi
 		// Do other stuff, if needed?
 	};
 
-	$scope.$on(Constants.EVENT.USER.NEW, function(e, data) {
-		$scope.user = data;
-	});
+	$scope.user = UserService.currentUser;
 
-	UserService.init();
 }]);

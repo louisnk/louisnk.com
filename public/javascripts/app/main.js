@@ -44,6 +44,6 @@ LnkAPP.config(["$stateProvider", "$urlRouterProvider", "Constants",
 
     NavigationService.init();
     AnimationService.init();
-    // UserService.init();
+    UserService.init();
     
 }]);
