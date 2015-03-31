@@ -1,7 +1,8 @@
-LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constants", 
-	function($rootScope, $cookies, DataService, Constants) {
+LnkAPP.factory("UserService", ["$rootScope", "$cookies", "$q", "DataService", "Constants", 
+	function($rootScope, $cookies, $q, DataService, Constants) {
+	
 
-		function User(info) {
+		var User = function(info) {
 			info = info || {};
 			return {
 				firstName: info.firstName || "",
@@ -9,47 +10,52 @@ LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constan
 				twitter: info.twitter || "",
 				access: false,
 				logOut: function() {
-					$rootScope.broadcast(Constants.REQUESTS.USER.LOG_OUT, true);
+					$rootScope.$broadcast(Constants.REQUESTS.USER.LOG_OUT, true);
 				}
 			};
-		}
+		};
 
+		var _currentUser = {};
 
 		var init = function() {
 			var user = getUser();
 			listenForUserChanges();
-			console.log("running user service");
-			// if (user && user.firstName) {
-			// 	return $rootScope.broadcast(Constants.EVENT.USER.FOUND, user);
-			// } else {
-			// 	return $rootScope.broadcast(Constants.EVENT.USER.NEW, new User());
-			// }
 
+			if (user && user.firstName) {
+				_currentUser = user;
+				// return $rootScope.$broadcast(Constants.EVENT.USER.FOUND, user);
+			} else {
+				_currentUser = setUser(new User());
+				// return $rootScope.$broadcast(Constants.EVENT.USER.NEW, new User());
+			}
 		};
 
 		var listenForUserChanges = function() {
-			// $rootScope.on(Constants.EVENT.USER.CHANGED, updateUser);
-			console.log($rootScope, $rootScope.on);
+			$rootScope.$on(Constants.EVENT.USER.CHANGED, updateUser);
 		};
 
-		var checkUser = function() {
-			return user.firstName &&
-						 user.github &&
-						 user.twitter &&
-						 user.hasOwnProperty(access) &&
-						 user.hasOwnProperty(logOut);
+		var currentUser = (function() {
+			return _currentUser;
+		})();
+
+		var checkUser = function(user) {
+			return user.hasOwnProperty("firstName") &&
+						 user.hasOwnProperty("github") &&
+						 user.hasOwnProperty("twitter") &&
+						 user.hasOwnProperty("access") &&
+						 user.hasOwnProperty("logOut");
 		};
 
 		var getUser = function() {
 			var user = {};
 			try {
 				if (window.localStorage) {
-					user = window.localStorage.getItem("LnkUser");
+					user = window.localStorage.getItem("LnkUser") || false;
 				} else {
-					user = $cookies.getObject("LnkUser");
+					user = $cookies.getObject("LnkUser") || false;
 				}
 
-				if (!user.firstName) {
+				if (!user || !user.firstName) {
 					return false;
 				} else {
 					return user;
@@ -70,8 +76,8 @@ LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constan
 						$cookies.putObject("LnkUser", user);
 					}
 					
-					var savedUser = new Promise(function(resolve, reject) {	
-						var requestUrl = "/users";
+					var savedUser = $q(function(resolve, reject) {	
+						var requestUrl = "/users/save";
 						
 						DataService.post(requestUrl, user).then(function(success) {
 							return resolve(true);
@@ -102,15 +108,17 @@ LnkAPP.factory("UserService", ["$rootScope", "$cookies", "DataService", "Constan
 					// re-use the same event, which leads to this method -
 					// this will trigger it to do nothing, but allow other
 					// systems to react to the change.
-					$rootScope.broadcast(Constants.EVENT.USER.CHANGED, true);
+					$rootScope.$broadcast(Constants.EVENT.USER.CHANGED, true);
 				}
 			} else {
 				return false;
 			}
 		};
 
+
 		return {
-			init: init
+			init: init,
+			currentUser: currentUser
 		};
 
 }]);

@@ -21,6 +21,12 @@ describe("GodController", function() {
             CLICK_EXPLORE:          "CLICK_EXPLORE",
             CLICK_LIFE:             "CLICK_LIFE",
             SHOW_MENU:              "SHOW_MENU"
+          },
+          USER: {
+            CHANGED:                "CHANGED",
+            FOUND:                  "FOUND",
+            LOG_OUT:                "LOG_OUT",
+            NEW:                    "NEW"
           }
         },
         STATE: {
@@ -59,6 +65,7 @@ describe("GodController", function() {
     });
 
     it("has a broadcast method", function() {
+      // console.log($scope.broadcast);
       expect($scope.broadcast).toBeDefined();
       expect(typeof $scope.broadcast).toBe("function");
     });
