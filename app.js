@@ -21,6 +21,7 @@ var routes = require("./routes");
 var http = require("http");
 var dataService = require(path.join(__dirname, "node_app", "services", "DataService"));
 var handleRequest = dataService.handleRequest.bind(dataService);
+var handlePost = dataService.handlePost.bind(dataService);
 
 var app = express();
 
@@ -45,7 +46,7 @@ if ("development" == app.get("env")) {
 
 app.get("/", routes.index);
 app.get("/models/*", handleRequest);
-app.get("/users*", handleRequest);
+app.post("/users*", handlePost);
 
 http.createServer(app).listen(app.get("port"), function(){
   console.log("Ready to roll on port " + app.get("port"));

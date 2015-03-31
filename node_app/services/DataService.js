@@ -150,6 +150,13 @@ var DataService = module.exports = {
 				.then(sendJson, function(err) {
 					console.log(err);
 				});
+	},
+
+	handlePost: function(req, res) {
+		var path = req.route.path;
+		var data = req.body;
+		
+		console.log(path, data);
 	}
 
 };
