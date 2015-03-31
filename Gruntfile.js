@@ -57,6 +57,7 @@ module.exports = function(grunt) {
             "<%= config.app %>/javascripts/vendor/angular/angular.js",
             "<%= config.app %>/javascripts/vendor/angular-ui-router/release/angular-ui-router.min.js",
             "<%= config.app %>/javascripts/vendor/angular-mocks/angular-mocks.js",
+            "<%= config.app %>/javascripts/vendor/angular-cookies/angular-cookies.js",
             "<%= config.test %>/jasmine/testSpec.js"
           ]
         }
