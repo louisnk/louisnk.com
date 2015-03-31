@@ -155,8 +155,9 @@ var DataService = module.exports = {
 	handlePost: function(req, res) {
 		var path = req.route.path;
 		var data = req.body;
-		
+
 		console.log(path, data);
+		res.end("success");
 	}
 
 };
