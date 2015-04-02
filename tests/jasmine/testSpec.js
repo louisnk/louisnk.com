@@ -65,7 +65,6 @@ describe("GodController", function() {
     });
 
     it("has a broadcast method", function() {
-      // console.log($scope.broadcast);
       expect($scope.broadcast).toBeDefined();
       expect(typeof $scope.broadcast).toBe("function");
     });
