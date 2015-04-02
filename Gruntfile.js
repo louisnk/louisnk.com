@@ -118,8 +118,7 @@ module.exports = function(grunt) {
     less: {
       development: {
         options: {
-          compress: true,
-          sourceMap: true
+          compress: true
         },
         files: {
           "<%= config.build %>/css/lnk.min.css": "<%= config.app %>/stylesheets/lnk.less"
@@ -172,10 +171,7 @@ module.exports = function(grunt) {
         files: [
           "<%= config.app %>/stylesheets/**/*.less"
         ],
-        tasks: [ "lesslint", "less" ],
-        options: {
-          livereload: true
-        }
+        tasks: [ "lesslint", "less" ]
       }
     }
   });
