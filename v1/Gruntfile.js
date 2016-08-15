@@ -192,10 +192,12 @@ module.exports = function(grunt) {
   grunt.registerTask("build", [
     "jshint",
     "concat",
-    "test",
+    // "test",
     "less",
     "uglify"
   ]);
+
+  grunt.registerTask("serve", ["build", "connect:livereload", "watch"]);
 
   grunt.registerTask("dev", [ "watch" ]);
 
